@@ -14,6 +14,7 @@ module Wasabi
       @operations = {}
       @namespaces = {}
       @types = {}
+      @deferred_types = []
       @element_form_default = :unqualified
     end
 
@@ -40,6 +41,7 @@ module Wasabi
       parse_endpoint
       parse_operations
       parse_types
+      parse_deferred_types
     end
 
     def parse_namespaces
@@ -132,6 +134,31 @@ module Wasabi
           :type => inner_element.attribute('type').to_s
         }
       end
+
+      type.xpath("./xs:complexContent/xs:extension/xs:sequence/xs:element",
+        "xs" => "http://www.w3.org/2001/XMLSchema"
+      ).each do |inner_element|
+        @types[name][inner_element.attribute('name').to_s] = {
+          :type => inner_element.attribute('type').to_s
+        }
+      end
+
+      type.xpath('./xs:complexContent/xs:extension[@base]',
+        "xs" => "http://www.w3.org/2001/XMLSchema"
+      ).each do |inherits|
+        base = inherits.attribute('base').value.match(/\w+$/).to_s
+        if @types[base]
+          @types[name].merge! @types[base]
+        else
+          @deferred_types << Proc.new do
+            @types[name].merge! @types[base]
+          end
+        end
+      end
+    end
+
+    def parse_deferred_types
+      @deferred_types.each(&:call)
     end
 
     def find_namespace(type)
