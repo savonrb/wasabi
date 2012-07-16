@@ -150,7 +150,7 @@ module Wasabi
       binding_type = at_xpath(operation, "../@type").to_s.split(':').last
       port_type_input = at_xpath(operation, "../../wsdl:portType[@name='#{binding_type}']/wsdl:operation[@name='#{operation_name}']/wsdl:input")
 
-      port_message_ns_id, port_message_type = port_type_input.attribute("message").to_s.split(':')
+      port_message_ns_id, port_message_type = port_type_input.attribute("message").to_s.split(':') if port_type_input 
 
       message_ns_id, message_type = nil
 
