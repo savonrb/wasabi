@@ -14,9 +14,10 @@ module Wasabi
 
     def wildcard_compare(stack)
       return false if stack.size < @matcher.size
+      size_diff = stack.size - @matcher.size
 
       @matcher.each_with_index do |nodes, index|
-        return false unless nodes.include?(stack[index])
+        return false unless nodes.include?(stack[-(size_diff+(index+1))])
       end
       true
     end
@@ -24,14 +25,14 @@ module Wasabi
     def compare(stack)
       return false if @matcher.size != stack.size
 
-      @matcher.reverse.each_with_index do |nodes, index|
+      @matcher.each_with_index do |nodes, index|
         return false unless nodes.include?(stack[-(index+1)])
       end
       true
     end
 
     def parse(matcher)
-      matcher.split(" > ").map { |node|
+      matcher.split(" > ").reverse.map { |node|
         if node.include?("|")
           nsids, local = node.split(":")
           nsids = nsids.split("|")
