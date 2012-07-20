@@ -6,6 +6,7 @@ describe Wasabi::SAXParser do
 
   context "with ebay.wsdl" do
     before do
+      # 1.64 sec
       st = Time.now
       parse(:ebay)
       et = Time.now

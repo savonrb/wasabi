@@ -4,6 +4,14 @@ describe Wasabi::SAXParser do
 
   subject(:sax) { Wasabi::SAXParser.new }
 
+  it "performs" do
+    # 0.0065 sec
+    st = Time.now
+    parse(:namespaced_actions)
+    et = Time.now
+    puts "time: #{et - st}"
+  end
+
   context "with namespaced_actions.wsdl" do
     before { parse(:namespaced_actions) }
 
