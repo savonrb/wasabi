@@ -39,7 +39,7 @@ describe Wasabi::SAXParser do
       expect(sax.complex_types["Result"]).to eq(
         "sequence"  => {
           "element" => [
-            { "minOccurs" => "1", "maxOccurs" => "1", "name" => "Code", "type" => "s:int" },
+            { "minOccurs" => "1", "maxOccurs" => "1", "name" => "Code",    "type" => "s:int" },
             { "minOccurs" => "0", "maxOccurs" => "1", "name" => "Message", "type" => "s:string" }
           ]
         }
