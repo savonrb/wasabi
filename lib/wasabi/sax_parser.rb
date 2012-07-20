@@ -1,11 +1,11 @@
 require "wasabi/node"
-require "wasabi/matcher"
 
 module Wasabi
   class SAXParser < Nokogiri::XML::SAX::Document
 
     def initialize
       @stack            = []
+      @matchers         = {}
       @namespaces       = nil
       @target_namespace = nil
       @bindings         = {}
@@ -29,7 +29,7 @@ module Wasabi
       @namespaces = collect_namespaces(attrs) unless @namespaces
 
       node = create_node(tag, Hash[attrs])
-      @stack.push(node)
+      @stack.push(node.to_s)
 
       case @stack
       # target namespace
@@ -37,56 +37,56 @@ module Wasabi
         @target_namespace = node["targetNamespace"]
 
       # port types
-      when matches("wsdl:portType")
+      when matches("wsdl:definitions > wsdl:portType")
         @last_port_type = @port_types[node["name"]] = { "operations" => {} }
-      when matches("wsdl:portType > wsdl:operation")
+      when matches("wsdl:definitions > wsdl:portType > wsdl:operation")
         @last_port_type_operation = @last_port_type["operations"][node["name"]] = {}
-      when matches("wsdl:portType > wsdl:operation > wsdl:input")
+      when matches("wsdl:definitions > wsdl:portType > wsdl:operation > wsdl:input")
         @last_port_type_operation["input"] = {
           node["name"] => { "message" => node["message"] }
         }
-      when matches("wsdl:portType > wsdl:operation > wsdl:output")
+      when matches("wsdl:definitions > wsdl:portType > wsdl:operation > wsdl:output")
         @last_port_type_operation["output"] = {
           node["name"] => { "message" => node["message"] }
         }
 
       # bindings
-      when matches("wsdl:binding")
+      when matches("wsdl:definitions > wsdl:binding")
         @last_binding = @bindings[node["name"]] = { "type" => node["type"], "operations" => {} }
-      when matches("soap|soap2:binding")
+      when matches("wsdl:definitions > wsdl:binding > soap|soap2:binding")
         @last_binding["namespace"] = node.namespace
         @last_binding["transport"] = node["transport"]
-      when matches("http:binding")
+      when matches("wsdl:definitions > wsdl:binding > http:binding")
         @last_binding["namespace"] = node.namespace
         @last_binding["verb"]      = node["verb"]
 
       # binding operations
-      when matches("wsdl:binding > wsdl:operation")
+      when matches("wsdl:definitions > wsdl:binding > wsdl:operation")
         @last_binding_operation = @last_binding["operations"][node["name"]] = {}
-      when matches("wsdl:binding > wsdl:operation > soap|soap2:operation")
+      when matches("wsdl:definitions > wsdl:binding > wsdl:operation > soap|soap2:operation")
         @last_binding_operation["namespace"]   = node.namespace
         @last_binding_operation["soap_action"] = node["soapAction"]
         @last_binding_operation["style"]       = node["style"]
-      when matches("wsdl:binding > wsdl:operation > http:operation")
+      when matches("wsdl:definitions > wsdl:binding > wsdl:operation > http:operation")
         @last_binding_operation["namespace"]   = node.namespace
         @last_binding_operation["location"]    = node["location"]
-      when matches("wsdl:binding > wsdl:operation > wsdl:input")
+      when matches("wsdl:definitions > wsdl:binding > wsdl:operation > wsdl:input")
         input = @last_binding_operation["input"]  ||= {}
         @last_operation_input = input[node["name"]] = {}
-      when matches("wsdl:binding > wsdl:operation > wsdl:input > soap|soap2:body")
+      when matches("wsdl:definitions > wsdl:binding > wsdl:operation > wsdl:input > soap|soap2:body")
         @last_operation_input["body"] = { "use" => node["use"] }
-      when matches("wsdl:binding > wsdl:operation > wsdl:output")
+      when matches("wsdl:definitions > wsdl:binding > wsdl:operation > wsdl:output")
         output = @last_binding_operation["output"]  ||= {}
         @last_operation_output = output[node["name"]] = {}
-      when matches("wsdl:binding > wsdl:operation > wsdl:output > soap|soap2:body")
+      when matches("wsdl:definitions > wsdl:binding > wsdl:operation > wsdl:output > soap|soap2:body")
         @last_operation_output["body"] = { "use" => node["use"] }
 
       # services
-      when matches("wsdl:service")
+      when matches("wsdl:definitions > wsdl:service")
         @last_service = @services[node["name"]] = {}
-      when matches("wsdl:port")
+      when matches("wsdl:definitions > wsdl:service > wsdl:port")
         @last_port = @last_service[node["name"]] = { "binding" => node["binding"] }
-      when matches("soap|soap2|http:address")
+      when matches("wsdl:definitions > wsdl:service > wsdl:port > soap|soap2|http:address")
         @last_port["namespace"] = node.namespace
         @last_port["location"]  = node["location"]
       end
@@ -108,7 +108,7 @@ module Wasabi
     end
 
     def matches(matcher)
-      Matcher.new(matcher)
+      @matchers[matcher] ||= matcher.split(" > ")
     end
 
     def collect_namespaces(attrs)

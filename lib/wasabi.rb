@@ -11,6 +11,8 @@ module Wasabi
     "soap2" => "http://schemas.xmlsoap.org/wsdl/soap12/"
   }
 
+  NAMESPACES_BY_URI = NAMESPACES.invert
+
   # Expects a WSDL document and returns a <tt>Wasabi::Document</tt>.
   def self.document(document)
     Document.new(document)

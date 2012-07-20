@@ -13,8 +13,12 @@ module Wasabi
       @attrs[key]
     end
 
+    def to_s
+      @string ||= "#{Wasabi::NAMESPACES_BY_URI[namespace]}:#{local}"
+    end
+
     def inspect
-      "{#{namespace}}:#{local}"
+      @inspect ||= "{#{namespace}}:#{local}"
     end
 
   end
