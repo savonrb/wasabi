@@ -11,6 +11,41 @@ describe Wasabi::SAXParser do
       expect(sax.target_namespace).to eq("http://api.example.com/api/")
     end
 
+    it "knows the elementFormDefault value" do
+      expect(sax.element_form_default).to eq("qualified")
+    end
+
+    it "knows the elements" do
+      expect(sax).to have(8).elements
+
+      expect(sax.elements["User.GetApiKey"]). to eq(
+        "complexType" => {
+          "sequence"  => {
+            "element" => [
+              { "minOccurs" => "0", "maxOccurs" => "1", "name" => "SiteUrl",  "type" => "s:string" },
+              { "minOccurs" => "0", "maxOccurs" => "1", "name" => "Username", "type" => "s:string" },
+              { "minOccurs" => "0", "maxOccurs" => "1", "name" => "Password", "type" => "s:string" }
+            ]
+          }
+        }
+      )
+
+      expect(sax.elements["Result"]).to eq("nillable" => "true", "type" => "tns:Result")
+    end
+
+    it "knows the complex types" do
+      expect(sax).to have(3).complex_types
+
+      expect(sax.complex_types["Result"]).to eq(
+        "sequence"  => {
+          "element" => [
+            { "minOccurs" => "1", "maxOccurs" => "1", "name" => "Code", "type" => "s:int" },
+            { "minOccurs" => "0", "maxOccurs" => "1", "name" => "Message", "type" => "s:string" }
+          ]
+        }
+      )
+    end
+
     it "knows the services" do
       expect(sax.services).to eql(
         "api" => {

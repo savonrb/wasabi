@@ -5,28 +5,34 @@ module Wasabi
   class SAXParser < Nokogiri::XML::SAX::Document
 
     def initialize
-      @stack            = []
-      @matchers         = {}
-      @namespaces       = nil
-      @target_namespace = nil
-      @bindings         = {}
-      @port_types       = {}
-      @services         = {}
+      @stack                = []
+      @matchers             = {}
+      @namespaces           = nil
+      @target_namespace     = nil
+      @element_form_default = "unqualified"
+      @elements             = {}
+      @complex_types        = {}
+      @bindings             = {}
+      @port_types           = {}
+      @services             = {}
     end
 
-    attr_reader :target_namespace, :bindings, :port_types, :services
+    attr_reader :target_namespace, :element_form_default, :elements, :complex_types, :bindings, :port_types, :services
 
     def export
       {
-        "target_namespace" => @target_namespace,
-        "bindings"         => @bindings,
-        "port_types"       => @port_types,
-        "services"         => @services
+        "target_namespace"     => @target_namespace,
+        "element_form_default" => @element_form_default,
+        "elements"             => @elements,
+        "complex_types"        => @complex_types,
+        "bindings"             => @bindings,
+        "port_types"           => @port_types,
+        "services"             => @services
       }
     end
 
     def start_element(tag, attrs = [])
-      # grabs the namespaces from the root node once
+      # grabs the namespaces from the root node
       @namespaces = collect_namespaces(attrs) unless @namespaces
 
       node = create_node(tag, Hash[attrs])
@@ -36,6 +42,32 @@ module Wasabi
       # target namespace
       when matches("wsdl:definitions")
         @target_namespace = node["targetNamespace"]
+
+      # xs schema
+      when matches("wsdl:definitions > wsdl:types > xs:schema")
+        @element_form_default = node["elementFormDefault"]
+
+      # xs elements
+      when matches("wsdl:definitions > wsdl:types > xs:schema > xs:element")
+        @last_element = @elements[node["name"]] ||= node.attrs.reject { |k, v| k == "name" }
+      when matches("wsdl:definitions > wsdl:types > xs:schema > xs:element > *")
+        if node.local == "element"
+          element = @last_element["element"] ||= []
+          element << node.attrs
+        else
+          @last_element = @last_element[node.local] = {}
+        end
+
+      # xs complex types
+      when matches("wsdl:definitions > wsdl:types > xs:schema > xs:complexType")
+        @last_complex_type = @complex_types[node["name"]] ||= {}
+      when matches("wsdl:definitions > wsdl:types > xs:schema > xs:complexType > *")
+        if node.local == "element"
+          element = @last_complex_type["element"] ||= []
+          element << node.attrs
+        else
+          @last_complex_type = @last_complex_type[node.local] = {}
+        end
 
       # port types
       when matches("wsdl:definitions > wsdl:portType")

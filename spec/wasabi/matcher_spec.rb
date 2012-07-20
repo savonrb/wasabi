@@ -41,6 +41,22 @@ describe Wasabi::Matcher do
     end
   end
 
+  context "with a wildcard operator" do
+    it "matches the nodes" do
+      stack.push("wsdl:definitions")
+      stack.push("wsdl:types")
+      stack.push("xs:schema")
+      stack.push("xs:complexType")
+      stack.push("xs:sequence")
+
+      matcher = matcher("wsdl:definitions > wsdl:types > xs:schema > xs:complexType > *")
+      matcher.should === stack
+
+      stack.push("xs:element")
+      matcher.should === stack
+    end
+  end
+
   def matcher(matcher)
     Wasabi::Matcher.new(matcher)
   end

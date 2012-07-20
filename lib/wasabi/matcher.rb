@@ -2,31 +2,46 @@ module Wasabi
   class Matcher
 
     def initialize(matcher)
+      @wildcard = matcher.end_with?("*")
       @matcher = parse(matcher)
     end
 
     def ===(stack)
-      return false if @matcher.size != stack.size
+      @wildcard ? wildcard_compare(stack) : compare(stack)
+    end
+
+    private
+
+    def wildcard_compare(stack)
+      return false if stack.size < @matcher.size
 
       @matcher.each_with_index do |nodes, index|
+        return false unless nodes.include?(stack[index])
+      end
+      true
+    end
+
+    def compare(stack)
+      return false if @matcher.size != stack.size
+
+      @matcher.reverse.each_with_index do |nodes, index|
         return false unless nodes.include?(stack[-(index+1)])
       end
       true
     end
 
-    private
-
     def parse(matcher)
-      nodes = matcher.split(" > ").reverse
-      nodes.map { |node|
+      matcher.split(" > ").map { |node|
         if node.include?("|")
           nsids, local = node.split(":")
           nsids = nsids.split("|")
           nsids.map { |nsid| "#{nsid}:#{local}" }
+        elsif node == "*"
+          nil
         else
           [node]
         end
-      }
+      }.compact
     end
 
   end
