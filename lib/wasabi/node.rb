@@ -14,11 +14,11 @@ module Wasabi
     end
 
     def to_s
-      @string ||= "#{Wasabi::NAMESPACES_BY_URI[namespace]}:#{local}"
+      "#{Wasabi::NAMESPACES_BY_URI[namespace]}:#{local}"
     end
 
     def inspect
-      @inspect ||= "{#{namespace}}:#{local}"
+      "{#{namespace}}:#{local}"
     end
 
   end
