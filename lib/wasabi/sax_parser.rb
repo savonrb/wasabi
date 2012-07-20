@@ -1,4 +1,5 @@
 require "wasabi/node"
+require "wasabi/matcher"
 
 module Wasabi
   class SAXParser < Nokogiri::XML::SAX::Document
@@ -108,7 +109,7 @@ module Wasabi
     end
 
     def matches(matcher)
-      @matchers[matcher] ||= matcher.split(" > ")
+      @matchers[matcher] ||= Matcher.new(matcher)
     end
 
     def collect_namespaces(attrs)
