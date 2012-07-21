@@ -16,9 +16,4 @@ describe Wasabi::SAXParser, :fixture => :economic do
     end
   end
 
-  def parse(fixture_name)
-    parser = Nokogiri::XML::SAX::Parser.new(sax)
-    parser.parse fixture(fixture_name).read
-  end
-
 end
