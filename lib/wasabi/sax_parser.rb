@@ -141,7 +141,7 @@ module Wasabi
     end
 
     def matches(matcher)
-      @matchers[matcher] ||= Matcher.new(matcher)
+      @matchers[matcher] ||= Matcher.create(matcher)
     end
 
     def collect_namespaces(attrs)
