@@ -8,7 +8,7 @@ describe Wasabi::SAXParser, :fixture => :authentication do
   context "with #{metadata[:fixture]}.wsdl" do
     before :all do
       fixture = self.class.metadata[:fixture]
-      report_parse_time(self) { parse(fixture) }  # 0.0016 sec
+      report_parse_time(fixture) { parse(fixture) }  # 0.0016 sec
     end
 
     it "knows the target namespace" do
