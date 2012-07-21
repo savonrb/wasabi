@@ -1,16 +1,14 @@
 require "spec_helper"
 
-describe Wasabi::SAXParser do
+describe Wasabi::SAXParser, :fixture => :economic do
+  include SAXParserHelper
 
   subject(:sax) { Wasabi::SAXParser.new }
 
-  context "with economic.wsdl" do
+  context "with #{metadata[:fixture]}.wsdl" do
     before do
-      # 1.45 sec
-      st = Time.now
-      parse(:economic)
-      et = Time.now
-      puts "time: #{et - st}"
+      fixture = self.class.metadata[:fixture]
+      report_parse_time(fixture) { parse(fixture) }  # 1.45 sec
     end
 
     it "knows the target namespace" do

@@ -5,26 +5,29 @@ module Wasabi
   class SAXParser < Nokogiri::XML::SAX::Document
 
     def initialize
-      @stack                = []
-      @matchers             = {}
-      @namespaces           = nil
-      @target_namespace     = nil
-      @element_form_default = "unqualified"
-      @elements             = {}
-      @complex_types        = {}
-      @bindings             = {}
-      @port_types           = {}
-      @services             = {}
+      @stack         = []
+      @matchers      = {}
+      @elements      = {}
+      @complex_types = {}
+      @bindings      = {}
+      @port_types    = {}
+      @services      = {}
     end
 
-    attr_reader :target_namespace, :element_form_default, :elements, :complex_types,
-                :bindings, :port_types, :services
+    attr_reader :target_namespace, :element_form_default, :attribute_form_default,
+                :elements, :complex_types, :bindings, :port_types, :services
 
     def start_element(tag, attrs = [])
-      # grabs the namespaces from the root node
+      local, nsid = tag.split(":").reverse
+      attrs = Hash[attrs]
+
+      # grabs namespaces from the root node
       @namespaces = collect_namespaces(attrs) unless @namespaces
 
-      node = create_node(tag, Hash[attrs])
+      # grabs additional namespaces from the schema node
+      @namespaces.merge! collect_namespaces(attrs) if local == "schema"
+
+      node = create_node(nsid, local, attrs)
       @stack.push(node.to_s)
 
       case @stack
@@ -104,9 +107,10 @@ module Wasabi
         @last_port["namespace"] = node.namespace
         @last_port["location"]  = node["location"]
 
-      # elementFormDefault
+      # element/attribute form default values
       when matches("wsdl:definitions > wsdl:types > xs:schema")
-        @element_form_default = node["elementFormDefault"]
+        @element_form_default = node["elementFormDefault"] || "unqualified"
+        @attribute_form_default = node["attributeFormDefault"] || "unqualified"
 
       # target namespace
       when matches("wsdl:definitions")
@@ -132,9 +136,7 @@ module Wasabi
 
     private
 
-    def create_node(tag, attrs)
-      local, nsid = tag.split(":").reverse
-
+    def create_node(nsid, local, attrs)
       @last_namespace = attrs["xmlns"] if attrs["xmlns"]
       namespace = nsid ? @namespaces["xmlns:#{nsid}"] : @last_namespace
 

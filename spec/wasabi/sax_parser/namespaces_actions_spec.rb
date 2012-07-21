@@ -1,19 +1,15 @@
 require "spec_helper"
 
-describe Wasabi::SAXParser do
+describe Wasabi::SAXParser, :fixture => :namespaced_actions do
+  include SAXParserHelper
 
   subject(:sax) { Wasabi::SAXParser.new }
 
-  it "performs" do
-    # 0.0061 sec
-    st = Time.now
-    parse(:namespaced_actions)
-    et = Time.now
-    puts "time: #{et - st}"
-  end
-
-  context "with namespaced_actions.wsdl" do
-    before { parse(:namespaced_actions) }
+  context "with #{metadata[:fixture]}.wsdl" do
+    before :all do
+      fixture = self.class.metadata[:fixture]
+      report_parse_time(fixture) { parse(fixture) }  # 0.0061 sec
+    end
 
     it "knows the target namespace" do
       expect(sax.target_namespace).to eq("http://api.example.com/api/")
@@ -21,6 +17,10 @@ describe Wasabi::SAXParser do
 
     it "knows the elementFormDefault value" do
       expect(sax.element_form_default).to eq("qualified")
+    end
+
+    it "knows the attributeFormDefault value" do
+      expect(sax.attribute_form_default).to eq("unqualified")
     end
 
     it "knows the elements" do
