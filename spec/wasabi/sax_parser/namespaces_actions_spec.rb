@@ -5,7 +5,7 @@ describe Wasabi::SAXParser do
   subject(:sax) { Wasabi::SAXParser.new }
 
   it "performs" do
-    # 0.0065 sec
+    # 0.0061 sec
     st = Time.now
     parse(:namespaced_actions)
     et = Time.now

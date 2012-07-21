@@ -6,7 +6,7 @@ describe Wasabi::SAXParser do
 
   context "with economic.wsdl" do
     before do
-      # 1.54 sec
+      # 1.45 sec
       st = Time.now
       parse(:economic)
       et = Time.now
