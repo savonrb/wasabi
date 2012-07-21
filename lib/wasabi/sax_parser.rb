@@ -17,19 +17,8 @@ module Wasabi
       @services             = {}
     end
 
-    attr_reader :target_namespace, :element_form_default, :elements, :complex_types, :bindings, :port_types, :services
-
-    def export
-      {
-        "target_namespace"     => @target_namespace,
-        "element_form_default" => @element_form_default,
-        "elements"             => @elements,
-        "complex_types"        => @complex_types,
-        "bindings"             => @bindings,
-        "port_types"           => @port_types,
-        "services"             => @services
-      }
-    end
+    attr_reader :target_namespace, :element_form_default, :elements, :complex_types,
+                :bindings, :port_types, :services
 
     def start_element(tag, attrs = [])
       # grabs the namespaces from the root node
@@ -127,6 +116,18 @@ module Wasabi
 
     def end_element(name)
       @stack.pop
+    end
+
+    def to_hash
+      {
+        "target_namespace"     => @target_namespace,
+        "element_form_default" => @element_form_default,
+        "elements"             => @elements,
+        "complex_types"        => @complex_types,
+        "bindings"             => @bindings,
+        "port_types"           => @port_types,
+        "services"             => @services
+      }
     end
 
     private
