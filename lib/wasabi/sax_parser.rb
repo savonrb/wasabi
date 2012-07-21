@@ -39,14 +39,6 @@ module Wasabi
       @stack.push(node.to_s)
 
       case @stack
-      # target namespace
-      when matches("wsdl:definitions")
-        @target_namespace = node["targetNamespace"]
-
-      # xs schema
-      when matches("wsdl:definitions > wsdl:types > xs:schema")
-        @element_form_default = node["elementFormDefault"]
-
       # xs elements
       when matches("wsdl:definitions > wsdl:types > xs:schema > xs:element")
         @last_element = @elements[node["name"]] ||= node.attrs.reject { |k, v| k == "name" }
@@ -122,6 +114,14 @@ module Wasabi
       when matches("wsdl:definitions > wsdl:service > wsdl:port > soap|soap2|http:address")
         @last_port["namespace"] = node.namespace
         @last_port["location"]  = node["location"]
+
+      # elementFormDefault
+      when matches("wsdl:definitions > wsdl:types > xs:schema")
+        @element_form_default = node["elementFormDefault"]
+
+      # target namespace
+      when matches("wsdl:definitions")
+        @target_namespace = node["targetNamespace"]
       end
     end
 
