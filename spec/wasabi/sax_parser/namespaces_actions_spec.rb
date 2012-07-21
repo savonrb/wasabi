@@ -26,7 +26,7 @@ describe Wasabi::SAXParser, :fixture => :namespaced_actions do
     it "knows the elements" do
       expect(sax).to have(8).elements
 
-      expect(sax.elements["User.GetApiKey"]). to eq(
+      expect(sax.elements["User.GetApiKey"]).to eq(
         "complexType" => {
           "sequence"  => {
             "element" => [
