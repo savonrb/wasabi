@@ -148,8 +148,9 @@ module Wasabi
     end
 
     def collect_namespaces(attrs)
-      attrs.each_with_object({}) { |(key, value), memo|
+      attrs.inject({}) { |memo, (key, value)|
         memo[key] = value if key =~ /^xmlns/
+        memo
       }
     end
 
