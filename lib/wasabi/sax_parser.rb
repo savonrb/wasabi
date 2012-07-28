@@ -7,6 +7,7 @@ module Wasabi
     def initialize
       @stack         = []
       @matchers      = {}
+      @namespaces    = nil
       @elements      = {}
       @complex_types = {}
       @bindings      = {}
