@@ -54,30 +54,19 @@ describe Wasabi::SAXParser, :fixture => :namespaced_actions do
       )
     end
 
-    it "knows the services" do
-      expect(sax.services).to eql(
-        "api" => {
-          "apiSoap"     => {
-            "namespace" => Wasabi::NAMESPACES["soap"],
-            "location"  => "https://api.example.com/api/api.asmx",
-            "binding"   => "tns:apiSoap"
-          },
-          "apiSoap12"   => {
-            "namespace" => Wasabi::NAMESPACES["soap2"],
-            "location"  => "https://api.example.com/api/api.asmx",
-            "binding"   => "tns:apiSoap12"
-          },
-          "apiHttpGet"  => {
-            "namespace" => Wasabi::NAMESPACES["http"],
-            "location"  => "https://api.example.com/api/api.asmx",
-            "binding"   => "tns:apiHttpGet"
-          },
-          "apiHttpPost" => {
-            "namespace" => Wasabi::NAMESPACES["http"],
-            "location"  => "https://api.example.com/api/api.asmx",
-            "binding"   => "tns:apiHttpPost"
-          }
-        }
+    it "knows the messages" do
+      expect(sax).to have(18).messages
+
+      expect(sax.messages["User.GetClientsSoapIn"]).to eql(
+        [{ "name" => "parameters", "element" => "tns:User.GetClients" }]
+      )
+
+      expect(sax.messages["User.GetApiKeyHttpGetIn"]).to eql(
+        [
+          { "name" => "SiteUrl",  "type" => "s:string" },
+          { "name" => "Username", "type" => "s:string" },
+          { "name" => "Password", "type" => "s:string" }
+        ]
       )
     end
 
@@ -240,6 +229,33 @@ describe Wasabi::SAXParser, :fixture => :namespaced_actions do
               "input"      => { "User.GetClients" => { "message" => "tns:User.GetClientsHttpPostIn" } },
               "output"     => { "User.GetClients" => { "message" => "tns:User.GetClientsHttpPostOut" } }
             }
+          }
+        }
+      )
+    end
+
+    it "knows the services" do
+      expect(sax.services).to eql(
+        "api" => {
+          "apiSoap"     => {
+            "namespace" => Wasabi::NAMESPACES["soap"],
+            "location"  => "https://api.example.com/api/api.asmx",
+            "binding"   => "tns:apiSoap"
+          },
+          "apiSoap12"   => {
+            "namespace" => Wasabi::NAMESPACES["soap2"],
+            "location"  => "https://api.example.com/api/api.asmx",
+            "binding"   => "tns:apiSoap12"
+          },
+          "apiHttpGet"  => {
+            "namespace" => Wasabi::NAMESPACES["http"],
+            "location"  => "https://api.example.com/api/api.asmx",
+            "binding"   => "tns:apiHttpGet"
+          },
+          "apiHttpPost" => {
+            "namespace" => Wasabi::NAMESPACES["http"],
+            "location"  => "https://api.example.com/api/api.asmx",
+            "binding"   => "tns:apiHttpPost"
           }
         }
       )

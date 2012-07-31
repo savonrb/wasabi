@@ -52,15 +52,10 @@ describe Wasabi::SAXParser, :fixture => :authentication do
       )
     end
 
-    it "knows the services" do
-      expect(sax.services).to eql(
-        "AuthenticationWebServiceImplService" => {
-          "AuthenticationWebServiceImplPort" => {
-            "namespace" => Wasabi::NAMESPACES["soap"],
-            "location"  => "http://example.com/validation/1.0/AuthenticationService",
-            "binding"   => "tns:AuthenticationWebServiceImplServiceSoapBinding"
-          }
-        }
+    it "knows the messages" do
+      expect(sax.messages).to eql(
+        "authenticate"         => [{ "name" => "parameters", "element" => "tns:authenticate" }],
+        "authenticateResponse" => [{ "name" => "parameters", "element" => "tns:authenticateResponse" }]
       )
     end
 
@@ -91,6 +86,18 @@ describe Wasabi::SAXParser, :fixture => :authentication do
               "input"      => { "authenticate"         => { "message" => "tns:authenticate" } },
               "output"     => { "authenticateResponse" => { "message" => "tns:authenticateResponse" } }
             }
+          }
+        }
+      )
+    end
+
+    it "knows the services" do
+      expect(sax.services).to eql(
+        "AuthenticationWebServiceImplService" => {
+          "AuthenticationWebServiceImplPort" => {
+            "namespace" => Wasabi::NAMESPACES["soap"],
+            "location"  => "http://example.com/validation/1.0/AuthenticationService",
+            "binding"   => "tns:AuthenticationWebServiceImplServiceSoapBinding"
           }
         }
       )

@@ -10,13 +10,14 @@ module Wasabi
       @namespaces    = nil
       @elements      = {}
       @complex_types = {}
+      @messages      = {}
       @bindings      = {}
       @port_types    = {}
       @services      = {}
     end
 
     attr_reader :target_namespace, :element_form_default, :attribute_form_default,
-                :elements, :complex_types, :bindings, :port_types, :services
+                :elements, :complex_types, :messages, :bindings, :port_types, :services
 
     def start_element(tag, attrs = [])
       local, nsid = tag.split(":").reverse
@@ -53,6 +54,12 @@ module Wasabi
         else
           @last_complex_type = @last_complex_type[node.local] = {}
         end
+
+      # messages
+      when matches("wsdl:definitions > wsdl:message")
+        @last_message = @messages[node["name"]] = []
+      when matches("wsdl:definitions > wsdl:message > wsdl:part")
+        @last_message << node.attrs
 
       # port types
       when matches("wsdl:definitions > wsdl:portType")
