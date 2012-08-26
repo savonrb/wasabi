@@ -1,3 +1,4 @@
+require "nokogiri"
 require "wasabi/node"
 require "wasabi/matcher"
 
