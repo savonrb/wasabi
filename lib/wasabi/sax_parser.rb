@@ -148,10 +148,23 @@ module Wasabi
     private
 
     def create_node(nsid, local, attrs)
-      @last_namespace = attrs["xmlns"] if attrs["xmlns"]
-      namespace = nsid ? @namespaces["xmlns:#{nsid}"] : @last_namespace
+      namespace = case
+      when nsid
+        @namespaces["xmlns:#{nsid}"]
+      when attrs["xmlns"]
+        attrs["xmlns"]
+      else
+        parent_node_namespace
+      end
 
       Node.new(namespace, local, attrs)
+    end
+
+    def parent_node_namespace
+      return if @stack.empty?
+
+      parent_nsid = @stack.last.split(":").first
+      Wasabi::NAMESPACES[parent_nsid]
     end
 
     def matches(matcher)
