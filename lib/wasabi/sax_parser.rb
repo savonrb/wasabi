@@ -14,6 +14,9 @@ module Wasabi
       @bindings      = {}
       @port_types    = {}
       @services      = {}
+
+      @element_form_default   = "unqualified"
+      @attribute_form_default = "unqualified"
     end
 
     attr_reader :target_namespace, :element_form_default, :attribute_form_default,
@@ -117,8 +120,8 @@ module Wasabi
 
       # element/attribute form default values
       when matches("wsdl:definitions > wsdl:types > xs:schema")
-        @element_form_default = node["elementFormDefault"] || "unqualified"
-        @attribute_form_default = node["attributeFormDefault"] || "unqualified"
+        @element_form_default = node["elementFormDefault"] if node["elementFormDefault"]
+        @attribute_form_default = node["attributeFormDefault"] if node["attributeFormDefault"]
 
       # target namespace
       when matches("wsdl:definitions")
