@@ -13,6 +13,11 @@ describe Wasabi::Document do
       should include([["Account", "fieldsToNull"], "string"])
     end
 
+
+    it "should position base class attributes before subclass attributes in :order! array" do
+      account = subject.parser.types["Account"]
+      account[:order!].should == ["fieldsToNull", "Id", "Description", "ProcessId", "CreatedDate"]
+    end
   end
 end
 

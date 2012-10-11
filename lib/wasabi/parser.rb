@@ -108,6 +108,7 @@ module Wasabi
 
     def process_type(type, name)
       return unless type
+
       @types[name] ||= { :namespace => find_namespace(type) }
       @types[name][:order!] = []
       xpath(type, "./xs:sequence/xs:element").each do |inner|
@@ -118,11 +119,11 @@ module Wasabi
       end
 
       type.xpath("./xs:complexContent/xs:extension/xs:sequence/xs:element",
-        "xs" => "http://www.w3.org/2001/XMLSchema"
-      ).each do |inner_element|
-        @types[name][inner_element.attribute('name').to_s] = {
-          :type => inner_element.attribute('type').to_s
-        }
+        "xs" => "http://www.w3.org/2001/XMLSchema").each do |inner_element|
+        element_name = inner_element.attribute('name').to_s
+        @types[name][element_name] = { :type => inner_element.attribute('type').to_s }
+
+        @types[name][:order!] << element_name
       end
 
       type.xpath('./xs:complexContent/xs:extension[@base]',
@@ -130,9 +131,16 @@ module Wasabi
       ).each do |inherits|
         base = inherits.attribute('base').value.match(/\w+$/).to_s
         if @types[base]
-          @types[name].merge! @types[base]
+          # Reverse merge because we don't want subclass attributes to be overriden by base class
+          @types[name] = types[base].merge(types[name])
+          @types[name][:order!] = @types[base][:order!] | @types[name][:order!]
         else
-          deferred_types << Proc.new { @types[name].merge! @types[base] }
+          p = Proc.new do
+            # Reverse merge because we don't want subclass attributes to be overriden by base class
+            @types[name] = types[base].merge(types[name])
+            @types[name][:order!] = @types[base][:order!] | @types[name][:order!]
+          end
+          deferred_types << p
         end
       end
     end
