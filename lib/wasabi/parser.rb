@@ -134,11 +134,13 @@ module Wasabi
           # Reverse merge because we don't want subclass attributes to be overriden by base class
           @types[name] = types[base].merge(types[name])
           @types[name][:order!] = @types[base][:order!] | @types[name][:order!]
+          @types[name][:base_type] = base
         else
           p = Proc.new do
             # Reverse merge because we don't want subclass attributes to be overriden by base class
             @types[name] = types[base].merge(types[name])
             @types[name][:order!] = @types[base][:order!] | @types[name][:order!]
+            @types[name][:base_type] = base
           end
           deferred_types << p
         end

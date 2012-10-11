@@ -142,7 +142,7 @@ module Wasabi
     end
 
     def element_keys(info)
-      info.keys - [:namespace, :order!]
+      info.keys - [:namespace, :order!, :base_type]
     end
   end
 end
