@@ -35,5 +35,6 @@ describe Wasabi::Parser do
     it "lists the order of the type elements" do
       subject.types["Article"][:order!].should == ["Author", "Title"]
     end
+
   end
 end

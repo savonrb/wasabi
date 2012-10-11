@@ -13,7 +13,6 @@ describe Wasabi::Document do
       should include([["Account", "fieldsToNull"], "string"])
     end
 
-
     it "should position base class attributes before subclass attributes in :order! array" do
       account = subject.parser.types["Account"]
       account[:order!].should == ["fieldsToNull", "Id", "Description", "ProcessId", "CreatedDate"]
@@ -25,6 +24,14 @@ describe Wasabi::Document do
 
       base_object = subject.parser.types["baseObject"]
       base_object.should_not have_key(:base_type)
+    end
+
+    it "should have element's hash contain all these attributes (:nillable, :minOccurs, :maxOccurs) in addition to :type" do
+      base_object = subject.parser.types["baseObject"]
+      fields_to_null = base_object["fieldsToNull"]
+      fields_to_null[:nillable].should == "true"
+      fields_to_null[:minOccurs].should == "0"
+      fields_to_null[:maxOccurs].should == "unbounded"
     end
   end
 end

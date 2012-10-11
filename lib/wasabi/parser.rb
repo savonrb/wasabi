@@ -115,6 +115,12 @@ module Wasabi
         element_name = inner.attribute("name").to_s
         @types[name][element_name] = { :type => inner.attribute("type").to_s }
 
+        [ :nillable, :minOccurs, :maxOccurs ].each do |attr|
+          if v = inner.attribute(attr.to_s)
+           @types[name][element_name][attr] = v.to_s
+          end
+        end
+
         @types[name][:order!] << element_name
       end
 
