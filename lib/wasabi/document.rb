@@ -79,10 +79,15 @@ module Wasabi
     def type_namespaces
       @type_namespaces ||= begin
         namespaces = []
+
         parser.types.each do |type, info|
           namespaces << [[type], info[:namespace]]
-          (info.keys - [:namespace]).each { |field| namespaces << [[type, field], info[:namespace]] }
+
+          element_keys(info).each do |field|
+            namespaces << [[type, field], info[:namespace]]
+          end
         end if document
+
         namespaces
       end
     end
@@ -90,13 +95,16 @@ module Wasabi
     def type_definitions
       @type_definitions ||= begin
         result = []
+
         parser.types.each do |type, info|
-          (info.keys - [:namespace]).each do |field|
+          element_keys(info).each do |field|
             field_type = info[field][:type]
             tag, namespace = field_type.split(":").reverse
+
             result << [[type, field], tag] if user_defined(namespace)
           end
         end if document
+
         result
       end
     end
@@ -133,5 +141,8 @@ module Wasabi
       parser
     end
 
+    def element_keys(info)
+      info.keys - [:namespace, :order!, :base_type]
+    end
   end
 end

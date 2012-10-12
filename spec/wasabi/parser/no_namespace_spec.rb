@@ -16,8 +16,11 @@ describe Wasabi::Parser do
     end
 
     it "ignores xsd:all" do
-      subject.types["MpUser"].keys.should == [:namespace]
-    end
+      keys =  subject.types["MpUser"].keys
+      keys.size.should == 2
 
+      keys.should include(:namespace)
+      keys.should include(:order!)
+    end
   end
 end
