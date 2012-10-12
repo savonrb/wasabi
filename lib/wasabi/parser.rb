@@ -153,8 +153,6 @@ module Wasabi
 
     def input_output_for(operation, input_output)
      operation_name = operation["name"]
-     #require 'pry'
-     #    binding.pry if operation_name == "GetUserLoginById" || operation_name == "authenticate"
 
      # Look up the input by walking up to portType, then up to the message.
 
@@ -187,37 +185,6 @@ module Wasabi
      end
     end
 
-    #def input_for(operation)
-    #  operation_name = operation["name"]
-    #
-    #  # Look up the input by walking up to portType, then up to the message.
-    #
-    #  binding_type = at_xpath(operation, "../@type").to_s.split(':').last
-    #  port_type_input = at_xpath(operation, "../../wsdl:portType[@name='#{binding_type}']/wsdl:operation[@name='#{operation_name}']/wsdl:input")
-    #
-    #  # TODO: Stupid fix for missing support for imports.
-    #  # Sometimes portTypes are actually included in a separate WSDL.
-    #  if port_type_input
-    #    port_message_ns_id, port_message_type = port_type_input.attribute("message").to_s.split(':')
-    #
-    #    message_ns_id, message_type = nil
-    #
-    #    # TODO: Support multiple 'part' elements in the message.
-    #    if (port_message_part = at_xpath(port_type_input, "../../../wsdl:message[@name='#{port_message_type}']/wsdl:part[1]"))
-    #      if (port_message_part_element = port_message_part.attribute("element"))
-    #        message_ns_id, message_type = port_message_part_element.to_s.split(':')
-    #      end
-    #    end
-    #
-    #    # Fall back to the name of the binding operation
-    #    if message_type
-    #      [message_ns_id, message_type]
-    #    else
-    #      [port_message_ns_id, operation_name]
-    #    end
-    #  else
-    #    [nil, operation_name]
-    #  end
   end
 
 end
