@@ -1,6 +1,7 @@
 require "nokogiri"
 require "wasabi/resolver"
 require "wasabi/parser"
+require "wasabi/sax_parser"
 
 module Wasabi
 
