@@ -150,9 +150,15 @@ module Wasabi
       binding_type = at_xpath(operation, "../@type").to_s.split(':').last
       port_type_input = at_xpath(operation, "../../wsdl:portType[@name='#{binding_type}']/wsdl:operation[@name='#{operation_name}']/wsdl:input")
 
+      #puts "binding_type: #{binding_type}"
+      #puts "port_type_input: #{port_type_input.nil?}"
+      #puts "xpath: #{"../../wsdl:portType[@name='#{binding_type}']/wsdl:operation[@name='#{operation_name}']/wsdl:input"}"
+
       # TODO: Stupid fix for missing support for imports.
       # Sometimes portTypes are actually included in a separate WSDL.
-      if port_type_input
+      if port_type_input.nil?
+        [nil, operation_name]
+      else                
         port_message_ns_id, port_message_type = port_type_input.attribute("message").to_s.split(':')
 
         message_ns_id, message_type = nil
@@ -170,8 +176,6 @@ module Wasabi
         else
           [port_message_ns_id, operation_name]
         end
-      else
-        [nil, operation_name]
       end
     end
 
