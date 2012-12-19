@@ -20,7 +20,7 @@ module Wasabi
       @attribute_form_default = "unqualified"
     end
 
-    attr_reader :target_namespace, :element_form_default, :attribute_form_default,
+    attr_reader :namespaces, :target_namespace, :element_form_default, :attribute_form_default,
                 :elements, :complex_types, :messages, :bindings, :port_types, :services
 
     def start_element(tag, attrs = [])
@@ -136,6 +136,7 @@ module Wasabi
 
     def to_hash
       {
+        "namespaces"           => @namespaces,
         "target_namespace"     => @target_namespace,
         "element_form_default" => @element_form_default,
         "elements"             => @elements,
