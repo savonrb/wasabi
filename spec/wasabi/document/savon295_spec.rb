@@ -7,7 +7,7 @@ describe Wasabi::Document do
 
     its(:operations) do
       should include(
-        { :sendsms => { :input => "sendsms", :action => "sendsms", :namespace_identifier => "tns" } }
+        { :sendsms => { :input => "sendsmsRequest", :output => "sendsmsResponse", :action => "sendsms", :namespace_identifier => "tns" } }
       )
     end
 
