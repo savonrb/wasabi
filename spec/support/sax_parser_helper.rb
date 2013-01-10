@@ -4,7 +4,10 @@ module SAXParserHelper
     start_time = Time.now
     yield
     end_time = Time.now
-    puts "parse time for #{fixture} fixture: #{end_time - start_time}"
+
+    if ENV["BENCHMARK"]
+      puts "parse time for #{fixture} fixture: #{end_time - start_time}"
+    end
   end
 
   def parse(fixture_name)
