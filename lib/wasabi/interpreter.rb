@@ -15,7 +15,9 @@ module Wasabi
     end
 
     def endpoints
-      @endpoints ||= endpoints!
+      ports!.inject({}) do |endpoints, port|
+        endpoints.merge(port["namespace"] => port["location"])
+      end
     end
 
     def target_namespace
@@ -53,12 +55,6 @@ module Wasabi
     end
 
     private
-
-    def endpoints!
-      ports!.inject({}) do |endpoints, port|
-        endpoints.merge(port["namespace"] => port["location"])
-      end
-    end
 
     def ports!
       ports = []
