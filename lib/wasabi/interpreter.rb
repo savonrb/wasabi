@@ -18,18 +18,65 @@ module Wasabi
       @endpoints ||= endpoints!
     end
 
+    def target_namespace
+      @sax.target_namespace
+    end
+
+    def element_form_default
+      @sax.element_form_default.to_sym
+    end
+
+    def operations
+      operations = {}
+
+      ports!.each do |port|
+        # find the binding
+        binding_name   = port["binding"].split(":").last
+        binding        = @sax.bindings[binding_name]
+
+        # find the port type
+        port_type_name = binding["type"].split(":").last
+        port_type      = @sax.port_types[port_type_name]
+
+        binding["operations"].each do |operation_name, binding_operation|
+          # find the port type operation
+          port_type_operation = port_type["operations"][operation_name]
+
+          # XXX: this does not support multiple messages!
+          input  = port_type_operation["input"].first
+          output = port_type_operation["output"].first
+
+          operations.update(
+            operation_name.snakecase.to_sym => {
+              :soap_action => binding_operation["soap_action"],
+              :input       => input.last["message"],
+              :output      => output.last["message"]
+            }
+          )
+        end
+      end
+
+      operations
+    end
+
     private
 
     def endpoints!
-      endpoints = {}
+      ports!.inject({}) do |endpoints, port|
+        endpoints.merge(port["namespace"] => port["location"])
+      end
+    end
 
-      @sax.services.each { |service_name, ports|
-        ports.each { |port_name, details|
-          endpoints.update(details["namespace"] => details["location"])
-        }
-      }
+    def ports!
+      ports = []
 
-      endpoints
+      @sax.services.each do |service_name, port_map|
+        port_map.each do |port_name, details|
+          ports << details
+        end
+      end
+
+      ports
     end
 
   end

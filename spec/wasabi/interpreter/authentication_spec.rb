@@ -1,14 +1,35 @@
 require "spec_helper"
 
 describe Wasabi::Interpreter do
+  context "with: authentication.wsdl" do
 
-  subject(:interpreter) { new_interpreter(:authentication) }
+    subject(:interpreter) { new_interpreter(:authentication) }
 
-  it "returns the SOAP endpoint" do
-    expected = "http://example.com/validation/1.0/AuthenticationService"
-    actual   = interpreter.soap_endpoint
+    it "knows the SOAP endpoint" do
+      endpoint = "http://example.com/validation/1.0/AuthenticationService"
+      expect(interpreter.soap_endpoint).to eq(endpoint)
+    end
 
-    expect(actual).to eq(expected)
+    it "knows the target namespace" do
+      namespace = "http://v1_0.ws.auth.order.example.com/"
+      expect(interpreter.target_namespace).to eq(namespace)
+    end
+
+    it "knows whether elements should be namespaced" do
+      expect(interpreter.element_form_default).to eq(:unqualified)
+    end
+
+    it "knows the available operations" do
+      operations = {
+        :authenticate => {
+          :input       => "tns:authenticate",
+          :output      => "tns:authenticateResponse",
+          :soap_action => ""
+        }
+      }
+
+      expect(interpreter.operations).to eq(operations)
+    end
+
   end
-
 end
