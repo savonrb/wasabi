@@ -28,5 +28,21 @@ describe Wasabi::Interpreter do
       expect(interpreter.namespaces["xmlns:article"]).to eq("http://example.com/article")
     end
 
+    it "knows the type namespaces" do
+      expect(interpreter.type_namespaces).to eq([
+        [["Save"], "http://example.com/actions"],
+        [["Save", "article"], "http://example.com/actions"],
+        [["Article"], "http://example.com/article"],
+        [["Article", "Author"], "http://example.com/article"],
+        [["Article", "Title"], "http://example.com/article"]
+      ])
+    end
+
+    it "knows the type definitions" do
+      expect(interpreter.type_definitions).to eq([
+        [["Save", "article"], "Article"]
+      ])
+    end
+
   end
 end

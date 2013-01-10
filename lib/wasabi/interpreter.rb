@@ -75,36 +75,35 @@ module Wasabi
       @types
     end
 
-    def process_type(name, schema, type)
-      @types[name] ||= { :namespace => schema.namespace }
+    def type_namespaces
+      namespaces = []
 
-      if type["sequence"] && type["sequence"]["element"]
-        type["sequence"]["element"].each do |element|
-          @types[name][element["name"]] = { :type => element["type"] }
-        end
-      elsif type["complexContent"] && type["complexContent"]["extension"]
-        # type.xpath("./xs:complexContent/xs:extension/xs:sequence/xs:element",
-        #   "xs" => "http://www.w3.org/2001/XMLSchema"
-        # ).each do |inner_element|
-        #   @types[name][inner_element.attribute('name').to_s] = {
-        #     :type => inner_element.attribute('type').to_s
-        #   }
-        # end
-        #
-        # type.xpath('./xs:complexContent/xs:extension[@base]',
-        #   "xs" => "http://www.w3.org/2001/XMLSchema"
-        # ).each do |inherits|
-        #   base = inherits.attribute('base').value.match(/\w+$/).to_s
-        #   if @types[base]
-        #     @types[name].merge! @types[base]
-        #   else
-        #     deferred_types << Proc.new { @types[name].merge! @types[base] }
-        #   end
-        # end
-        raise "implement!"
-      else
-        raise "what else?!"
+      types.each do |type, info|
+        namespaces << [[type], info[:namespace]]
+        (info.keys - [:namespace]).each { |field| namespaces << [[type, field], info[:namespace]] }
       end
+
+      namespaces
+    end
+
+    def type_definitions
+      result = []
+
+      types.each do |type, info|
+        (info.keys - [:namespace]).each do |field|
+          field_type     = info[field][:type]
+          tag, namespace = field_type.split(":").reverse
+
+          result << [[type, field], tag] if user_defined? namespace
+        end
+      end
+
+      result
+    end
+
+    def user_defined?(namespace)
+      uri = namespaces["xmlns:#{namespace}"]
+      !(uri =~ %r{^http://schemas.xmlsoap.org} || uri =~ %r{^http://www.w3.org})
     end
 
     private
@@ -141,6 +140,38 @@ module Wasabi
 
     def output_for(operation_name, port_type_operation)
       port_type_operation["output"].first
+    end
+
+    def process_type(name, schema, type)
+      @types[name] ||= { :namespace => schema.namespace }
+
+      if type["sequence"] && type["sequence"]["element"]
+        type["sequence"]["element"].each do |element|
+          @types[name][element["name"]] = { :type => element["type"] }
+        end
+      elsif type["complexContent"] && type["complexContent"]["extension"]
+        # type.xpath("./xs:complexContent/xs:extension/xs:sequence/xs:element",
+        #   "xs" => "http://www.w3.org/2001/XMLSchema"
+        # ).each do |inner_element|
+        #   @types[name][inner_element.attribute('name').to_s] = {
+        #     :type => inner_element.attribute('type').to_s
+        #   }
+        # end
+        #
+        # type.xpath('./xs:complexContent/xs:extension[@base]',
+        #   "xs" => "http://www.w3.org/2001/XMLSchema"
+        # ).each do |inherits|
+        #   base = inherits.attribute('base').value.match(/\w+$/).to_s
+        #   if @types[base]
+        #     @types[name].merge! @types[base]
+        #   else
+        #     deferred_types << Proc.new { @types[name].merge! @types[base] }
+        #   end
+        # end
+        raise "implement!"
+      else
+        raise "what else?!"
+      end
     end
 
   end
