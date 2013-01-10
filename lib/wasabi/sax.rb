@@ -1,6 +1,7 @@
 require "nokogiri"
 require "wasabi/node"
 require "wasabi/matcher"
+require "wasabi/schema"
 
 module Wasabi
   class SAX < Nokogiri::XML::SAX::Document
@@ -9,8 +10,7 @@ module Wasabi
       @stack         = []
       @matchers      = {}
       @namespaces    = nil
-      @elements      = {}
-      @complex_types = {}
+      @schemas       = []
       @messages      = {}
       @bindings      = {}
       @port_types    = {}
@@ -20,8 +20,8 @@ module Wasabi
       @attribute_form_default = "unqualified"
     end
 
-    attr_reader :namespaces, :target_namespace, :element_form_default, :attribute_form_default,
-                :elements, :complex_types, :messages, :bindings, :port_types, :services
+    attr_reader :namespaces, :target_namespace, :schema_namespace, :element_form_default,
+                :attribute_form_default, :schemas, :messages, :bindings, :port_types, :services
 
     def start_element(tag, attrs = [])
       local, nsid = tag.split(":").reverse
@@ -39,7 +39,7 @@ module Wasabi
       case @stack
       # xs elements
       when matches("wsdl:definitions > wsdl:types > xs:schema > xs:element")
-        @last_element = @elements[node["name"]] ||= node.attrs.reject { |k, v| k == "name" }
+        @last_element = @current_schema.elements[node["name"]] ||= node.attrs.reject { |k, v| k == "name" }
       when matches("wsdl:definitions > wsdl:types > xs:schema > xs:element > *")
         if node.local == "element"
           element = @last_element["element"] ||= []
@@ -50,7 +50,7 @@ module Wasabi
 
       # xs complex types
       when matches("wsdl:definitions > wsdl:types > xs:schema > xs:complexType")
-        @last_complex_type = @complex_types[node["name"]] ||= {}
+        @last_complex_type = @current_schema.complex_types[node["name"]] ||= {}
       when matches("wsdl:definitions > wsdl:types > xs:schema > xs:complexType > *")
         if node.local == "element"
           element = @last_complex_type["element"] ||= []
@@ -121,8 +121,8 @@ module Wasabi
 
       # element/attribute form default values
       when matches("wsdl:definitions > wsdl:types > xs:schema")
-        @element_form_default = node["elementFormDefault"] if node["elementFormDefault"]
-        @attribute_form_default = node["attributeFormDefault"] if node["attributeFormDefault"]
+        @current_schema = Schema.new(node)
+        @schemas << @current_schema
 
       # target namespace
       when matches("wsdl:definitions")
@@ -138,6 +138,7 @@ module Wasabi
       {
         "namespaces"           => @namespaces,
         "target_namespace"     => @target_namespace,
+        "schema_namespace"     => @schema_namespace,
         "element_form_default" => @element_form_default,
         "elements"             => @elements,
         "complex_types"        => @complex_types,
