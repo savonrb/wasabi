@@ -30,21 +30,14 @@ module Wasabi
       operations = {}
 
       ports!.each do |port|
-        # find the binding
-        binding_name   = port["binding"].split(":").last
-        binding        = @sax.bindings[binding_name]
-
-        # find the port type
-        port_type_name = binding["type"].split(":").last
-        port_type      = @sax.port_types[port_type_name]
+        binding   = find_binding(port)
+        port_type = find_port_type(binding)
 
         binding["operations"].each do |operation_name, binding_operation|
-          # find the port type operation
-          port_type_operation = port_type["operations"][operation_name]
+          port_type_operation = find_port_type_operation(operation_name, port_type)
 
-          # XXX: this does not support multiple messages!
-          input  = port_type_operation["input"].first
-          output = port_type_operation["output"].first
+          input  = input_for(operation_name, port_type_operation)
+          output = output_for(operation_name, port_type_operation)
 
           operations.update(
             operation_name.snakecase.to_sym => {
@@ -77,6 +70,28 @@ module Wasabi
       end
 
       ports
+    end
+
+    def find_port_type(binding)
+      port_type_name = binding["type"].split(":").last
+      @sax.port_types[port_type_name]
+    end
+
+    def find_binding(port)
+      binding_name = port["binding"].split(":").last
+      @sax.bindings[binding_name]
+    end
+
+    def find_port_type_operation(operation_name, port_type)
+      port_type["operations"][operation_name]
+    end
+
+    def input_for(operation_name, port_type_operation)
+      port_type_operation["input"].first
+    end
+
+    def output_for(operation_name, port_type_operation)
+      port_type_operation["output"].first
     end
 
   end
