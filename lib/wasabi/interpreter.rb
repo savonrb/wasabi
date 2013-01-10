@@ -72,7 +72,12 @@ module Wasabi
         end
       end
 
+      resolve_deferred_types
       @types
+    end
+
+    def deferred_types
+      @deferred_types ||= []
     end
 
     def type_namespaces
@@ -150,28 +155,32 @@ module Wasabi
           @types[name][element["name"]] = { :type => element["type"] }
         end
       elsif type["complexContent"] && type["complexContent"]["extension"]
-        # type.xpath("./xs:complexContent/xs:extension/xs:sequence/xs:element",
-        #   "xs" => "http://www.w3.org/2001/XMLSchema"
-        # ).each do |inner_element|
-        #   @types[name][inner_element.attribute('name').to_s] = {
-        #     :type => inner_element.attribute('type').to_s
-        #   }
-        # end
-        #
-        # type.xpath('./xs:complexContent/xs:extension[@base]',
-        #   "xs" => "http://www.w3.org/2001/XMLSchema"
-        # ).each do |inherits|
-        #   base = inherits.attribute('base').value.match(/\w+$/).to_s
-        #   if @types[base]
-        #     @types[name].merge! @types[base]
-        #   else
-        #     deferred_types << Proc.new { @types[name].merge! @types[base] }
-        #   end
-        # end
-        raise "implement!"
-      else
-        raise "what else?!"
+        extension = type["complexContent"]["extension"]
+        elements  = extension["sequence"]["element"]
+
+        elements.each do |element|
+          @types[name][element["name"]] = { :type => element["type"] }
+        end
+
+        if extension["base"]
+          base = extension["base"].match(/\w+$/).to_s
+
+          if @types[base]
+            raise "implement!"
+            # p "now"
+            # p name
+            # @types[name].merge! @types[base]
+          else
+            # p "deferred"
+            # p name
+            deferred_types << Proc.new { @types[name].merge! @types[base] }
+          end
+        end
       end
+    end
+
+    def resolve_deferred_types
+      deferred_types.each(&:call)
     end
 
   end

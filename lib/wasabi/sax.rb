@@ -55,6 +55,9 @@ module Wasabi
         if node.local == "element"
           element = @last_complex_type["element"] ||= []
           element << node.attrs
+        elsif node.local == "extension"
+          @last_complex_type = @last_complex_type[node.local] = {}
+          @last_complex_type["base"] = node.attrs["base"] if node.attrs["base"]
         else
           @last_complex_type = @last_complex_type[node.local] = {}
         end
