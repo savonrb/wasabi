@@ -15,9 +15,16 @@ module Wasabi
 
   NAMESPACES_BY_URI = NAMESPACES.invert
 
-  # Expects a WSDL document and returns a <tt>Wasabi::Document</tt>.
-  def self.document(document)
-    Document.new(document)
+  def self.sax(wsdl)
+    sax    = SAX.new
+    parser = Nokogiri::XML::SAX::Parser.new(sax)
+
+    parser.parse(wsdl)
+    sax
+  end
+
+  def self.interpreter(wsdl)
+    Interpreter.new sax(wsdl)
   end
 
 end

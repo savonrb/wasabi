@@ -1,16 +1,10 @@
 require "spec_helper"
 
-describe Wasabi::SAXParser, :fixture => :namespaced_actions do
-  include SAXParserHelper
+describe Wasabi::SAX do
 
-  subject(:sax) { Wasabi::SAXParser.new }
+  subject(:sax) { new_sax(:namespaced_actions) }
 
-  context "with #{metadata[:fixture]}.wsdl" do
-    before :all do
-      fixture = self.class.metadata[:fixture]
-      report_parse_time(fixture) { parse(fixture) }  # 0.0061 sec
-    end
-
+  context "with namespaced_actions.wsdl" do
     it "knows the target namespace" do
       expect(sax.target_namespace).to eq("http://api.example.com/api/")
     end

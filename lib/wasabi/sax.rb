@@ -3,7 +3,7 @@ require "wasabi/node"
 require "wasabi/matcher"
 
 module Wasabi
-  class SAXParser < Nokogiri::XML::SAX::Document
+  class SAX < Nokogiri::XML::SAX::Document
 
     def initialize
       @stack         = []

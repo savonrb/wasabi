@@ -1,4 +1,4 @@
-require "wasabi/sax_parser"
+require "wasabi/sax"
 
 module Wasabi
   class Interpreter

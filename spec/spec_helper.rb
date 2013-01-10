@@ -1,9 +1,8 @@
 require "bundler"
 Bundler.require :default, :development
 
-support_files = File.expand_path("spec/support/**/*.rb")
-Dir[support_files].each { |file| require file }
+require "support/spec_support"
 
 RSpec.configure do |config|
-  config.include SpecSupport::Methods
+  config.include SpecSupport
 end
