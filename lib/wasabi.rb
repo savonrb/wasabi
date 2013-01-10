@@ -1,6 +1,7 @@
 require "wasabi/version"
 require "wasabi/resolver"
 require "wasabi/document"
+require "wasabi/interpreter"
 
 module Wasabi
 
