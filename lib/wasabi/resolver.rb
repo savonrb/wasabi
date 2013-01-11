@@ -25,14 +25,14 @@ module Wasabi
     private
 
     def from_remote
-      response = HTTPI.get(http_request)
-      raise HTTPError.new(response) if response.error?
-      response.body
-    end
-
-    def http_request
       @http_request.url = @source
-      @http_request
+      response = HTTPI.get(@http_request)
+
+      if response.error?
+        raise HTTPError.new(response)
+      else
+        response.body
+      end
     end
 
     def from_fs
