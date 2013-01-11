@@ -1,17 +1,17 @@
 require "spec_helper"
 
-describe Wasabi::Document do
-  context "with: geotrust.wsdl" do
+describe Wasabi::Interpreter do
+  context "with: namespaced_actions.wsdl" do
 
-    subject(:interpreter) { new_interpreter(:geotrust) }
+    subject(:interpreter) { new_interpreter(:namespaced_actions) }
 
     it "knows the SOAP endpoint" do
-      endpoint = "https://test-api.geotrust.com:443/webtrust/query.jws"
+      endpoint = "https://api.example.com/api/api.asmx"
       expect(interpreter.soap_endpoint).to eq(endpoint)
     end
 
     it "knows the target namespace" do
-      namespace = "http://api.geotrust.com/webtrust/query"
+      namespace = "http://api.example.com/api/"
       expect(interpreter.target_namespace).to eq(namespace)
     end
 
@@ -20,15 +20,16 @@ describe Wasabi::Document do
     end
 
     it "knows the available operations" do
+      expect(interpreter).to have(3).operations
+
       operation = {
-        :get_quick_approver_list => {
-          :input       => ["s1", "GetQuickApproverList"],
-          :output      => ["s1", "GetQuickApproverListResponse"],
-          :soap_action => nil
+        :delete_client => {
+          :input       => ["tns", "Client.Delete"],
+          :output      => ["tns", "Client.DeleteResponse"],
+          :soap_action => "http://api.example.com/api/Client.Delete"
         }
       }
 
-      expect(interpreter).to have(2).operations
       expect(interpreter.operations).to include(operation)
     end
 

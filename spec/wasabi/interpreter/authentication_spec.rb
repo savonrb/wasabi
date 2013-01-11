@@ -22,8 +22,8 @@ describe Wasabi::Interpreter do
     it "knows the available operations" do
       operations = {
         :authenticate => {
-          :input       => "tns:authenticate",
-          :output      => "tns:authenticateResponse",
+          :input       => ["tns", "authenticate"],
+          :output      => ["tns", "authenticateResponse"],
           :soap_action => ""
         }
       }

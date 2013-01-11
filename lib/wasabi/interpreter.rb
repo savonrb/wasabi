@@ -7,6 +7,8 @@ module Wasabi
       @sax = sax
     end
 
+    attr_reader :sax
+
     def soap_endpoint
       # XXX: should we check for the soap 1.2 namespace as well?
       #      are there services with only a soap 1.2 endpoint?
@@ -33,29 +35,30 @@ module Wasabi
     end
 
     def operations
-      operations = {}
+      return @operations if @operations
+      @operations = {}
 
-      ports!.each do |port|
-        binding   = find_binding(port)
-        port_type = find_port_type(binding)
+      # XXX: what about soap 1.2 ports?!
+      soap_port = ports!.find { |port| port["namespace"] == Wasabi::NAMESPACES["soap"] }
+      binding   = find_binding(soap_port)
+      port_type = find_port_type(binding)
 
-        binding["operations"].each do |operation_name, binding_operation|
-          port_type_operation = find_port_type_operation(operation_name, port_type)
+      binding["operations"].each do |operation_name, binding_operation|
+        port_type_operation = find_port_type_operation(operation_name, port_type)
 
-          input  = input_for(operation_name, port_type_operation)
-          output = output_for(operation_name, port_type_operation)
+        input  = input_for(operation_name, port_type_operation)
+        output = output_for(operation_name, port_type_operation)
 
-          operations.update(
-            operation_name.snakecase.to_sym => {
-              :soap_action => binding_operation["soap_action"],
-              :input       => input.last["message"],
-              :output      => output.last["message"]
-            }
-          )
-        end
+        @operations.update(
+          operation_name.snakecase.to_sym => {
+            :soap_action => binding_operation["soap_action"],
+            :input       => input,
+            :output      => output
+          }
+        )
       end
 
-      operations
+      @operations
     end
 
     def types
@@ -140,11 +143,35 @@ module Wasabi
     end
 
     def input_for(operation_name, port_type_operation)
-      port_type_operation["input"].first
+      message_for(operation_name, port_type_operation["input"])
     end
 
     def output_for(operation_name, port_type_operation)
-      port_type_operation["output"].first
+      message_for(operation_name, port_type_operation["output"])
+    end
+
+    def message_for(operation_name, input_output)
+      message_name = input_output.first.last["message"].to_s
+
+      port_message_nsid, port_message_type = message_name.split(":")
+      message_nsid = nil
+      message_type = nil
+
+      # TODO: Support multiple 'part' elements in the message.
+      port_message_part = @sax.messages[port_message_type]
+      if port_message_part
+        port_message_part_element = port_message_part.first["element"]
+        if port_message_part_element
+          message_nsid, message_type = port_message_part_element.to_s.split(":")
+        end
+      end
+
+      # Fall back to the name of the binding operation
+      if message_type
+        [message_nsid, message_type]
+      else
+        [port_message_nsid, port_message_type]
+      end
     end
 
     def process_type(name, schema, type)

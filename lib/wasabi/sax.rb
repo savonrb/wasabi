@@ -15,13 +15,26 @@ module Wasabi
       @bindings      = {}
       @port_types    = {}
       @services      = {}
-
-      @element_form_default   = "unqualified"
-      @attribute_form_default = "unqualified"
     end
 
-    attr_reader :namespaces, :target_namespace, :schema_namespace, :element_form_default,
-                :attribute_form_default, :schemas, :messages, :bindings, :port_types, :services
+    attr_reader :namespaces, :target_namespace, :schema_namespace, :schemas,
+                :messages, :bindings, :port_types, :services
+
+    def element_form_default
+      @schemas.first.element_form_default
+    end
+
+    def attribute_form_default
+      @schemas.first.attribute_form_default
+    end
+
+    def elements
+      @elements ||= @schemas.inject({}) { |memo, schema| memo.merge(schema.elements) }
+    end
+
+    def complex_types
+      @complex_types ||= @schemas.inject({}) { |memo, schema| memo.merge(schema.complex_types) }
+    end
 
     def start_element(tag, attrs = [])
       local, nsid = tag.split(":").reverse
@@ -122,7 +135,7 @@ module Wasabi
         @last_port["namespace"] = node.namespace
         @last_port["location"]  = node["location"]
 
-      # element/attribute form default values
+      # schema and element/attribute form default values
       when matches("wsdl:definitions > wsdl:types > xs:schema")
         @current_schema = Schema.new(node)
         @schemas << @current_schema
@@ -135,20 +148,6 @@ module Wasabi
 
     def end_element(name)
       @stack.pop
-    end
-
-    def to_hash
-      {
-        "namespaces"           => @namespaces,
-        "target_namespace"     => @target_namespace,
-        "schema_namespace"     => @schema_namespace,
-        "element_form_default" => @element_form_default,
-        "elements"             => @elements,
-        "complex_types"        => @complex_types,
-        "bindings"             => @bindings,
-        "port_types"           => @port_types,
-        "services"             => @services
-      }
     end
 
     private
