@@ -1,4 +1,9 @@
 module Wasabi
+
+  # = Wasabi::InterpreterShim
+  #
+  # Purpose:
+  #   Acts as an Interpreter with a WSDL.
   class InterpreterShim
 
     def initialize

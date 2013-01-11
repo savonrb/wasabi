@@ -2,6 +2,11 @@ require "wasabi/sax"
 require "wasabi/interpreter_shim"
 
 module Wasabi
+
+  # = Wasabi::Interpreter
+  #
+  # Purpose:
+  #   Interprets the SAX information.
   class Interpreter
 
     def initialize(wsdl, http_request)

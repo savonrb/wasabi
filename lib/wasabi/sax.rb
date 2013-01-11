@@ -4,6 +4,11 @@ require "wasabi/matcher"
 require "wasabi/schema"
 
 module Wasabi
+
+  # = Wasabi::SAX
+  #
+  # Purpose:
+  #   Parses WSDL documents.
   class SAX < Nokogiri::XML::SAX::Document
 
     def initialize

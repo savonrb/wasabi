@@ -1,4 +1,9 @@
 module Wasabi
+
+  # = Wasabi::Schema
+  #
+  # Purpose:
+  #   Represents an XS schema.
   class Schema
 
     def initialize(schema)

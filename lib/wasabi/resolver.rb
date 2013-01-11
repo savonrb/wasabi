@@ -4,7 +4,8 @@ module Wasabi
 
   # = Wasabi::Resolver
   #
-  # Resolves local and remote WSDL documents.
+  # Purpose:
+  #   Resolves local and remote WSDL documents.
   class Resolver
 
     class HTTPError < StandardError; end
