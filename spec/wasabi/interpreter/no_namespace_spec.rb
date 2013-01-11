@@ -33,5 +33,14 @@ describe Wasabi::Interpreter do
       expect(interpreter.operations).to include(operation)
     end
 
+    it "knows the types" do
+      types = ["McContact", "McContactArray", "MpUser", "MpUserArray"]
+      expect(interpreter.types.keys.sort).to eq(types)
+    end
+
+    it "ignores xsd:all" do
+      expect(interpreter.types["MpUser"].keys).to eq([:namespace])
+    end
+
   end
 end
