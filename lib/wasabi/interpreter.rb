@@ -1,5 +1,6 @@
 require "wasabi/sax"
 require "wasabi/interpreter_shim"
+require "wasabi/core_ext/string"
 
 module Wasabi
 

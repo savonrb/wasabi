@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Wasabi::Parser do
+describe Wasabi::Interpreter do
   context "with: no_message_parts.wsdl" do
 
     subject(:interpreter) { new_interpreter(:no_message_parts) }

@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Wasabi::Document do
+describe Wasabi::Interpreter do
   context "with: geotrust.wsdl" do
 
     subject(:interpreter) { new_interpreter(:geotrust) }
