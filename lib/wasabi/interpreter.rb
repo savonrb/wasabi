@@ -143,34 +143,34 @@ module Wasabi
     end
 
     def input_for(operation_name, port_type_operation)
-      message_for(operation_name, port_type_operation["input"])
+      message_for(operation_name, port_type_operation, "input")
     end
 
     def output_for(operation_name, port_type_operation)
-      message_for(operation_name, port_type_operation["output"])
+      message_for(operation_name, port_type_operation, "output")
     end
 
-    def message_for(operation_name, input_output)
-      message_name = input_output.first.last["message"].to_s
+    def message_for(operation_name, input_output, type)
+      message_name = input_output[type].first.last["message"].to_s
 
       port_message_nsid, port_message_type = message_name.split(":")
       message_nsid = nil
       message_type = nil
 
-      # TODO: Support multiple 'part' elements in the message.
+      # TODO: support multiple 'part' elements in the message
       port_message_part = @sax.messages[port_message_type]
-      if port_message_part
+      if port_message_part && port_message_part.first
         port_message_part_element = port_message_part.first["element"]
         if port_message_part_element
           message_nsid, message_type = port_message_part_element.to_s.split(":")
         end
       end
 
-      # Fall back to the name of the binding operation
       if message_type
         [message_nsid, message_type]
       else
-        [port_message_nsid, port_message_type]
+        fallback_name = type == "input" ? operation_name : port_message_type
+        [port_message_nsid, fallback_name]
       end
     end
 

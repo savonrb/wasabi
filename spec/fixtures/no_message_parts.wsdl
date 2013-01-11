@@ -33,13 +33,13 @@
     <message name="SaveSoapOut">
         <part name="parameters" element="actions:SaveResponse"/>
     </message>
-    <portType name="ArticleSoap">
+    <portType name="StudyMDLSoap">
         <operation name="Save">
             <input message="actions:SaveSoapIn"/>
             <output message="actions:SaveSoapOut"/>
         </operation>
     </portType>
-    <binding name="ArticleSoap" type="actions:ArticleSoap">
+    <binding name="StudyMDLSoap" type="actions:StudyMDLSoap">
         <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
         <operation name="Save">
             <soap:operation soapAction="http://example.com/actions.Save" style="document"/>
