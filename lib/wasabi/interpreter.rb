@@ -10,10 +10,10 @@ module Wasabi
     attr_reader :sax
 
     def soap_endpoint
-      # XXX: should we check for the soap 1.2 namespace as well?
-      #      are there services with only a soap 1.2 endpoint?
-      soap_namespace = Wasabi::NAMESPACES["soap"]
-      endpoints[soap_namespace]
+      soap_namespace  = Wasabi::NAMESPACES["soap"]
+      soap2_namespace = Wasabi::NAMESPACES["soap2"]
+
+      endpoints[soap_namespace] || endpoints[soap2_namespace]
     end
 
     def endpoints
@@ -38,8 +38,11 @@ module Wasabi
       return @operations if @operations
       @operations = {}
 
-      # XXX: what about soap 1.2 ports?!
-      soap_port = ports!.find { |port| port["namespace"] == Wasabi::NAMESPACES["soap"] }
+      soap_port = ports!.find { |port|
+        port["namespace"] == Wasabi::NAMESPACES["soap"] ||
+        port["namespace"] == Wasabi::NAMESPACES["soap2"]
+      }
+
       binding   = find_binding(soap_port)
       port_type = find_port_type(binding)
 
