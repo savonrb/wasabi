@@ -23,8 +23,8 @@ module Wasabi
     sax
   end
 
-  def self.interpreter(wsdl)
-    Interpreter.new sax(wsdl)
+  def self.interpreter(wsdl, http_request = nil)
+    Interpreter.new(wsdl, http_request)
   end
 
 end

@@ -9,17 +9,15 @@ module Wasabi
 
     class HTTPError < StandardError; end
 
-    def initialize(document, request = nil)
-      @document = document
-      @request = request
+    def initialize(source, http_request = nil)
+      @source       = source
+      @http_request = http_request || HTTPI::Request.new
     end
 
     def xml
-      raise ArgumentError, "Wasabi is missing a document to resolve" unless @document
-
-      case @document
+      case @source
         when /^http[s]?:/ then from_remote
-        when /^</         then @document
+        when /^</         then @source
         else                   from_fs
       end
     end
@@ -27,19 +25,18 @@ module Wasabi
     private
 
     def from_remote
-      response = HTTPI.get(request)
+      response = HTTPI.get(http_request)
       raise HTTPError.new(response) if response.error?
       response.body
     end
 
-    def request
-      @request ||= HTTPI::Request.new
-      @request.url = @document
-      @request
+    def http_request
+      @http_request.url = @source
+      @http_request
     end
 
     def from_fs
-      File.read(@document)
+      File.read(@source)
     end
 
   end
