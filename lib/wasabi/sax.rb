@@ -154,12 +154,9 @@ module Wasabi
 
     def create_node(nsid, local, attrs)
       namespace = case
-      when nsid
-        @namespaces["xmlns:#{nsid}"]
-      when attrs["xmlns"]
-        attrs["xmlns"]
-      else
-        parent_node_namespace
+      when nsid           then @namespaces["xmlns:#{nsid}"]
+      when attrs["xmlns"] then attrs["xmlns"]
+      else                     parent_node_namespace
       end
 
       Node.new(namespace, local, attrs)
