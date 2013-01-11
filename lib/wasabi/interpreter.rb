@@ -46,14 +46,11 @@ module Wasabi
       binding["operations"].each do |operation_name, binding_operation|
         port_type_operation = find_port_type_operation(operation_name, port_type)
 
-        input  = input_for(operation_name, port_type_operation)
-        output = output_for(operation_name, port_type_operation)
-
         @operations.update(
           operation_name.snakecase.to_sym => {
-            :soap_action => binding_operation["soap_action"],
-            :input       => input,
-            :output      => output
+            :input       => input_for(operation_name, port_type_operation),
+            :output      => output_for(operation_name, port_type_operation),
+            :soap_action => soap_action_for(operation_name, binding_operation)
           }
         )
       end
@@ -171,6 +168,16 @@ module Wasabi
         [message_nsid, message_type]
       else
         [port_message_nsid, port_message_type]
+      end
+    end
+
+    def soap_action_for(operation_name, binding_operation)
+      soap_action = binding_operation["soap_action"].to_s
+
+      if !soap_action.empty?
+        soap_action
+      else
+        operation_name
       end
     end
 

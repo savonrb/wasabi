@@ -24,7 +24,7 @@ describe Wasabi::Document do
         :get_quick_approver_list => {
           :input       => ["s1", "GetQuickApproverList"],
           :output      => ["s1", "GetQuickApproverListResponse"],
-          :soap_action => nil
+          :soap_action => "GetQuickApproverList"
         }
       }
 

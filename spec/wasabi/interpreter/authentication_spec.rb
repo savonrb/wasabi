@@ -24,7 +24,7 @@ describe Wasabi::Interpreter do
         :authenticate => {
           :input       => ["tns", "authenticate"],
           :output      => ["tns", "authenticateResponse"],
-          :soap_action => ""
+          :soap_action => "authenticate"
         }
       }
 
