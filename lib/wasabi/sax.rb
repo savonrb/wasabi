@@ -52,7 +52,7 @@ module Wasabi
       case @stack
       # xs elements
       when matches("wsdl:definitions > wsdl:types > xs:schema > xs:element")
-        @last_element = @current_schema.elements[node["name"]] ||= node.attrs.reject { |k, v| k == "name" }
+        @last_element = @last_schema.elements[node["name"]] ||= node.attrs.reject { |k, v| k == "name" }
       when matches("wsdl:definitions > wsdl:types > xs:schema > xs:element > *")
         if node.local == "element"
           element = @last_element["element"] ||= []
@@ -63,7 +63,7 @@ module Wasabi
 
       # xs complex types
       when matches("wsdl:definitions > wsdl:types > xs:schema > xs:complexType")
-        @last_complex_type = @current_schema.complex_types[node["name"]] ||= {}
+        @last_complex_type = @last_schema.complex_types[node["name"]] ||= {}
       when matches("wsdl:definitions > wsdl:types > xs:schema > xs:complexType > *")
         if node.local == "element"
           element = @last_complex_type["element"] ||= []
@@ -137,8 +137,8 @@ module Wasabi
 
       # schema and element/attribute form default values
       when matches("wsdl:definitions > wsdl:types > xs:schema")
-        @current_schema = Schema.new(node)
-        @schemas << @current_schema
+        @last_schema = Schema.new(node)
+        @schemas << @last_schema
 
       # target namespace
       when matches("wsdl:definitions")
