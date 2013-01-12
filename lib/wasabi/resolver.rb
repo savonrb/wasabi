@@ -17,9 +17,9 @@ module Wasabi
 
     def xml
       case @source
-        when /^\//        then from_fs
-        when /^http[s]?:/ then from_remote
-        else                   @source
+        when URI, /^http[s]?:/ then from_remote
+        when /^\//             then from_fs
+        else                        @source
       end
     end
 

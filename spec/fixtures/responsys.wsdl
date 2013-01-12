@@ -3,13 +3,12 @@
     <documentation>This WSDL contains the APIs needed for customers to integrate their applications with Responsys Interact.</documentation>
     <types>
         <xsd:schema>
-            <xsd:import namespace="urn:ws.rsys.com" schemaLocation="../services/ResponsysWSService/_resources_/xsd/responsys_schema.xsd"/>
+            <xsd:import namespace="urn:ws.rsys.com" schemaLocation="../services/ResponsysWSService/_resources_/xsd/ResponsysWSTypes_Schema.xsd"/>
         </xsd:schema>
-
         <xsd:schema>
-            <xsd:import namespace="urn:fault.ws.rsys.com" schemaLocation="../services/ResponsysWSService/_resources_/xsd/responsys_faults.xsd"/>
+            <xsd:import namespace="urn:fault.ws.rsys.com" schemaLocation="../services/ResponsysWSService/_resources_/xsd/ResponsysWSFaults_Schema.xsd"/>
         </xsd:schema>
-    </types>
+        </types>
 
     <!-- Header Message -->
     <message name="Header">

@@ -173,7 +173,7 @@ module Wasabi
 
     def resolve_imports
       @imports.each do |namespace, import|
-        source = File.join(File.dirname(@source), import["schemaLocation"])
+        source = URI.join(@source, import["schemaLocation"])
 
         if source
           sax = Wasabi.sax(source, @http_request)

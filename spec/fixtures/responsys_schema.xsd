@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:fns="urn:fault.ws.rsys.com" xmlns:tns="urn:ws.rsys.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="urn:ws.rsys.com">
-    <import namespace="urn:fault.ws.rsys.com" schemaLocation="responsys_faults.xsd"/>
+    <import namespace="urn:fault.ws.rsys.com" schemaLocation="ResponsysWSFaults_Schema.xsd"/>
     <element name="login">
         <complexType>
             <sequence>

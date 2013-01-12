@@ -5,28 +5,38 @@ describe Wasabi::Interpreter do
 
     subject(:interpreter) { Wasabi.interpreter(wsdl) }
 
-    let(:wsdl) { "https://ws5.responsys.net/webservices/wsdl/responsys.wsdl" }
+    let(:wsdl)   { "https://ws5.responsys.net/webservices/wsdl/ResponsysWS_Level1.wsdl" }
+    let(:types)  { "https://ws5.responsys.net/webservices/services/ResponsysWSService/_resources_/xsd/ResponsysWSTypes_Schema.xsd" }
+    let(:faults) { "https://ws5.responsys.net/webservices/services/ResponsysWSService/_resources_/xsd/ResponsysWSFaults_Schema.xsd" }
 
     it "resolves xsd imports" do
-      mock_request wsdl, :responsys
-      mock_request File.join(wsdl, "../services/ResponsysWSService/_resources_/xsd/responsys_schema.xsd"), :responsys_schema, :xsd
-      mock_request File.join(wsdl, "../services/ResponsysWSService/_resources_/xsd/responsys_faults.xsd"), :responsys_faults, :xsd
+      mock_requests!  # comment out to test against the real service
 
       expect(interpreter).to have(172).types
 
-      # element from responsys_schema.xsd
+      # element from the schema file
       expect(interpreter.types.keys.sort).to include("AccountFault")
 
-      # element from responsys_faults.xsd
+      # element from the faults file
       expect(interpreter.types.keys.sort).to include("LoginResult")
     end
 
-    def mock_request(source, *fixture_name)
-      response = HTTPI::Response.new(200, {}, fixture(*fixture_name).read)
+    def mock_requests!
+      faults_response = new_response(:responsys_faults, :xsd)
+      schema_response = new_response(:responsys_schema, :xsd)
+      wsdl_response   = new_response(:responsys)
 
-      HTTPI.should_receive(:get) { |request|
-        expect(request.url).to eq(URI(source))
-      }.once.and_return(response)
+      HTTPI.should_receive(:get) {
+        HTTPI.should_receive(:get) {
+          HTTPI.should_receive(:get) { faults_response }
+          schema_response
+        }
+        wsdl_response
+      }
+    end
+
+    def new_response(*fixture_name)
+      HTTPI::Response.new(200, {}, fixture(*fixture_name).read)
     end
 
   end
