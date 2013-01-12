@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:fns="urn:fault.ws.rsys.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="urn:fault.ws.rsys.com">
+    <simpleType name="ExceptionCode">
+        <restriction base="xsd:string">
+            <enumeration value="API_DISABLED_FOR_USER"/>
+            <enumeration value="INSUFFICIENT_ACCESS"/>
+            <enumeration value="INVALID_USER_NAME"/>
+            <enumeration value="INVALID_PASSWORD"/>
+            <enumeration value="INVALID_SESSION_ID"/>
+            <enumeration value="INVALID_SOAP_HEADER"/>
+            <enumeration value="INVALID_NUMBER"/>
+            <enumeration value="INVALID_DATE"/>
+            <enumeration value="INVALID_PARAMETER"/>
+            <enumeration value="INVALID_FIELD_NAME"/>
+            <enumeration value="INVALID_OBJECT"/>
+            <enumeration value="PASSWORD_LOCKOUT"/>
+            <enumeration value="PASSWORD_EXPIRED"/>
+            <enumeration value="REQUEST_LIMIT_EXCEEDED"/>
+            <enumeration value="CAMPAIGN_NOT_FOUND"/>
+            <enumeration value="CAMPAIGN_ALREADY_EXISTS"/>
+            <enumeration value="RECIPIENT_LIMIT_EXCEEDED"/>
+            <enumeration value="MAX_ATTACHMENT_SIZE_EXCEEDED"/>
+            <enumeration value="PROOF_LIST_NOT_FOUND"/>
+            <enumeration value="CAMPAIGN_LAUNCH_IN_PROGRESS"/>
+            <enumeration value="CAMPAIGN_NOT_LISTENING"/>
+            <enumeration value="CAMPAIGN_LAUNCH_NOT_SCHEDULED"/>
+            <enumeration value="CAMPAIGN_LAUNCH_NOT_UNSCHEDULED"/>
+            <enumeration value="CAMPAIGN_NOT_APPROVED_FOR_LAUNCH"/>
+            <enumeration value="SCHEDULED_LAUNCH_NOT_FOUND"/>
+            <enumeration value="CAMPAIGN_IS_INVALID"/>
+            <enumeration value="MOBILE_CAMPAIGN_DISABLED_FOR_USER"/>
+            <enumeration value="FOLDER_NOT_FOUND"/>
+            <enumeration value="FOLDER_ALREADY_EXISTS"/>
+            <enumeration value="NO_OPEN_LAUNCHES_FOR_THIS_ACCOUNT"/>
+            <enumeration value="NO_LAUNCHES_FOR_THIS_CAMPAIGN"/>
+            <enumeration value="NO_CAMPAIGNS_IN_THIS_FOLDER"/>
+            <enumeration value="NO_OBJECTS_IN_THIS_FOLDER"/>
+            <enumeration value="LIST_NOT_FOUND"/>
+            <enumeration value="LIST_ALREADY_EXISTS"/>
+            <enumeration value="LINK_TABLE_NOT_FOUND"/>
+            <enumeration value="LINK_TABLE_ALREADY_EXISTS"/>
+            <enumeration value="TABLE_ALREADY_EXISTS"/>
+            <enumeration value="TABLE_NOT_FOUND"/>
+            <enumeration value="CUSTOM_EVENT_NOT_FOUND"/>
+            <enumeration value="RECORD_LIMIT_EXCEEDED"/>
+            <enumeration value="RECORD_NOT_FOUND"/>
+            <enumeration value="OBJECT_NOT_FOUND"/>
+            <enumeration value="OBJECT_ALREADY_EXISTS"/>
+            <enumeration value="OPERATION_NOT_SUPPORTED"/>
+            <enumeration value="MULTIPLE_OBJECTS_FOUND"/>
+            <enumeration value="DOCUMENT_NOT_FOUND"/>
+            <enumeration value="DOCUMENT_ALREADY_EXISTS"/>
+            <enumeration value="IMAGES_NOT_FOUND"/>
+            <enumeration value="UNEXPECTED_EXCEPTION"/>
+            <enumeration value="INVALID_AUTHENTICATION_OPTION"/>
+            <enumeration value="AUTHENTICATION_FAILED"/>
+            <enumeration value="CLIENT_CERTIFICATE_EXPIRED"/>
+            <enumeration value="CLIENT_CERTIFICATE_NOT_YET_VALID"/>
+            <enumeration value="CLIENT_CERTIFICATE_NOT_FOUND"/>
+            <enumeration value="SERVER_CERTIFICATE_EXPIRED"/>
+            <enumeration value="SERVER_CERTIFICATE_NOT_YET_VALID"/>
+            <enumeration value="SERVER_CERTIFICATE_NOT_FOUND"/>
+            <enumeration value="CONNECT_JOB_NOT_FOUND"/>
+            <enumeration value="CONNECT_JOB_ALREADY_RUNNING"/>
+            <enumeration value="CONNECT_JOB_INACTIVE"/>
+            <enumeration value="CONNECT_JOB_RUN_NOT_FOUND"/>
+            <enumeration value="NO_CONNECT_JOBS_FOUND"/>
+            <enumeration value="CONNECT_JOB_RUN_LOG_NOT_FOUND"/>
+            <enumeration value="CONNECT_DISABLED_FOR_USER"/>
+            <enumeration value="CANNOT_RUN_CONNECT_JOB"/>
+            <enumeration value="PROFILE_EXTENSION_NOT_FOUND"/>
+        </restriction>
+    </simpleType>
+    
+    <!-- Fault -->
+    <complexType name="ApiFault">
+        <sequence>
+            <element name="exceptionCode" nillable="true" type="fns:ExceptionCode"/>
+            <element name="exceptionMessage" nillable="true" type="xsd:string"/>
+        </sequence>
+    </complexType>
+    
+    <element name="AccountFault">
+        <complexType>
+            <complexContent>
+                <extension base="fns:ApiFault"/>
+            </complexContent>
+        </complexType>
+    </element>
+    
+    <element name="FolderFault">
+        <complexType>
+            <complexContent>
+                <extension base="fns:ApiFault"/>
+            </complexContent>
+        </complexType>
+    </element>
+    
+    <element name="TriggeredMessageFault">
+        <complexType>
+            <complexContent>
+                <extension base="fns:ApiFault"/>
+            </complexContent>
+        </complexType>
+    </element>
+    
+    <element name="CustomEventFault">
+        <complexType>
+            <complexContent>
+                <extension base="fns:ApiFault"/>
+            </complexContent>
+        </complexType>
+    </element>
+    
+    <element name="CampaignFault">
+        <complexType>
+            <complexContent>
+                <extension base="fns:ApiFault"/>
+            </complexContent>
+        </complexType>
+    </element>
+    
+    <element name="ListFault">
+        <complexType>
+            <complexContent>
+                <extension base="fns:ApiFault"/>
+            </complexContent>
+        </complexType>
+    </element>
+    
+    <element name="TableFault">
+        <complexType>
+            <complexContent>
+                <extension base="fns:ApiFault"/>
+            </complexContent>
+        </complexType>
+    </element>
+    
+    <element name="LinkTableFault">
+        <complexType>
+            <complexContent>
+                <extension base="fns:ApiFault"/>
+            </complexContent>
+        </complexType>
+    </element>
+    
+    <element name="DocumentFault">
+        <complexType>
+            <complexContent>
+                <extension base="fns:ApiFault"/>
+            </complexContent>
+        </complexType>
+    </element>
+    
+    <element name="ObjectFault">
+        <complexType>
+            <complexContent>
+                <extension base="fns:ApiFault"/>
+            </complexContent>
+        </complexType>
+    </element>
+    
+    <element name="ConnectFault">
+        <complexType>
+            <complexContent>
+                <extension base="fns:ApiFault"/>
+            </complexContent>
+        </complexType>
+    </element>
+    
+    <element name="ListExtensionFault">
+        <complexType>
+            <complexContent>
+                <extension base="fns:ApiFault"/>
+            </complexContent>
+        </complexType>
+    </element>
+    
+    <element name="UnexpectedErrorFault">
+        <complexType>
+            <complexContent>
+                <extension base="fns:ApiFault"/>
+            </complexContent>
+        </complexType>
+    </element>
+</schema>

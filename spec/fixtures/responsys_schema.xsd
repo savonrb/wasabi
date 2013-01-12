@@ -1,0 +1,1596 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:fns="urn:fault.ws.rsys.com" xmlns:tns="urn:ws.rsys.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="urn:ws.rsys.com">
+    <import namespace="urn:fault.ws.rsys.com" schemaLocation="responsys_faults.xsd"/>
+    <element name="login">
+        <complexType>
+            <sequence>
+                <element name="username" nillable="true" type="xsd:string"/>
+                <element name="password" nillable="true" type="xsd:string"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="LoginResult">
+        <sequence>
+            <element name="sessionId" nillable="true" type="xsd:string"/>
+        </sequence>
+    </complexType>
+
+    <element name="loginResponse">
+        <complexType>
+            <sequence>
+                <element name="result" nillable="true" type="tns:LoginResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="ServerAuthResult">
+        <sequence>
+            <element name="authSessionId" nillable="true" type="xsd:string"/>
+            <element maxOccurs="unbounded" name="encryptedClientChallenge" nillable="true" type="xsd:byte"/>
+            <element maxOccurs="unbounded" name="serverChallenge" nillable="true" type="xsd:byte"/>
+        </sequence>
+    </complexType>
+
+    <element name="authenticateServer">
+        <complexType>
+            <sequence>
+                <element name="username" nillable="true" type="xsd:string"/>
+                <element maxOccurs="unbounded" name="clientChallenge" nillable="true" type="xsd:byte"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="authenticateServerResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="tns:ServerAuthResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="loginWithCertificate">
+        <complexType>
+            <sequence>
+                <element maxOccurs="unbounded" name="encryptedServerChallenge" nillable="true" type="xsd:byte"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="loginWithCertificateResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="tns:LoginResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="logout">
+        <complexType/>
+    </element>
+
+    <element name="logoutResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="createFolder">
+        <complexType>
+            <sequence>
+                <element name="folderName" type="xsd:string"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="createFolderResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="deleteFolder">
+        <complexType>
+            <sequence>
+                <element name="folderName" type="xsd:string"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="deleteFolderResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="listFolders">
+        <complexType/>
+    </element>
+
+    <complexType name="FolderResult">
+        <sequence>
+            <element name="name" type="xsd:string"/>
+        </sequence>
+    </complexType>
+
+    <element name="listFoldersResponse">
+        <complexType>
+            <sequence>
+                <element maxOccurs="unbounded" name="result" nillable="true" type="tns:FolderResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <simpleType name="FolderObjectType">
+        <restriction base="xsd:string">
+            <enumeration value="ALL_TYPES"/>
+            <enumeration value="PROGRAM"/>
+            <enumeration value="CAMPAIGN"/>
+            <enumeration value="FORM"/>
+            <enumeration value="LIST"/>
+            <enumeration value="LIST_FILTER"/>
+            <enumeration value="SUPPLEMENTAL_TABLE"/>
+            <enumeration value="SUPPLEMENTAL_FILTER"/>
+            <enumeration value="SUPPLEMENTAL_JOIN"/>
+            <enumeration value="SUPPLEMENTAL_SQL"/>
+            <enumeration value="LINK_TABLE"/>
+            <enumeration value="DOCUMENT"/>
+            <enumeration value="ATTACHMENT"/>
+        </restriction>
+    </simpleType>
+
+    <element name="listFolderObjects">
+        <complexType>
+            <sequence>
+                <element name="folderName" nillable="true" type="xsd:string"/>
+                <element name="type" nillable="true" type="tns:FolderObjectType"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="InteractObject">
+        <sequence>
+            <element name="folderName" type="xsd:string"/>
+            <element name="objectName" type="xsd:string"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="FolderObjectResult">
+        <sequence>
+            <element name="id" type="xsd:long"/>
+            <element name="name" type="tns:InteractObject"/>
+            <element name="type" type="tns:FolderObjectType"/>
+            <element name="subType" type="xsd:string"/>
+        </sequence>
+    </complexType>
+
+    <element name="listFolderObjectsResponse">
+        <complexType>
+            <sequence>
+                <element maxOccurs="unbounded" name="result" nillable="true" type="tns:FolderObjectResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <!-- Header Elements -->
+    <element name="SessionHeader">
+        <complexType>
+            <sequence>
+                <element name="sessionId" type="xsd:string"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="AuthSessionHeader">
+        <complexType>
+            <sequence>
+                <element name="authSessionId" type="xsd:string"/>
+            </sequence>
+        </complexType>
+    </element>
+    <!-- Header Elements -->
+
+    <simpleType name="EmailFormat">
+        <restriction base="xsd:string">
+            <enumeration value="TEXT_FORMAT"/>
+            <enumeration value="HTML_FORMAT"/>
+            <enumeration value="MULTIPART_FORMAT"/>
+            <enumeration value="NO_FORMAT"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="Recipient">
+        <sequence>
+            <element name="listName" nillable="true" type="tns:InteractObject"/>
+            <element name="recipientId" nillable="true" type="xsd:long"/>
+            <element name="customerId" nillable="true" type="xsd:string"/>
+            <element name="emailAddress" nillable="true" type="xsd:string"/>
+            <element name="mobileNumber" nillable="true" type="xsd:string"/>
+            <element name="emailFormat" nillable="true" type="tns:EmailFormat"/>
+        </sequence>
+    </complexType>
+
+    <simpleType name="RecipientLocale">
+        <restriction base="xsd:string">
+            <enumeration value="en"/>
+            <enumeration value="en_US_ASCII"/>
+            <enumeration value="nl"/>
+            <enumeration value="fr"/>
+            <enumeration value="de"/>
+            <enumeration value="it"/>
+            <enumeration value="pt"/>
+            <enumeration value="es"/>
+            <enumeration value="et"/>
+            <enumeration value="lv"/>
+            <enumeration value="lt"/>
+            <enumeration value="sq"/>
+            <enumeration value="hr"/>
+            <enumeration value="cs"/>
+            <enumeration value="hu"/>
+            <enumeration value="pl"/>
+            <enumeration value="ro"/>
+            <enumeration value="sk"/>
+            <enumeration value="sl"/>
+            <enumeration value="zh"/>
+            <enumeration value="zh_TW"/>
+            <enumeration value="el"/>
+            <enumeration value="ja"/>
+            <enumeration value="ko"/>
+            <enumeration value="ru"/>
+            <enumeration value="tr"/>
+            <enumeration value="da"/>
+            <enumeration value="fi"/>
+            <enumeration value="is"/>
+            <enumeration value="sv"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="CharacterEncoding">
+        <restriction base="xsd:string">
+            <enumeration value="ISO_8859_1"/>
+            <enumeration value="windows_1257"/>
+            <enumeration value="ISO_8859_2"/>
+            <enumeration value="gb2312"/>
+            <enumeration value="big5"/>
+            <enumeration value="ISO_8859_7"/>
+            <enumeration value="SJIS"/>
+            <enumeration value="euc_kr"/>
+            <enumeration value="koi8_r"/>
+            <enumeration value="ISO_8859_9"/>
+            <enumeration value="UTF_8"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="CampaignType">
+        <restriction base="xsd:string">
+            <enumeration value="EMAIL"/>
+            <enumeration value="MOBILE"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="OptionalData">
+        <sequence>
+            <element name="name" type="xsd:string"/>
+            <element name="value" type="xsd:string"/>
+        </sequence>
+    </complexType>
+
+    <simpleType name="UnsubscribeOption">
+        <restriction base="xsd:string">
+            <enumeration value="NO_OPTOUT_BUTTON"/>
+            <enumeration value="OPTOUT_SINGLE_CLICK"/>
+            <enumeration value="OPTOUT_FORM"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="AutoCloseOption">
+        <restriction base="xsd:string">
+            <enumeration value="NO_AUTO_CLOSE"/>
+            <enumeration value="AUTO_CLOSE_X_DAYS_AFTER_LAUNCH"/>
+            <enumeration value="AUTO_CLOSE_X_DAYS_AFTER_LAST_RESPONSE"/>
+            <enumeration value="AUTO_CLOSE_ON_DATE"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="CampaignPurpose">
+        <restriction base="xsd:string">
+            <enumeration value="PROMOTIONAL"/>
+            <enumeration value="TRANSACTIONAL"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="CampaignProperties">
+        <sequence>
+            <element name="campaign" nillable="true" type="tns:InteractObject"/>
+            <element name="campaignId" nillable="true" type="xsd:long"/>
+            <element name="campaignType" nillable="true" type="tns:CampaignType"/>
+            <element name="description" nillable="true" type="xsd:string"/>
+            <element name="marketingProgram" nillable="true" type="xsd:string"/>
+            <element name="marketingStrategy" nillable="true" type="xsd:string"/>
+            <element name="list" nillable="true" type="tns:InteractObject"/>
+            <element maxOccurs="unbounded" name="refiningFilters" nillable="true" type="tns:InteractObject"/>
+            <element name="refiningDataSource" nillable="true" type="tns:InteractObject"/>
+            <element name="governanceFilter" nillable="true" type="tns:InteractObject"/>
+            <element maxOccurs="unbounded" name="supplementalCampaignDataSources" nillable="true" type="tns:InteractObject"/>
+            <element maxOccurs="unbounded" name="suppressionLists" nillable="true" type="tns:InteractObject"/>
+            <element maxOccurs="unbounded" name="supplementalProofDataSources" nillable="true" type="tns:InteractObject"/>
+            <element maxOccurs="unbounded" name="supplementalSeedDataSources" nillable="true" type="tns:InteractObject"/>
+            <element name="proofList" nillable="true" type="tns:InteractObject"/>
+            <element name="seedList" nillable="true" type="tns:InteractObject"/>
+            <element maxOccurs="unbounded" name="segmentation" nillable="true" type="tns:InteractObject"/>
+
+            <!-- Content -->
+            <element name="fromName" nillable="true" type="xsd:string"/>
+            <element name="fromEmail" nillable="true" type="xsd:string"/>
+            <element name="replyToEmail" nillable="true" type="xsd:string"/>
+            <element name="bccEmail" nillable="true" type="xsd:string"/>
+            <element name="subject" nillable="true" type="xsd:string"/>
+
+            <!-- Body -->
+            <element name="htmlMessage" nillable="true" type="tns:InteractObject"/>
+            <element name="textMessage" nillable="true" type="tns:InteractObject"/>
+
+            <!-- Link Tracking -->
+            <element name="enableLinkTracking" nillable="true" type="xsd:boolean"/>
+            <element name="linkTable" nillable="true" type="tns:InteractObject"/>
+
+            <!-- External Tracking -->
+            <element name="enableExternalTracking" nillable="true" type="xsd:boolean"/>
+            <element maxOccurs="unbounded" name="externalTrackingParams" nillable="true" type="tns:OptionalData"/>
+
+            <!-- Attachments -->
+            <element maxOccurs="unbounded" name="attachments" nillable="true" type="tns:InteractObject"/>
+
+            <!-- Campaign Variables -->
+            <element maxOccurs="unbounded" name="campaignVariables" nillable="true" type="tns:OptionalData"/>
+
+            <!-- Settings -->
+            <element name="campaignPurpose" nillable="true" type="tns:CampaignPurpose"/>
+            <element name="useUTF8" nillable="true" type="xsd:boolean"/>
+            <element name="locale" nillable="true" type="tns:RecipientLocale"/>
+            <element name="trackHtmlOpens" nillable="true" type="xsd:boolean"/>
+            <element name="trackConversions" nillable="true" type="xsd:boolean"/>
+            <element name="sendTextIfHTMLUnknown" nillable="true" type="xsd:boolean"/>
+            <element name="segmentTrackingColumnName" nillable="true" type="xsd:string"/>
+            <element name="unsubscribeOption" nillable="true" type="tns:UnsubscribeOption"/>
+            <element name="unsubscribeForm" nillable="true" type="xsd:string"/>
+            <element name="autoCloseOption" nillable="true" type="tns:AutoCloseOption"/>
+            <element name="autoCloseValue" nillable="true" type="xsd:string"/>
+            <element name="closedCampaignURL" nillable="true" type="xsd:string"/>
+            <element name="externalCampaignCode" nillable="true" type="xsd:string"/>
+            <element name="salesForceCampaignId" nillable="true" type="xsd:string"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="RecipientData">
+        <sequence>
+            <element name="recipient" nillable="true" type="tns:Recipient"/>
+            <element maxOccurs="unbounded" name="optionalData" nillable="true" type="tns:OptionalData"/>
+        </sequence>
+    </complexType>
+
+    <element name="triggerCampaignMessage">
+        <complexType>
+            <sequence>
+                <element name="campaign" nillable="true" type="tns:InteractObject"/>
+                <element maxOccurs="unbounded" name="recipientData" nillable="true" type="tns:RecipientData"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="TriggerResult">
+        <sequence>
+            <element name="recipientId" nillable="true" type="xsd:long"/>
+            <element name="success" nillable="true" type="xsd:boolean"/>
+            <element name="errorMessage" nillable="true" type="xsd:string"/>
+        </sequence>
+    </complexType>
+
+    <element name="triggerCampaignMessageResponse">
+        <complexType>
+            <sequence>
+                <element maxOccurs="unbounded" name="result" nillable="true" type="tns:TriggerResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="CustomEvent">
+        <sequence>
+            <element name="eventName" nillable="true" type="xsd:string"/>
+            <element name="eventId" nillable="true" type="xsd:long"/>
+            <element name="eventStringDataMapping" nillable="true" type="xsd:string"/>
+            <element name="eventDateDataMapping" nillable="true" type="xsd:string"/>
+            <element name="eventNumberDataMapping" nillable="true" type="xsd:string"/>
+        </sequence>
+    </complexType>
+
+    <element name="triggerCustomEvent">
+        <complexType>
+            <sequence>
+                <element name="customEvent" type="tns:CustomEvent"/>
+                <element maxOccurs="unbounded" name="recipientData" nillable="true" type="tns:RecipientData"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="triggerCustomEventResponse">
+        <complexType>
+            <sequence>
+                <element maxOccurs="unbounded" name="result" nillable="true" type="tns:TriggerResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="createCampaign">
+        <complexType>
+            <sequence>
+                <element name="campaign" nillable="true" type="tns:InteractObject"/>
+                <element name="campaignType" nillable="true" type="tns:CampaignType"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="createCampaignResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:long"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="setCampaignProperties">
+        <complexType>
+            <sequence>
+                <element name="campaignProperties" type="tns:CampaignProperties"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="setCampaignPropertiesResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="getCampaignProperties">
+        <complexType>
+            <sequence>
+                <element name="campaign" nillable="true" type="tns:InteractObject"/>
+                <element name="campaignId" nillable="true" type="xsd:long"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="getCampaignPropertiesResponse">
+        <complexType>
+            <sequence>
+                <element name="result" nillable="true" type="tns:CampaignProperties"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <simpleType name="ProofLaunchType">
+        <restriction base="xsd:string">
+            <enumeration value="LAUNCH_TO_ADDRESS"/>
+            <enumeration value="LAUNCH_TO_PROOFLIST"/>
+            <enumeration value="LAUNCH_TO_ADDRESS_USING_PROOFLIST"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="ProgressChunk">
+        <restriction base="xsd:string">
+            <enumeration value="CHUNK_10K"/>
+            <enumeration value="CHUNK_50K"/>
+            <enumeration value="CHUNK_100K"/>
+            <enumeration value="CHUNK_500K"/>
+            <enumeration value="CHUNK_1M"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="ProofLaunchOptions">
+        <sequence>
+            <element name="proofEmailAddress" nillable="true" type="xsd:string"/>
+            <element name="proofLaunchType" nillable="true" type="tns:ProofLaunchType"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="LaunchPreferences">
+        <sequence>
+            <element name="enableLimit" nillable="true" type="xsd:boolean"/>
+            <element name="recipientLimit" nillable="true" type="xsd:long"/>
+            <element name="enableNthSampling" nillable="true" type="xsd:boolean"/>
+            <element name="samplingNthSelection" nillable="true" type="xsd:int"/>
+            <element name="samplingNthInterval" nillable="true" type="xsd:int"/>
+            <element name="samplingNthOffset" nillable="true" type="xsd:int"/>
+            <element name="enableProgressAlerts" nillable="true" type="xsd:boolean"/>
+            <element name="progressEmailAddresses" nillable="true" type="xsd:string"/>
+            <element name="progressChunk" nillable="true" type="tns:ProgressChunk"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="LaunchResult">
+        <sequence>
+            <element name="launchId" nillable="true" type="xsd:long"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="LaunchStatusResult">
+        <sequence>
+            <element name="launchId" nillable="true" type="xsd:long"/>
+            <element name="launchState" nillable="true" type="xsd:string"/>
+            <element name="launchType" nillable="true" type="xsd:string"/>
+            <element name="launchDate" nillable="true" type="xsd:dateTime"/>
+            <element name="campaign" nillable="true" type="xsd:string"/>
+        </sequence>
+    </complexType>
+
+    <element name="launchCampaign">
+        <complexType>
+            <sequence>
+                <element name="campaign" nillable="true" type="tns:InteractObject"/>
+                <element name="proofLaunchOptions" nillable="true" type="tns:ProofLaunchOptions"/>
+                <element name="launchPreferences" nillable="true" type="tns:LaunchPreferences"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="launchCampaignResponse">
+        <complexType>
+            <sequence>
+                <element name="result" nillable="true" type="tns:LaunchResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="scheduleCampaignLaunch">
+        <complexType>
+            <sequence>
+                <element name="campaign" nillable="true" type="tns:InteractObject"/>
+                <element name="proofLaunchOptions" nillable="true" type="tns:ProofLaunchOptions"/>
+                <element name="launchPreferences" nillable="true" type="tns:LaunchPreferences"/>
+                <element name="scheduleDate" nillable="true" type="xsd:dateTime"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="scheduleCampaignLaunchResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="getLaunchStatus">
+        <complexType>
+            <sequence>
+                <element maxOccurs="unbounded" name="launchIds" nillable="true" type="xsd:long"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="getLaunchStatusResponse">
+        <complexType>
+            <sequence>
+                <element maxOccurs="unbounded" name="result" nillable="true" type="tns:LaunchStatusResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="getCampaignId">
+        <complexType>
+            <sequence>
+                <element name="campaign" nillable="true" type="tns:InteractObject"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="getCampaignIdResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:long"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="deleteCampaign">
+        <complexType>
+            <sequence>
+                <element name="campaign" nillable="true" type="tns:InteractObject"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="deleteCampaignResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="getLaunchesForCampaign">
+        <complexType>
+            <sequence>
+                <element name="campaign" nillable="true" type="tns:InteractObject"/>
+                <element name="campaignId" nillable="true" type="xsd:long"/>
+                <element name="fromDate" nillable="true" type="xsd:dateTime"/>
+                <element name="toDate" nillable="true" type="xsd:dateTime"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="getLaunchesForCampaignResponse">
+        <complexType>
+            <sequence>
+                <element maxOccurs="unbounded" name="result" nillable="true" type="tns:LaunchStatusResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="getOpenLaunches">
+        <complexType/>
+    </element>
+
+    <element name="getOpenLaunchesResponse">
+        <complexType>
+            <sequence>
+                <element maxOccurs="unbounded" name="result" nillable="true" type="tns:LaunchStatusResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="closeCampaign">
+        <complexType>
+            <sequence>
+                <element name="campaign" nillable="true" type="tns:InteractObject"/>
+                <element name="campaignId" nillable="true" type="xsd:long"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="closeCampaignResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="unscheduleCampaignLaunch">
+        <complexType>
+            <sequence>
+                <element name="campaign" nillable="true" type="tns:InteractObject"/>
+                <element name="campaignId" nillable="true" type="xsd:long"/>
+                <element name="scheduleDate" nillable="true" type="xsd:dateTime"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="unscheduleCampaignLaunchResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <simpleType name="FieldType">
+        <restriction base="xsd:string">
+            <enumeration value="STR500"/>
+            <enumeration value="STR4000"/>
+            <enumeration value="NUMBER"/>
+            <enumeration value="INTEGER"/>
+            <enumeration value="TIMESTAMP"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="Field">
+        <sequence>
+            <element name="fieldName" nillable="true" type="xsd:string"/>
+            <element name="fieldType" nillable="true" type="tns:FieldType"/>
+            <element name="custom" nillable="true" type="xsd:boolean"/>
+            <element name="dataExtractionKey" nillable="true" type="xsd:boolean"/>
+        </sequence>
+    </complexType>
+
+    <element name="createList">
+        <complexType>
+            <sequence>
+                <element name="list" nillable="true" type="tns:InteractObject"/>
+                <element name="description" nillable="true" type="xsd:string"/>
+                <element maxOccurs="unbounded" name="fields" nillable="true" type="tns:Field"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="createListResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="changeListSchema">
+        <complexType>
+            <sequence>
+                <element name="list" nillable="true" type="tns:InteractObject"/>
+                <element maxOccurs="unbounded" name="addFields" nillable="true" type="tns:Field"/>
+                <element maxOccurs="unbounded" name="removeFields" nillable="true" type="xsd:string"/>
+                <element maxOccurs="unbounded" name="renameFields" nillable="true" type="xsd:string"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="changeListSchemaResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="deleteList">
+        <complexType>
+            <sequence>
+                <element name="list" nillable="true" type="tns:InteractObject"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="deleteListResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <simpleType name="UpdateOnMatch">
+        <restriction base="xsd:string">
+            <enumeration value="REPLACE_ALL"/>
+            <enumeration value="NO_UPDATE"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="MatchOperator">
+        <restriction base="xsd:string">
+            <enumeration value="NONE"/>
+            <enumeration value="AND"/>
+            <enumeration value="OR"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="PermissionStatus">
+        <restriction base="xsd:string">
+            <enumeration value="OPTIN"/>
+            <enumeration value="OPTOUT"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="ListMergeRule">
+        <sequence>
+            <element name="insertOnNoMatch" nillable="true" type="xsd:boolean"/>
+            <element name="updateOnMatch" nillable="true" type="tns:UpdateOnMatch"/>
+            <element name="matchColumnName1" nillable="true" type="xsd:string"/>
+            <element name="matchColumnName2" nillable="true" type="xsd:string"/>
+            <element name="matchColumnName3" nillable="true" type="xsd:string"/>
+            <element name="matchOperator" nillable="true" type="tns:MatchOperator"/>
+            <element name="optinValue" nillable="true" type="xsd:string"/>
+            <element name="optoutValue" nillable="true" type="xsd:string"/>
+            <element name="htmlValue" nillable="true" type="xsd:string"/>
+            <element name="textValue" nillable="true" type="xsd:string"/>
+            <element name="rejectRecordIfChannelEmpty" nillable="true" type="xsd:string"/>
+            <element name="defaultPermissionStatus" nillable="true" type="tns:PermissionStatus"/>
+            <!-- element name="testRecipient" nillable="true" type="xsd:boolean"/ -->
+        </sequence>
+    </complexType>
+
+    <element name="mergeListMembers">
+        <complexType>
+            <sequence>
+                <element name="list" nillable="true" type="tns:InteractObject"/>
+                <element name="recordData" nillable="true" type="tns:RecordData"/>
+                <element name="mergeRule" nillable="true" type="tns:ListMergeRule"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="mergeListMembersResponse">
+        <complexType>
+            <sequence>
+                <element name="result" nillable="true" type="tns:MergeResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <simpleType name="QueryColumn">
+        <restriction base="xsd:string">
+            <enumeration value="RIID"/>
+            <enumeration value="CUSTOMER_ID"/>
+            <enumeration value="EMAIL_ADDRESS"/>
+            <enumeration value="MOBILE_NUMBER"/>
+        </restriction>
+    </simpleType>
+
+    <element name="retrieveListMembers">
+        <complexType>
+            <sequence>
+                <element name="list" nillable="true" type="tns:InteractObject"/>
+                <element name="queryColumn" nillable="true" type="tns:QueryColumn"/>
+                <element maxOccurs="unbounded" name="fieldList" nillable="true" type="xsd:string"/>
+                <element maxOccurs="unbounded" name="idsToRetrieve" nillable="true" type="xsd:string"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="retrieveListMembersResponse">
+        <complexType>
+            <sequence>
+                <element name="result" nillable="true" type="tns:RetrieveResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="deleteListMembers">
+        <complexType>
+            <sequence>
+                <element name="list" nillable="true" type="tns:InteractObject"/>
+                <element name="queryColumn" nillable="true" type="tns:QueryColumn"/>
+                <element maxOccurs="unbounded" name="idsToDelete" nillable="true" type="xsd:string"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="DeleteResult">
+        <sequence>
+            <element name="id" nillable="true" type="xsd:string"/>
+            <element name="success" nillable="true" type="xsd:boolean"/>
+            <element name="exceptionCode" nillable="true" type="fns:ExceptionCode"/>
+            <element name="errorMessage" nillable="true" type="xsd:string"/>
+        </sequence>
+    </complexType>
+
+    <element name="deleteListMembersResponse">
+        <complexType>
+            <sequence>
+                <element maxOccurs="unbounded" name="result" nillable="true" type="tns:DeleteResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="getUpdated">
+        <complexType>
+            <sequence>
+                <element name="list" nillable="true" type="tns:InteractObject"/>
+                <element name="startTime" nillable="true" type="xsd:dateTime"/>
+                <element name="endTime" nillable="true" type="xsd:dateTime"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="GetUpdatedResult">
+        <sequence>
+            <element maxOccurs="unbounded" name="id" nillable="true" type="xsd:long"/>
+            <element name="latestDateCovered" nillable="true" type="xsd:dateTime"/>
+        </sequence>
+    </complexType>
+
+    <element name="getUpdatedResponse">
+        <complexType>
+            <sequence>
+                <element name="result" nillable="true" type="tns:GetUpdatedResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="createTable">
+        <complexType>
+            <sequence>
+                <element name="table" nillable="true" type="tns:InteractObject"/>
+                <element maxOccurs="unbounded" name="fields" nillable="true" type="tns:Field"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="createTableResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="deleteTable">
+        <complexType>
+            <sequence>
+                <element name="table" nillable="true" type="tns:InteractObject"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="deleteTableResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="changeTableSchema">
+        <complexType>
+            <sequence>
+                <element name="table" nillable="true" type="tns:InteractObject"/>
+                <element maxOccurs="unbounded" name="addFields" nillable="true" type="tns:Field"/>
+                <element maxOccurs="unbounded" name="removeFields" nillable="true" type="xsd:string"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="changeTableSchemaResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="Record">
+        <sequence>
+            <element maxOccurs="unbounded" name="fieldValues" nillable="true" type="xsd:string"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="RetrieveResult">
+        <sequence>
+            <element name="recordData" nillable="true" type="tns:RecordData"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="RecordData">
+        <sequence>
+            <element maxOccurs="unbounded" name="fieldNames" nillable="true" type="xsd:string"/>
+            <element maxOccurs="unbounded" name="records" nillable="true" type="tns:Record"/>
+        </sequence>
+    </complexType>
+
+    <element name="mergeTableRecords">
+        <complexType>
+            <sequence>
+                <element name="table" nillable="true" type="tns:InteractObject"/>
+                <element name="recordData" nillable="true" type="tns:RecordData"/>
+                <element maxOccurs="unbounded" name="matchColumnNames" nillable="true" type="xsd:string"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="MergeResult">
+        <sequence>
+            <element name="insertCount" nillable="true" type="xsd:long"/>
+            <element name="updateCount" nillable="true" type="xsd:long"/>
+            <element name="rejectedCount" nillable="true" type="xsd:long"/>
+            <element name="totalCount" nillable="true" type="xsd:long"/>
+            <element name="errorMessage" nillable="true" type="xsd:string"/>
+        </sequence>
+    </complexType>
+
+    <element name="mergeTableRecordsResponse">
+        <complexType>
+            <sequence>
+                <element name="result" nillable="true" type="tns:MergeResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="retrieveTableRecords">
+        <complexType>
+            <sequence>
+                <element name="table" nillable="true" type="tns:InteractObject"/>
+                <element name="queryColumn" nillable="true" type="xsd:string"/>
+                <element maxOccurs="unbounded" name="fieldList" nillable="true" type="xsd:string"/>
+                <element maxOccurs="unbounded" name="idsToRetrieve" nillable="true" type="xsd:string"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="retrieveTableRecordsResponse">
+        <complexType>
+            <sequence>
+                <element name="result" nillable="true" type="tns:RetrieveResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="deleteTableRecords">
+        <complexType>
+            <sequence>
+                <element name="table" nillable="true" type="tns:InteractObject"/>
+                <element name="queryColumn" nillable="true" type="xsd:string"/>
+                <element maxOccurs="unbounded" name="idsToDelete" nillable="true" type="xsd:string"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="deleteTableRecordsResponse">
+        <complexType>
+            <sequence>
+                <element maxOccurs="unbounded" name="result" nillable="true" type="tns:DeleteResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="truncateTable">
+        <complexType>
+            <sequence>
+                <element name="table" nillable="true" type="tns:InteractObject"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="truncateTableResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="createSQLView">
+        <complexType>
+            <sequence>
+                <element name="sqlView" nillable="true" type="tns:InteractObject"/>
+                <element maxOccurs="unbounded" name="tables" nillable="true" type="tns:InteractObject"/>
+                <!--
+                     format of sqlQuery:
+                     The sqlQuery will include the tableName or listName (without folderNames)
+                     in the  from & where clauses as required.
+                     For Example:
+                     SELECT SUPPTABLE.SERIALNUM, SUPPTABLE.FIRSTNAME, SUPPTABLE.LASTNAME,
+                            NEWLIST.RIID_, NEWLIST.EMAIL_ADDRESS_
+                       FROM SUPPTABLE, NEWLIST
+                      WHERE SUPPTABLE.SERIALNUM = NEWLIST.SERIALNUM
+                        AND NEWLIST.EMAIL_PERMISSION_STATUS_ = 'I'
+                -->
+                <element name="sqlQuery" nillable="true" type="xsd:string"/>
+                <element name="dataExtractionKey" nillable="true" type="xsd:string"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="createSQLViewResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="createLinkTable">
+        <complexType>
+            <sequence>
+                <element name="linkTable" nillable="true" type="tns:InteractObject"/>
+                <element name="description" nillable="true" type="xsd:string"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="createLinkTableResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="deleteLinkTable">
+        <complexType>
+            <sequence>
+                <element name="linkTable" nillable="true" type="tns:InteractObject"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="deleteLinkTableResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="mergeLinkRecords">
+        <complexType>
+            <sequence>
+                <element name="linkTable" nillable="true" type="tns:InteractObject"/>
+                <element name="recordData" nillable="true" type="tns:RecordData"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="mergeLinkRecordsResponse">
+        <complexType>
+            <sequence>
+                <element name="result" nillable="true" type="tns:MergeResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="retrieveLinkRecords">
+        <complexType>
+            <sequence>
+                <element name="linkTable" nillable="true" type="tns:InteractObject"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="retrieveLinkRecordsResponse">
+        <complexType>
+            <sequence>
+                <element name="result" nillable="true" type="tns:RetrieveResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="deleteLinkRecords">
+        <complexType>
+            <sequence>
+                <element name="linkTable" nillable="true" type="tns:InteractObject"/>
+                <element maxOccurs="unbounded" name="linkNamesToDelete" nillable="true" type="xsd:string"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="deleteLinkRecordsResponse">
+        <complexType>
+            <sequence>
+                <element maxOccurs="unbounded" name="result" nillable="true" type="tns:DeleteResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="createDocument">
+        <complexType>
+            <sequence>
+                <element name="document" nillable="true" type="tns:InteractObject"/>
+                <element name="content" nillable="true" type="xsd:string"/>
+                <element name="characterEncoding" nillable="true" type="tns:CharacterEncoding"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="createDocumentResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="deleteDocument">
+        <complexType>
+            <sequence>
+                <element name="document" nillable="true" type="tns:InteractObject"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="deleteDocumentResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="ImageData">
+        <sequence>
+            <element name="image" nillable="true" type="xsd:base64Binary"/>
+            <element name="imageName" nillable="true" type="xsd:string"/>
+        </sequence>
+    </complexType>
+
+    <element name="setDocumentImages">
+        <complexType>
+            <sequence>
+                <element name="document" nillable="true" type="tns:InteractObject"/>
+                <element maxOccurs="unbounded" name="imageData" nillable="true" type="tns:ImageData"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="setDocumentImagesResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="getDocumentImages">
+        <complexType>
+            <sequence>
+                <element name="document" nillable="true" type="tns:InteractObject"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="getDocumentImagesResponse">
+        <complexType>
+            <sequence>
+                <element maxOccurs="unbounded" name="result" nillable="true" type="tns:ImageData"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="setDocumentContent">
+        <complexType>
+            <sequence>
+                <element name="document" nillable="true" type="tns:InteractObject"/>
+                <element name="content" nillable="true" type="xsd:string"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="setDocumentContentResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <simpleType name="ContentFormat">
+        <restriction base="xsd:string">
+            <enumeration value="HTML"/>
+            <enumeration value="TEXT"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="ContentResult">
+        <sequence>
+            <element name="content" nillable="true" type="xsd:string"/>
+            <element name="format" nillable="true" type="tns:ContentFormat"/>
+            <element name="characterEncoding" nillable="true" type="tns:CharacterEncoding"/>
+        </sequence>
+    </complexType>
+
+    <element name="getDocumentContent">
+        <complexType>
+            <sequence>
+                <element name="document" nillable="true" type="tns:InteractObject"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="getDocumentContentResponse">
+        <complexType>
+            <sequence>
+                <element name="result" nillable="true" type="tns:ContentResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="copy">
+        <complexType>
+            <sequence>
+                <element name="existingObject" nillable="true" type="tns:InteractObject"/>
+                <element name="newObject" nillable="true" type="tns:InteractObject"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="copyResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="move">
+        <complexType>
+            <sequence>
+                <element name="existingObject" nillable="true" type="tns:InteractObject"/>
+                <element name="newObject" nillable="true" type="tns:InteractObject"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="moveResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="getServerTimestamp">
+        <complexType/>
+    </element>
+
+    <element name="getServerTimestampResponse">
+        <complexType>
+            <sequence>
+                <element name="result" nillable="true" type="xsd:dateTime"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="DescribeObjectResult">
+        <sequence>
+            <element name="createdBy" nillable="true" type="xsd:string"/>
+            <element name="createdDate" nillable="true" type="xsd:dateTime"/>
+            <element name="lastModifiedBy" nillable="true" type="xsd:string"/>
+            <element name="lastModifiedDate" nillable="true" type="xsd:dateTime"/>
+            <element name="exceptionCode" nillable="true" type="fns:ExceptionCode"/>
+            <element name="errorMessage" nillable="true" type="xsd:string"/>
+            <element maxOccurs="unbounded" name="fields" nillable="true" type="tns:Field"/>
+            <element name="objectType" nillable="true" type="tns:FolderObjectType"/>
+            <any minOccurs="0" namespace="##targetNamespace" processContents="lax"/>
+        </sequence>
+    </complexType>
+
+    <element name="describeObjects">
+        <complexType>
+            <sequence>
+                <element maxOccurs="unbounded" name="objects" nillable="true" type="tns:InteractObject"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="describeObjectsResponse">
+        <complexType>
+            <sequence>
+                <element maxOccurs="unbounded" name="result" nillable="true" type="tns:DescribeObjectResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="RunJobResult">
+        <sequence>
+            <element name="success" nillable="true" type="xsd:boolean"/>
+            <element name="errorMessage" nillable="true" type="xsd:string"/>
+            <element name="jobRunId" nillable="true" type="xsd:long"/>
+        </sequence>
+    </complexType>
+
+    <simpleType name="JobRunStatus">
+        <restriction base="xsd:string">
+            <enumeration value="RUNNING"/>
+            <enumeration value="SUCCEEDED"/>
+            <enumeration value="FAILED"/>
+            <enumeration value="ABORTED"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="JobRunStatusResult">
+        <sequence>
+            <element name="jobRunStatus" nillable="true" type="tns:JobRunStatus"/>
+            <element name="errorMessage" nillable="true" type="xsd:string"/>
+            <element name="recordsProcessed" nillable="true" type="xsd:long"/>
+            <element name="recordsAdded" nillable="true" type="xsd:long"/>
+            <element name="recordsRejected" nillable="true" type="xsd:long"/>
+            <element name="recordsUpdated" nillable="true" type="xsd:long"/>
+            <element name="durationInSeconds" nillable="true" type="xsd:long"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="ConnectJob">
+        <sequence>
+            <element name="jobId" nillable="true" type="xsd:long"/>
+            <element name="jobName" nillable="true" type="xsd:string"/>
+            <element name="jobType" nillable="true" type="xsd:string"/>
+            <element name="nextJobRun" nillable="true" type="xsd:dateTime"/>
+            <element name="lastJobRun" nillable="true" type="xsd:dateTime"/>
+            <element name="scheduleType" nillable="true" type="xsd:string"/>
+            <element name="active" nillable="true" type="xsd:boolean"/>
+            <element name="running" nillable="true" type="xsd:boolean"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="ConnectJobRun">
+        <sequence>
+            <element name="jobRunId" nillable="true" type="xsd:long"/>
+            <element name="jobName" nillable="true" type="xsd:string"/>
+            <element name="jobStartTime" nillable="true" type="xsd:dateTime"/>
+            <element name="durationInSeconds" nillable="true" type="xsd:long"/>
+            <element name="jobRunStatus" nillable="true" type="tns:JobRunStatus"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="ConnectJobRunLog">
+        <sequence>
+            <element name="logLevel" nillable="true" type="xsd:string"/>
+            <element name="logTime" nillable="true" type="xsd:dateTime"/>
+            <element name="logMessage" nillable="true" type="xsd:string"/>
+        </sequence>
+    </complexType>
+
+    <element name="runJob">
+        <complexType>
+            <sequence>
+                <element name="jobId" nillable="true" type="xsd:long"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="runJobResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="tns:RunJobResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="getJobRunStatus">
+        <complexType>
+            <sequence>
+                <element name="jobRunId" nillable="true" type="xsd:long"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="getJobRunStatusResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="tns:JobRunStatusResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="getJobs">
+        <complexType/>
+    </element>
+
+    <element name="getJobsResponse">
+        <complexType>
+            <sequence>
+                <element maxOccurs="unbounded" name="result" type="tns:ConnectJob"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="getJobRuns">
+        <complexType>
+            <sequence>
+                <element name="jobId" nillable="true" type="xsd:long"/>
+                <element name="startDate" nillable="true" type="xsd:dateTime"/>
+                <element name="endDate" nillable="true" type="xsd:dateTime"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="getJobRunsResponse">
+        <complexType>
+            <sequence>
+                <element maxOccurs="unbounded" name="result" type="tns:ConnectJobRun"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="getJobRunLog">
+        <complexType>
+            <sequence>
+                <element name="jobRunId" nillable="true" type="xsd:long"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="getJobRunLogResponse">
+        <complexType>
+            <sequence>
+                <element maxOccurs="unbounded" name="result" type="tns:ConnectJobRunLog"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="RecipientResult">
+        <sequence>
+            <element name="recipientId" nillable="true" type="xsd:long"/>
+            <element name="errorMessage" nillable="true" type="xsd:string"/>
+        </sequence>
+    </complexType>
+
+    <element name="mergeListMembersRIID">
+        <complexType>
+            <sequence>
+                <element name="list" nillable="true" type="tns:InteractObject"/>
+                <element name="recordData" nillable="true" type="tns:RecordData"/>
+                <element name="mergeRule" nillable="true" type="tns:ListMergeRule"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="mergeListMembersRIIDResponse">
+        <complexType>
+            <sequence>
+                <element maxOccurs="unbounded" name="recipientResult" nillable="true" type="tns:RecipientResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="mergeIntoProfileExtension">
+        <complexType>
+            <sequence>
+                <element name="profileExtension" nillable="true" type="tns:InteractObject"/>
+                <element name="recordData" nillable="true" type="tns:RecordData"/>
+                <element name="matchColumn" nillable="true" type="tns:QueryColumn"/>
+                <element name="insertOnNoMatch" nillable="true" type="xsd:boolean"/>
+                <element name="updateOnMatch" nillable="true" type="tns:UpdateOnMatch"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="mergeIntoProfileExtensionResponse">
+        <complexType>
+            <sequence>
+                <element maxOccurs="unbounded" name="recipientResult" nillable="true" type="tns:RecipientResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="createTableWithPK">
+        <complexType>
+            <sequence>
+                <element name="table" nillable="true" type="tns:InteractObject"/>
+                <element maxOccurs="unbounded" name="fields" nillable="true" type="tns:Field"/>
+                <element maxOccurs="unbounded" name="primaryKeys" nillable="true" type="xsd:string"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="createTableWithPKResponse">
+        <complexType>
+            <sequence>
+                <element name="result" type="xsd:boolean"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="mergeTableRecordsWithPK">
+        <complexType>
+            <sequence>
+                <element name="table" nillable="true" type="tns:InteractObject"/>
+                <element name="recordData" nillable="true" type="tns:RecordData"/>
+                <element name="insertOnNoMatch" nillable="true" type="xsd:boolean"/>
+                <element name="updateOnMatch" nillable="true" type="tns:UpdateOnMatch"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="mergeTableRecordsWithPKResponse">
+        <complexType>
+            <sequence>
+                <element name="result" nillable="true" type="tns:MergeResult"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="retrieveProfileExtensionRecords">
+        <complexType>
+            <sequence>
+                <element name="profileExtension" nillable="true" type="tns:InteractObject"/>
+                <element name="queryColumn" nillable="true" type="tns:QueryColumn"/>
+                <element maxOccurs="unbounded" name="fieldList" nillable="true" type="xsd:string"/>
+                <element maxOccurs="unbounded" name="idsToRetrieve" nillable="true" type="xsd:string"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="retrieveProfileExtensionRecordsResponse">
+        <complexType>
+            <sequence>
+                <element name="result" nillable="true" type="tns:RetrieveResult"/>
+            </sequence>
+        </complexType>
+    </element>
+</schema>

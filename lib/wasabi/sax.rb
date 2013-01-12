@@ -11,35 +11,23 @@ module Wasabi
   #   Parses WSDL documents.
   class SAX < Nokogiri::XML::SAX::Document
 
-    def initialize
-      @stack         = []
-      @matchers      = {}
-      @namespaces    = nil
-      @schemas       = []
-      @messages      = {}
-      @bindings      = {}
-      @port_types    = {}
-      @services      = {}
+    def initialize(source, http_request = nil)
+      @source       = source
+      @http_request = http_request
+
+      @stack        = []
+      @matchers     = {}
+      @namespaces   = nil
+      @schemas      = []
+      @imports      = {}
+      @messages     = {}
+      @bindings     = {}
+      @port_types   = {}
+      @services     = {}
     end
 
-    attr_reader :namespaces, :target_namespace, :schema_namespace, :schemas,
-                :messages, :bindings, :port_types, :services
-
-    def element_form_default
-      @schemas.first.element_form_default
-    end
-
-    def attribute_form_default
-      @schemas.first.attribute_form_default
-    end
-
-    def elements
-      @elements ||= @schemas.inject({}) { |memo, schema| memo.merge(schema.elements) }
-    end
-
-    def complex_types
-      @complex_types ||= @schemas.inject({}) { |memo, schema| memo.merge(schema.complex_types) }
-    end
+    attr_reader :namespaces, :target_namespace, :schemas, :messages,
+                :bindings, :port_types, :services
 
     def start_element(tag, attrs = [])
       local, nsid = tag.split(":").reverse
@@ -56,9 +44,11 @@ module Wasabi
 
       case @stack
       # xs elements
-      when matches("wsdl:definitions > wsdl:types > xs:schema > xs:element")
-        @last_element = @last_schema.elements[node["name"]] ||= node.attrs.reject { |k, v| k == "name" }
-      when matches("wsdl:definitions > wsdl:types > xs:schema > xs:element > *")
+      when matches("wsdl:definitions > wsdl:types > xs:schema > xs:element",
+                   "xs:schema > xs:element")
+        @last_element = @last_schema.elements[node["name"]] ||= node.attrs.reject { |k, _| k == "name" }
+      when matches("wsdl:definitions > wsdl:types > xs:schema > xs:element > *",
+                   "xs:schema > xs:element > *")
         if node.local == "element"
           element = @last_element["element"] ||= []
           element << node.attrs
@@ -67,9 +57,11 @@ module Wasabi
         end
 
       # xs complex types
-      when matches("wsdl:definitions > wsdl:types > xs:schema > xs:complexType")
+      when matches("wsdl:definitions > wsdl:types > xs:schema > xs:complexType",
+                   "xs:schema > xs:complexType")
         @last_complex_type = @last_schema.complex_types[node["name"]] ||= {}
-      when matches("wsdl:definitions > wsdl:types > xs:schema > xs:complexType > *")
+      when matches("wsdl:definitions > wsdl:types > xs:schema > xs:complexType > *",
+                   "xs:schema > xs:complexType > *")
         if node.local == "element"
           element = @last_complex_type["element"] ||= []
           element << node.attrs
@@ -140,8 +132,14 @@ module Wasabi
         @last_port["namespace"] = node.namespace
         @last_port["location"]  = node["location"]
 
+      # imports
+      when matches("wsdl:definitions > wsdl:types > xs:schema > xs:import")
+                   # "xs:schema > xs:import")
+        @imports[node["namespace"]] = node.attrs
+
       # schema and element/attribute form default values
-      when matches("wsdl:definitions > wsdl:types > xs:schema")
+      when matches("wsdl:definitions > wsdl:types > xs:schema",
+                   "xs:schema")
         @last_schema = Schema.new(node)
         @schemas << @last_schema
 
@@ -155,13 +153,40 @@ module Wasabi
       @stack.pop
     end
 
+    def end_document
+      resolve_imports
+    end
+
+    def hash
+      @hash ||= {
+        :namespaces       => @namespaces,
+        :target_namespace => @target_namespace,
+        :schemas          => @schemas.map(&:hash),
+        :messages         => @messages,
+        :bindings         => @bindings,
+        :port_types       => @port_types,
+        :services         => @services
+      }
+    end
+
     private
+
+    def resolve_imports
+      @imports.each do |namespace, import|
+        source = File.join(File.dirname(@source), import["schemaLocation"])
+
+        if source
+          sax = Wasabi.sax(source, @http_request)
+          hash[:schemas] += sax.hash[:schemas]
+        end
+      end
+    end
 
     def create_node(nsid, local, attrs)
       namespace = case
-      when nsid           then @namespaces["xmlns:#{nsid}"]
-      when attrs["xmlns"] then attrs["xmlns"]
-      else                     parent_node_namespace
+        when nsid           then @namespaces["xmlns:#{nsid}"]
+        when attrs["xmlns"] then attrs["xmlns"]
+        else                     parent_node_namespace
       end
 
       Node.new(namespace, local, attrs)
@@ -174,8 +199,8 @@ module Wasabi
       Wasabi::NAMESPACES[parent_nsid]
     end
 
-    def matches(matcher)
-      @matchers[matcher] ||= Matcher.create(matcher)
+    def matches(*matcher)
+      @matchers[matcher] ||= Matcher.create(*matcher)
     end
 
     def collect_namespaces(attrs)

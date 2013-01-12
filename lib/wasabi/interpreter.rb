@@ -10,9 +10,8 @@ module Wasabi
   #   Interprets the SAX information.
   class Interpreter
 
-    def initialize(wsdl, http_request)
-      @wsdl = wsdl
-      @http_request = http_request
+    def initialize(sax)
+      @sax = sax
     end
 
     def shim?
@@ -38,17 +37,17 @@ module Wasabi
     end
 
     def namespaces
-      sax.namespaces
+      @sax[:namespaces]
     end
 
     def target_namespace
-      @target_namespace ||= sax.target_namespace
+      @target_namespace ||= @sax[:target_namespace]
     end
 
     attr_writer :target_namespace
 
     def element_form_default
-      @element_form_default ||= sax.element_form_default.to_sym
+      @element_form_default ||= @sax[:schemas].first[:element_form_default].to_sym
     end
 
     attr_writer :element_form_default
@@ -83,13 +82,13 @@ module Wasabi
     def types
       @types = {}
 
-      sax.schemas.each do |schema|
-        schema.elements.each do |element_name, element|
+      @sax[:schemas].each do |schema|
+        schema[:elements].each do |element_name, element|
           complex_type = element["complexType"]
           process_type(element_name, schema, complex_type) if complex_type
         end
 
-        schema.complex_types.each do |complex_type_name, complex_type|
+        schema[:complex_types].each do |complex_type_name, complex_type|
           process_type(complex_type_name, schema, complex_type)
         end
       end
@@ -139,21 +138,10 @@ module Wasabi
 
     private
 
-    def sax
-      return @sax if @sax
-
-      wsdl   = Resolver.new(@wsdl, @http_request).xml
-      sax    = SAX.new
-      parser = Nokogiri::XML::SAX::Parser.new(sax)
-
-      parser.parse(wsdl)
-      @sax = sax
-    end
-
     def ports!
       ports = []
 
-      sax.services.each do |service_name, port_map|
+      @sax[:services].each do |service_name, port_map|
         port_map.each do |port_name, details|
           ports << details
         end
@@ -164,12 +152,12 @@ module Wasabi
 
     def find_port_type(binding)
       port_type_name = binding["type"].split(":").last
-      sax.port_types[port_type_name]
+      @sax[:port_types][port_type_name]
     end
 
     def find_binding(port)
       binding_name = port["binding"].split(":").last
-      sax.bindings[binding_name]
+      @sax[:bindings][binding_name]
     end
 
     def find_port_type_operation(operation_name, port_type)
@@ -192,7 +180,7 @@ module Wasabi
       message_type = nil
 
       # TODO: support multiple 'part' elements in the message
-      port_message_part = sax.messages[port_message_type]
+      port_message_part = @sax[:messages][port_message_type]
       if port_message_part && port_message_part.first
         port_message_part_element = port_message_part.first["element"]
         if port_message_part_element
@@ -219,7 +207,7 @@ module Wasabi
     end
 
     def process_type(name, schema, type)
-      @types[name] ||= { :namespace => schema.namespace }
+      @types[name] ||= { :namespace => schema[:namespace] }
 
       if type["sequence"] && type["sequence"]["element"]
         type["sequence"]["element"].each do |element|

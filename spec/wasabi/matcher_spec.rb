@@ -52,8 +52,24 @@ describe Wasabi::Matcher do
     matcher.should === stack
   end
 
-  def matcher(matcher)
-    Wasabi::Matcher.create(matcher)
+  it "works with multiple matchers" do
+    stack << "xs:schema" << "xs:complexType"
+
+    matcher = matcher(
+      "wsdl:definitions > wsdl:types > xs:schema > xs:complexType > *",
+      "xs:schema > xs:complexType > *"
+    )
+    matcher.should_not === stack
+
+    stack << "xs:sequence"
+    matcher.should === stack
+
+    stack << "xs:element"
+    matcher.should === stack
+  end
+
+  def matcher(*matcher)
+    Wasabi::Matcher.create(*matcher)
   end
 
 end

@@ -1,0 +1,1132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions targetNamespace="urn:ws.rsys.com" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn:ws.rsys.com" xmlns:fns="urn:fault.ws.rsys.com">
+    <documentation>This WSDL contains the APIs needed for customers to integrate their applications with Responsys Interact.</documentation>
+    <types>
+        <xsd:schema>
+            <xsd:import namespace="urn:ws.rsys.com" schemaLocation="../services/ResponsysWSService/_resources_/xsd/responsys_schema.xsd"/>
+        </xsd:schema>
+
+        <xsd:schema>
+            <xsd:import namespace="urn:fault.ws.rsys.com" schemaLocation="../services/ResponsysWSService/_resources_/xsd/responsys_faults.xsd"/>
+        </xsd:schema>
+    </types>
+
+    <!-- Header Message -->
+    <message name="Header">
+        <part element="tns:SessionHeader" name="SessionHeader"/>
+    </message>
+
+    <message name="AuthHeader">
+        <part element="tns:AuthSessionHeader" name="AuthSessionHeader"/>
+    </message>
+    <!-- Header Message -->
+
+    <!-- Fault Messages -->
+    <message name="ApiFault">
+        <part name="fault" type="fns:ApiFault"/>
+    </message>
+
+    <message name="AccountFault">
+        <part name="fault" element="fns:AccountFault"/>
+    </message>
+
+    <message name="FolderFault">
+        <part name="fault" element="fns:FolderFault"/>
+    </message>
+
+    <message name="TriggeredMessageFault">
+        <part name="fault" element="fns:TriggeredMessageFault"/>
+    </message>
+
+    <message name="CustomEventFault">
+        <part name="fault" element="fns:CustomEventFault"/>
+    </message>
+
+    <message name="CampaignFault">
+        <part name="fault" element="fns:CampaignFault"/>
+    </message>
+
+    <message name="ListFault">
+        <part name="fault" element="fns:ListFault"/>
+    </message>
+
+    <message name="TableFault">
+        <part name="fault" element="fns:TableFault"/>
+    </message>
+
+    <message name="DocumentFault">
+        <part name="fault" element="fns:DocumentFault"/>
+    </message>
+
+    <message name="ConnectFault">
+        <part name="fault" element="fns:ConnectFault"/>
+    </message>
+
+    <message name="ListExtensionFault">
+        <part name="fault" element="fns:ListExtensionFault"/>
+    </message>
+
+    <message name="UnexpectedErrorFault">
+        <part name="fault" element="fns:UnexpectedErrorFault"/>
+    </message>
+    <!-- Fault Messages -->
+
+    <message name="loginRequest">
+        <part element="tns:login" name="parameters"/>
+    </message>
+
+    <message name="loginResponse">
+        <part element="tns:loginResponse" name="parameters"/>
+    </message>
+
+    <message name="authenticateServerRequest">
+        <part element="tns:authenticateServer" name="parameters"/>
+    </message>
+
+    <message name="authenticateServerResponse">
+        <part element="tns:authenticateServerResponse" name="parameters"/>
+    </message>
+
+    <message name="loginWithCertificateRequest">
+        <part element="tns:loginWithCertificate" name="parameters"/>
+    </message>
+
+    <message name="loginWithCertificateResponse">
+        <part element="tns:loginWithCertificateResponse" name="parameters"/>
+    </message>
+
+    <message name="logoutRequest">
+        <part element="tns:logout" name="parameters"/>
+    </message>
+
+    <message name="logoutResponse">
+        <part element="tns:logoutResponse" name="parameters"/>
+    </message>
+
+    <message name="createFolderRequest">
+        <part element="tns:createFolder" name="parameters"/>
+    </message>
+
+    <message name="createFolderResponse">
+        <part element="tns:createFolderResponse" name="parameters"/>
+    </message>
+
+    <message name="deleteFolderRequest">
+        <part element="tns:deleteFolder" name="parameters"/>
+    </message>
+
+    <message name="deleteFolderResponse">
+        <part element="tns:deleteFolderResponse" name="parameters"/>
+    </message>
+
+    <message name="listFoldersRequest">
+        <part element="tns:listFolders" name="parameters"/>
+    </message>
+
+    <message name="listFoldersResponse">
+        <part element="tns:listFoldersResponse" name="parameters"/>
+    </message>
+
+    <message name="triggerCampaignMessageRequest">
+        <part element="tns:triggerCampaignMessage" name="parameters"/>
+    </message>
+
+    <message name="triggerCampaignMessageResponse">
+        <part element="tns:triggerCampaignMessageResponse" name="parameters"/>
+    </message>
+
+    <message name="triggerCustomEventRequest">
+        <part element="tns:triggerCustomEvent" name="parameters"/>
+    </message>
+
+    <message name="triggerCustomEventResponse">
+        <part element="tns:triggerCustomEventResponse" name="parameters"/>
+    </message>
+
+    <message name="launchCampaignRequest">
+        <part element="tns:launchCampaign" name="parameters"/>
+    </message>
+
+    <message name="launchCampaignResponse">
+        <part element="tns:launchCampaignResponse" name="parameters"/>
+    </message>
+
+    <message name="scheduleCampaignLaunchRequest">
+        <part element="tns:scheduleCampaignLaunch" name="parameters"/>
+    </message>
+
+    <message name="scheduleCampaignLaunchResponse">
+        <part element="tns:scheduleCampaignLaunchResponse" name="parameters"/>
+    </message>
+
+    <message name="getLaunchStatusRequest">
+        <part element="tns:getLaunchStatus" name="parameters"/>
+    </message>
+
+    <message name="getLaunchStatusResponse">
+        <part element="tns:getLaunchStatusResponse" name="parameters"/>
+    </message>
+
+    <message name="mergeListMembersRequest">
+        <part element="tns:mergeListMembers" name="parameters"/>
+    </message>
+
+    <message name="mergeListMembersResponse">
+        <part element="tns:mergeListMembersResponse" name="parameters"/>
+    </message>
+
+    <message name="retrieveListMembersRequest">
+        <part element="tns:retrieveListMembers" name="parameters"/>
+    </message>
+
+    <message name="retrieveListMembersResponse">
+        <part element="tns:retrieveListMembersResponse" name="parameters"/>
+    </message>
+
+    <message name="deleteListMembersRequest">
+        <part element="tns:deleteListMembers" name="parameters"/>
+    </message>
+
+    <message name="deleteListMembersResponse">
+        <part element="tns:deleteListMembersResponse" name="parameters"/>
+    </message>
+
+    <message name="createTableRequest">
+        <part element="tns:createTable" name="parameters"/>
+    </message>
+
+    <message name="createTableResponse">
+        <part element="tns:createTableResponse" name="parameters"/>
+    </message>
+
+    <message name="deleteTableRequest">
+        <part element="tns:deleteTable" name="parameters"/>
+    </message>
+
+    <message name="deleteTableResponse">
+        <part element="tns:deleteTableResponse" name="parameters"/>
+    </message>
+
+    <message name="mergeTableRecordsRequest">
+        <part element="tns:mergeTableRecords" name="parameters"/>
+    </message>
+
+    <message name="mergeTableRecordsResponse">
+        <part element="tns:mergeTableRecordsResponse" name="parameters"/>
+    </message>
+
+    <message name="retrieveTableRecordsRequest">
+        <part element="tns:retrieveTableRecords" name="parameters"/>
+    </message>
+
+    <message name="retrieveTableRecordsResponse">
+        <part element="tns:retrieveTableRecordsResponse" name="parameters"/>
+    </message>
+
+    <message name="deleteTableRecordsRequest">
+        <part element="tns:deleteTableRecords" name="parameters"/>
+    </message>
+
+    <message name="deleteTableRecordsResponse">
+        <part element="tns:deleteTableRecordsResponse" name="parameters"/>
+    </message>
+
+    <message name="truncateTableRequest">
+        <part element="tns:truncateTable" name="parameters"/>
+    </message>
+
+    <message name="truncateTableResponse">
+        <part element="tns:truncateTableResponse" name="parameters"/>
+    </message>
+
+    <message name="createDocumentRequest">
+        <part element="tns:createDocument" name="parameters"/>
+    </message>
+
+    <message name="createDocumentResponse">
+        <part element="tns:createDocumentResponse" name="parameters"/>
+    </message>
+
+    <message name="deleteDocumentRequest">
+        <part element="tns:deleteDocument" name="parameters"/>
+    </message>
+
+    <message name="deleteDocumentResponse">
+        <part element="tns:deleteDocumentResponse" name="parameters"/>
+    </message>
+
+    <message name="setDocumentImagesRequest">
+        <part element="tns:setDocumentImages" name="parameters"/>
+    </message>
+
+    <message name="setDocumentImagesResponse">
+        <part element="tns:setDocumentImagesResponse" name="parameters"/>
+    </message>
+
+    <message name="getDocumentImagesRequest">
+        <part element="tns:getDocumentImages" name="parameters"/>
+    </message>
+
+    <message name="getDocumentImagesResponse">
+        <part element="tns:getDocumentImagesResponse" name="parameters"/>
+    </message>
+
+    <message name="setDocumentContentRequest">
+        <part element="tns:setDocumentContent" name="parameters"/>
+    </message>
+
+    <message name="setDocumentContentResponse">
+        <part element="tns:setDocumentContentResponse" name="parameters"/>
+    </message>
+
+    <message name="getDocumentContentRequest">
+        <part element="tns:getDocumentContent" name="parameters"/>
+    </message>
+
+    <message name="getDocumentContentResponse">
+        <part element="tns:getDocumentContentResponse" name="parameters"/>
+    </message>
+
+    <message name="mergeListMembersRIIDRequest">
+        <part element="tns:mergeListMembersRIID" name="parameters"/>
+    </message>
+
+    <message name="mergeListMembersRIIDResponse">
+        <part element="tns:mergeListMembersRIIDResponse" name="parameters"/>
+    </message>
+
+    <message name="mergeIntoProfileExtensionRequest">
+        <part element="tns:mergeIntoProfileExtension" name="parameters"/>
+    </message>
+
+    <message name="mergeIntoProfileExtensionResponse">
+        <part element="tns:mergeIntoProfileExtensionResponse" name="parameters"/>
+    </message>
+
+    <message name="createTableWithPKRequest">
+        <part element="tns:createTableWithPK" name="parameters"/>
+    </message>
+
+    <message name="createTableWithPKResponse">
+        <part element="tns:createTableWithPKResponse" name="parameters"/>
+    </message>
+
+    <message name="mergeTableRecordsWithPKRequest">
+        <part element="tns:mergeTableRecordsWithPK" name="parameters"/>
+    </message>
+
+    <message name="mergeTableRecordsWithPKResponse">
+        <part element="tns:mergeTableRecordsWithPKResponse" name="parameters"/>
+    </message>
+
+    <message name="retrieveProfileExtensionRecordsRequest">
+        <part element="tns:retrieveProfileExtensionRecords" name="parameters"/>
+    </message>
+
+    <message name="retrieveProfileExtensionRecordsResponse">
+        <part element="tns:retrieveProfileExtensionRecordsResponse" name="parameters"/>
+    </message>
+
+    <portType name="ResponsysWS">
+        <operation name="login">
+            <documentation>Login to the Responsys Web Services API.</documentation>
+            <input message="tns:loginRequest" name="loginRequest"/>
+            <output message="tns:loginResponse" name="loginResponse"/>
+            <fault message="tns:AccountFault" name="AccountFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="authenticateServer">
+            <documentation>Auhenticate the server.</documentation>
+            <input message="tns:authenticateServerRequest" name="authenticateServerRequest"/>
+            <output message="tns:authenticateServerResponse" name="authenticateServerResponse"/>
+            <fault message="tns:AccountFault" name="AccountFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="loginWithCertificate">
+            <documentation>Login to the Responsys Web Services API using Certificate.</documentation>
+            <input message="tns:loginWithCertificateRequest" name="loginWithCertificateRequest"/>
+            <output message="tns:loginWithCertificateResponse" name="loginWithCertificateResponse"/>
+            <fault message="tns:AccountFault" name="AccountFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="logout">
+            <documentation>Logout of the Responsys Web Services API.</documentation>
+            <input message="tns:logoutRequest" name="logoutRequest"/>
+            <output message="tns:logoutResponse" name="logoutResponse"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="createFolder">
+            <documentation>Creates a new folder.</documentation>
+            <input message="tns:createFolderRequest" name="createFolderRequest"/>
+            <output message="tns:createFolderResponse" name="createFolderResponse"/>
+            <fault message="tns:FolderFault" name="FolderFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="deleteFolder">
+            <documentation>Deletes an existing folder.</documentation>
+            <input message="tns:deleteFolderRequest" name="deleteFolderRequest"/>
+            <output message="tns:deleteFolderResponse" name="deleteFolderResponse"/>
+            <fault message="tns:FolderFault" name="FolderFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="listFolders">
+            <documentation>List folders in the Responsys account.</documentation>
+            <input message="tns:listFoldersRequest" name="listFoldersRequest"/>
+            <output message="tns:listFoldersResponse" name="listFoldersResponse"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="triggerCampaignMessage">
+            <documentation>Send Triggered Message to 1 or more recipients.</documentation>
+            <input message="tns:triggerCampaignMessageRequest" name="triggerCampaignMessageRequest"/>
+            <output message="tns:triggerCampaignMessageResponse" name="triggerCampaignMessageResponse"/>
+            <fault message="tns:TriggeredMessageFault" name="TriggeredMessageFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="triggerCustomEvent">
+            <documentation>Trigger Custom Event to 1 or more recipients.</documentation>
+            <input message="tns:triggerCustomEventRequest" name="triggerCustomEventRequest"/>
+            <output message="tns:triggerCustomEventResponse" name="triggerCustomEventResponse"/>
+            <fault message="tns:CustomEventFault" name="CustomEventFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="launchCampaign">
+            <documentation>Launch a Campaign Immediately.</documentation>
+            <input message="tns:launchCampaignRequest" name="launchCampaignRequest"/>
+            <output message="tns:launchCampaignResponse" name="launchCampaignResponse"/>
+            <fault message="tns:CampaignFault" name="CampaignFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="scheduleCampaignLaunch">
+            <documentation>Schedule a Campaign Launch.</documentation>
+            <input message="tns:scheduleCampaignLaunchRequest" name="scheduleCampaignLaunchRequest"/>
+            <output message="tns:scheduleCampaignLaunchResponse" name="scheduleCampaignLaunchResponse"/>
+            <fault message="tns:CampaignFault" name="CampaignFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="getLaunchStatus">
+            <documentation>Gets the launch info given a launch Id.</documentation>
+            <input message="tns:getLaunchStatusRequest" name="getLaunchStatusRequest"/>
+            <output message="tns:getLaunchStatusResponse" name="getLaunchStatusResponse"/>
+            <fault message="tns:CampaignFault" name="CampaignFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="mergeListMembers">
+            <documentation>Merge data into a list.</documentation>
+            <input message="tns:mergeListMembersRequest" name="mergeListMembersRequest"/>
+            <output message="tns:mergeListMembersResponse" name="mergeListMembersResponse"/>
+            <fault message="tns:ListFault" name="ListFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="retrieveListMembers">
+            <documentation>Retrieves recipients from a list.</documentation>
+            <input message="tns:retrieveListMembersRequest" name="retrieveListMembersRequest"/>
+            <output message="tns:retrieveListMembersResponse" name="retrieveListMembersResponse"/>
+            <fault message="tns:ListFault" name="ListFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="deleteListMembers">
+            <documentation>Deletes recipients from a list.</documentation>
+            <input message="tns:deleteListMembersRequest" name="deleteListMembersRequest"/>
+            <output message="tns:deleteListMembersResponse" name="deleteListMembersResponse"/>
+            <fault message="tns:ListFault" name="ListFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="createTable">
+            <documentation>Creates an empty table.</documentation>
+            <input message="tns:createTableRequest" name="createTableRequest"/>
+            <output message="tns:createTableResponse" name="createTableResponse"/>
+            <fault message="tns:TableFault" name="TableFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="deleteTable">
+            <documentation>Deletes an existing table.</documentation>
+            <input message="tns:deleteTableRequest" name="deleteTableRequest"/>
+            <output message="tns:deleteTableResponse" name="deleteTableResponse"/>
+            <fault message="tns:TableFault" name="TableFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="mergeTableRecords">
+            <documentation>Merge data into a table.</documentation>
+            <input message="tns:mergeTableRecordsRequest" name="mergeTableRecordsRequest"/>
+            <output message="tns:mergeTableRecordsResponse" name="mergeTableRecordsResponse"/>
+            <fault message="tns:TableFault" name="TableFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="retrieveTableRecords">
+            <documentation>Retrieves records from table.</documentation>
+            <input message="tns:retrieveTableRecordsRequest" name="retrieveTableRecordsRequest"/>
+            <output message="tns:retrieveTableRecordsResponse" name="retrieveTableRecordsResponse"/>
+            <fault message="tns:TableFault" name="TableFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="deleteTableRecords">
+            <documentation>Deletes records from a table.</documentation>
+            <input message="tns:deleteTableRecordsRequest" name="deleteTableRecordsRequest"/>
+            <output message="tns:deleteTableRecordsResponse" name="deleteTableRecordsResponse"/>
+            <fault message="tns:TableFault" name="TableFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="truncateTable">
+            <documentation>Truncate data in existing table.</documentation>
+            <input message="tns:truncateTableRequest" name="truncateTableRequest"/>
+            <output message="tns:truncateTableResponse" name="truncateTableResponse"/>
+            <fault message="tns:TableFault" name="TableFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="createDocument">
+            <documentation>Creates a document.</documentation>
+            <input message="tns:createDocumentRequest" name="createDocumentRequest"/>
+            <output message="tns:createDocumentResponse" name="createDocumentResponse"/>
+            <fault message="tns:DocumentFault" name="DocumentFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="deleteDocument">
+            <documentation>Deletes a document.</documentation>
+            <input message="tns:deleteDocumentRequest" name="deleteDocumentRequest"/>
+            <output message="tns:deleteDocumentResponse" name="deleteDocumentResponse"/>
+            <fault message="tns:DocumentFault" name="DocumentFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="setDocumentImages">
+            <documentation>Set images to a document.</documentation>
+            <input message="tns:setDocumentImagesRequest" name="setDocumentImagesRequest"/>
+            <output message="tns:setDocumentImagesResponse" name="setDocumentImagesResponse"/>
+            <fault message="tns:DocumentFault" name="DocumentFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="getDocumentImages">
+            <documentation>Get images from a document.</documentation>
+            <input message="tns:getDocumentImagesRequest" name="getDocumentImagesRequest"/>
+            <output message="tns:getDocumentImagesResponse" name="getDocumentImagesResponse"/>
+            <fault message="tns:DocumentFault" name="DocumentFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="setDocumentContent">
+            <documentation>Set content to a document.</documentation>
+            <input message="tns:setDocumentContentRequest" name="setDocumentContentRequest"/>
+            <output message="tns:setDocumentContentResponse" name="setDocumentContentResponse"/>
+            <fault message="tns:DocumentFault" name="DocumentFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="getDocumentContent">
+            <documentation>Get content of a document.</documentation>
+            <input message="tns:getDocumentContentRequest" name="getDocumentContentRequest"/>
+            <output message="tns:getDocumentContentResponse" name="getDocumentContentResponse"/>
+            <fault message="tns:DocumentFault" name="DocumentFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="mergeListMembersRIID">
+            <documentation>Merge data into a list returning the recipient ids.</documentation>
+            <input message="tns:mergeListMembersRIIDRequest" name="mergeListMembersRIIDRequest"/>
+            <output message="tns:mergeListMembersRIIDResponse" name="mergeListMembersRIIDResponse"/>
+            <fault message="tns:ListFault" name="ListFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="mergeIntoProfileExtension">
+            <documentation>Merge data into a list extension returning the recipient ids.</documentation>
+            <input message="tns:mergeIntoProfileExtensionRequest" name="mergeIntoProfileExtensionRequest"/>
+            <output message="tns:mergeIntoProfileExtensionResponse" name="mergeIntoProfileExtensionResponse"/>
+            <fault message="tns:ListExtensionFault" name="ListExtensionFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="createTableWithPK">
+            <documentation>Creates an empty table with primary keys.</documentation>
+            <input message="tns:createTableWithPKRequest" name="createTableWithPKRequest"/>
+            <output message="tns:createTableWithPKResponse" name="createTableWithPKResponse"/>
+            <fault message="tns:TableFault" name="TableFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="mergeTableRecordsWithPK">
+            <documentation>Merge data into a table using primary keys.</documentation>
+            <input message="tns:mergeTableRecordsWithPKRequest" name="mergeTableRecordsWithPKRequest"/>
+            <output message="tns:mergeTableRecordsWithPKResponse" name="mergeTableRecordsWithPKResponse"/>
+            <fault message="tns:TableFault" name="TableFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+
+        <operation name="retrieveProfileExtensionRecords">
+            <documentation>Retrieves records from a list extension.</documentation>
+            <input message="tns:retrieveProfileExtensionRecordsRequest" name="retrieveProfileExtensionRecordsRequest"/>
+            <output message="tns:retrieveProfileExtensionRecordsResponse" name="retrieveProfileExtensionRecordsResponse"/>
+            <fault message="tns:ListExtensionFault" name="ListExtensionFault"/>
+            <fault message="tns:UnexpectedErrorFault" name="UnexpectedErrorFault"/>
+        </operation>
+    </portType>
+
+    <binding name="ResponsysWSSoapBinding" type="tns:ResponsysWS">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+        <operation name="login">
+            <soap:operation soapAction=""/>
+            <input name="loginRequest">
+                <soap:body use="literal"/>
+            </input>
+            <output name="loginResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="AccountFault">
+               <soap:fault name="AccountFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="authenticateServer">
+            <soap:operation soapAction=""/>
+            <input name="authenticateServerRequest">
+                <soap:body use="literal"/>
+            </input>
+            <output name="authenticateServerResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="AccountFault">
+               <soap:fault name="AccountFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="loginWithCertificate">
+            <soap:operation soapAction=""/>
+            <input name="loginWithCertificateRequest">
+                <soap:header use="literal" message="tns:AuthHeader" part="AuthSessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="loginWithCertificateResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="AccountFault">
+               <soap:fault name="AccountFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="logout">
+            <soap:operation soapAction=""/>
+            <input name="logoutRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="logoutResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="createFolder">
+            <soap:operation soapAction=""/>
+            <input name="createFolderRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="createFolderResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="FolderFault">
+               <soap:fault name="FolderFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="deleteFolder">
+            <soap:operation soapAction=""/>
+            <input name="deleteFolderRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="deleteFolderResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="FolderFault">
+               <soap:fault name="FolderFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="listFolders">
+            <soap:operation soapAction=""/>
+            <input name="listFoldersRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="listFoldersResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="triggerCampaignMessage">
+            <soap:operation soapAction=""/>
+            <input name="triggerCampaignMessageRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="triggerCampaignMessageResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="TriggeredMessageFault">
+                <soap:fault name="TriggeredMessageFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="triggerCustomEvent">
+            <soap:operation soapAction=""/>
+            <input name="triggerCustomEventRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="triggerCustomEventResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="CustomEventFault">
+                <soap:fault name="CustomEventFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="launchCampaign">
+            <soap:operation soapAction=""/>
+            <input name="launchCampaignRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="launchCampaignResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="CampaignFault">
+                <soap:fault name="CampaignFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="scheduleCampaignLaunch">
+            <soap:operation soapAction=""/>
+            <input name="scheduleCampaignLaunchRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="scheduleCampaignLaunchResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="CampaignFault">
+                <soap:fault name="CampaignFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="getLaunchStatus">
+            <soap:operation soapAction=""/>
+            <input name="getLaunchStatusRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="getLaunchStatusResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="CampaignFault">
+                <soap:fault name="CampaignFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="mergeListMembers">
+            <soap:operation soapAction=""/>
+            <input name="mergeListMembersRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="mergeListMembersResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="ListFault">
+                <soap:fault name="ListFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="retrieveListMembers">
+            <soap:operation soapAction=""/>
+            <input name="retrieveListMembersRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="retrieveListMembersResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="ListFault">
+                <soap:fault name="ListFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="deleteListMembers">
+            <soap:operation soapAction=""/>
+            <input name="deleteListMembersRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="deleteListMembersResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="ListFault">
+                <soap:fault name="ListFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="createTable">
+            <soap:operation soapAction=""/>
+            <input name="createTableRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="createTableResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="TableFault">
+                <soap:fault name="TableFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="deleteTable">
+            <soap:operation soapAction=""/>
+            <input name="deleteTableRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="deleteTableResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="TableFault">
+                <soap:fault name="TableFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="mergeTableRecords">
+            <soap:operation soapAction=""/>
+            <input name="mergeTableRecordsRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="mergeTableRecordsResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="TableFault">
+                <soap:fault name="TableFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="retrieveTableRecords">
+            <soap:operation soapAction=""/>
+            <input name="retrieveTableRecordsRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="retrieveTableRecordsResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="TableFault">
+                <soap:fault name="TableFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="deleteTableRecords">
+            <soap:operation soapAction=""/>
+            <input name="deleteTableRecordsRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="deleteTableRecordsResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="TableFault">
+                <soap:fault name="TableFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="truncateTable">
+            <soap:operation soapAction=""/>
+            <input name="truncateTableRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="truncateTableResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="TableFault">
+                <soap:fault name="TableFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="createDocument">
+            <soap:operation soapAction=""/>
+            <input name="createDocumentRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="createDocumentResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="DocumentFault">
+                <soap:fault name="DocumentFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="deleteDocument">
+            <soap:operation soapAction=""/>
+            <input name="deleteDocumentRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="deleteDocumentResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="DocumentFault">
+                <soap:fault name="DocumentFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="setDocumentImages">
+            <soap:operation soapAction=""/>
+            <input name="setDocumentImagesRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="setDocumentImagesResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="DocumentFault">
+                <soap:fault name="DocumentFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="getDocumentImages">
+            <soap:operation soapAction=""/>
+            <input name="getDocumentImagesRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="getDocumentImagesResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="DocumentFault">
+                <soap:fault name="DocumentFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="setDocumentContent">
+            <soap:operation soapAction=""/>
+            <input name="setDocumentContentRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="setDocumentContentResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="DocumentFault">
+                <soap:fault name="DocumentFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="getDocumentContent">
+            <soap:operation soapAction=""/>
+            <input name="getDocumentContentRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="getDocumentContentResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="DocumentFault">
+                <soap:fault name="DocumentFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="mergeListMembersRIID">
+            <soap:operation soapAction=""/>
+            <input name="mergeListMembersRIIDRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="mergeListMembersRIIDResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="ListFault">
+                <soap:fault name="ListFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="mergeIntoProfileExtension">
+            <soap:operation soapAction=""/>
+            <input name="mergeIntoProfileExtensionRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="mergeIntoProfileExtensionResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="ListExtensionFault">
+                <soap:fault name="ListExtensionFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="createTableWithPK">
+            <soap:operation soapAction=""/>
+            <input name="createTableWithPKRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="createTableWithPKResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="TableFault">
+                <soap:fault name="TableFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="mergeTableRecordsWithPK">
+            <soap:operation soapAction=""/>
+            <input name="mergeTableRecordsWithPKRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="mergeTableRecordsWithPKResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="TableFault">
+                <soap:fault name="TableFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+
+        <operation name="retrieveProfileExtensionRecords">
+            <soap:operation soapAction=""/>
+            <input name="retrieveProfileExtensionRecordsRequest">
+                <soap:header use="literal" message="tns:Header" part="SessionHeader"/>
+                <soap:body use="literal"/>
+            </input>
+            <output name="retrieveProfileExtensionRecordsResponse">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="ListExtensionFault">
+                <soap:fault name="ListExtensionFault" use="literal"/>
+            </fault>
+            <fault name="UnexpectedErrorFault">
+               <soap:fault name="UnexpectedErrorFault" use="literal"/>
+            </fault>
+        </operation>
+    </binding>
+
+    <service name="ResponsysWSService">
+        <documentation>Responsys Web Services API</documentation>
+        <port binding="tns:ResponsysWSSoapBinding" name="ResponsysWS">
+            <soap:address location="https://ws5.responsys.net/webservices/services/ResponsysWSService"/>
+        </port>
+    </service>
+</definitions>

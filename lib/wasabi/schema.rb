@@ -11,12 +11,22 @@ module Wasabi
       @element_form_default   = schema["elementFormDefault"]   || "unqualified"
       @attribute_form_default = schema["attributeFormDefault"] || "unqualified"
 
-      @elements      ||= {}
-      @complex_types ||= {}
+      @elements      = {}
+      @complex_types = {}
     end
 
     attr_reader :namespace, :element_form_default, :attribute_form_default,
                 :elements, :complex_types
+
+    def hash
+      {
+        :namespace              => @namespace,
+        :element_form_default   => @element_form_default,
+        :attribute_form_default => @attribute_form_default,
+        :elements               => @elements,
+        :complex_types          => @complex_types
+      }
+    end
 
   end
 end
