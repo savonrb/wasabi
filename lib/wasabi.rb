@@ -14,6 +14,8 @@ module Wasabi
 
   NAMESPACES_BY_URI = NAMESPACES.invert
 
+  InterpreterError = Class.new(StandardError)
+
   def self.sax(source, http_request = nil)
     wsdl   = Resolver.new(source, http_request).xml
     sax    = SAX.new(source, http_request)

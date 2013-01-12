@@ -9,7 +9,7 @@ describe Wasabi::Interpreter do
     let(:types)  { "https://ws5.responsys.net/webservices/services/ResponsysWSService/_resources_/xsd/ResponsysWSTypes_Schema.xsd" }
     let(:faults) { "https://ws5.responsys.net/webservices/services/ResponsysWSService/_resources_/xsd/ResponsysWSFaults_Schema.xsd" }
 
-    it "resolves xsd imports" do
+    it "resolves xs imports" do
       mock_requests!  # comment out to test against the real service
 
       expect(interpreter).to have(172).types

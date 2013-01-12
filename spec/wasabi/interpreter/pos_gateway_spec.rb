@@ -6,9 +6,17 @@ describe Wasabi::Interpreter do
     subject(:interpreter) { Wasabi.interpreter(wsdl) }
 
     let(:wsdl)   { "https://posgateway.cert.secureexchange.net/Hps.Exchange.PosGateway.UAT/PosGatewayService.asmx?wsdl" }
+    let(:wsdl2)  { "https://posgateway.cert.secureexchange.net/Hps.Exchange.PosGateway.UAT/PosGatewayService.asmx?wsdl=wsdl" }
     let(:schema) { "https://posgateway.cert.secureexchange.net/Hps.Exchange.PosGateway.UAT/PosGatewayService.asmx?schema=schema1" }
 
-    it "resolves xsd imports" do
+    it "resolves wsdl imports" do
+      mock_requests!  # doesn't work with without mocking, because the service
+                      # does not seem to be available from all around the world
+
+      expect(interpreter).to have(1).operations
+    end
+
+    it "resolves xs imports" do
       mock_requests!  # doesn't work with without mocking, because the service
                       # does not seem to be available from all around the world
 
@@ -19,10 +27,12 @@ describe Wasabi::Interpreter do
     end
 
     def mock_requests!
-      schema_response = new_response(:pos_gateway, :xsd)
       wsdl_response   = new_response(:pos_gateway)
+      wsdl2_response  = new_response(:pos_gateway2)
+      schema_response = new_response(:pos_gateway, :xsd)
 
       HTTPI.should_receive(:get) {
+        HTTPI.should_receive(:get) { wsdl2_response }
         HTTPI.should_receive(:get) { schema_response }
         wsdl_response
       }

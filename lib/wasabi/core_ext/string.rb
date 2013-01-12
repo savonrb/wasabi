@@ -2,7 +2,6 @@ module Wasabi
   module CoreExt
     module String
 
-      # Returns the String in snakecase.
       def snakecase
         str = dup
         str.gsub! /::/, '/'

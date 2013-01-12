@@ -2,6 +2,7 @@ require "nokogiri"
 require "wasabi/node"
 require "wasabi/matcher"
 require "wasabi/schema"
+require "wasabi/core_ext/hash"
 
 module Wasabi
 
@@ -19,7 +20,8 @@ module Wasabi
       @matchers     = {}
       @namespaces   = nil
       @schemas      = []
-      @imports      = {}
+      @xs_imports   = {}
+      @wsdl_imports = {}
       @messages     = {}
       @bindings     = {}
       @port_types   = {}
@@ -132,10 +134,15 @@ module Wasabi
         @last_port["namespace"] = node.namespace
         @last_port["location"]  = node["location"]
 
-      # imports
+      # wsdl imports
+      when matches("wsdl:definitions > wsdl:import")
+        @wsdl_imports[node["namespace"]] = node.attrs
+
+      # xs imports
       when matches("wsdl:definitions > wsdl:types > xs:schema > xs:import")
-                   # "xs:schema > xs:import")
-        @imports[node["namespace"]] = node.attrs
+                   # TODO: why is this commented out? [dh, 2012-01-12]
+                   #"xs:schema > xs:import")
+        @xs_imports[node["namespace"]] = node.attrs
 
       # schema and element/attribute form default values
       when matches("wsdl:definitions > wsdl:types > xs:schema",
@@ -154,31 +161,48 @@ module Wasabi
     end
 
     def end_document
-      resolve_imports
+      resolve_wsdl_imports
+      resolve_xs_imports
     end
 
     def hash
-      @hash ||= {
-        :namespaces       => @namespaces,
-        :target_namespace => @target_namespace,
-        :schemas          => @schemas.map(&:hash),
-        :messages         => @messages,
-        :bindings         => @bindings,
-        :port_types       => @port_types,
-        :services         => @services
-      }
+      @hash ||= begin
+        {
+          :namespaces       => @namespaces,
+          :target_namespace => @target_namespace,
+          :schemas          => @schemas.map(&:hash),
+          :messages         => @messages,
+          :bindings         => @bindings,
+          :port_types       => @port_types,
+          :services         => @services
+        }
+      end
     end
 
     private
 
-    def resolve_imports
-      @imports.each do |namespace, import|
-        source = URI.join(@source, import["schemaLocation"])
-
-        if source
-          sax = Wasabi.sax(source, @http_request)
-          hash[:schemas] += sax.hash[:schemas]
+    def resolve_xs_imports
+      @xs_imports.each do |namespace, import|
+        resolve_import! import["schemaLocation"] do |sax|
+          schemas = sax.hash[:schemas]
+          hash[:schemas] += schemas
         end
+      end
+    end
+
+    def resolve_wsdl_imports
+      @wsdl_imports.each do |namespace, import|
+        resolve_import! import["location"] do |sax|
+          @hash = hash.deep_merge(sax.hash)
+        end
+      end
+    end
+
+    def resolve_import!(location)
+      source = URI.join(@source, location)
+
+      if location && source
+        yield Wasabi.sax(source, @http_request)
       end
     end
 

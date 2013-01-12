@@ -66,7 +66,11 @@ module Wasabi
         port["namespace"] == Wasabi::NAMESPACES["soap2"]
       }
 
-      binding   = find_binding(soap_port)
+      unless binding = find_binding(soap_port)
+        raise InterpreterError, "Unable to find binding for soap port:\n" +
+                                soap_port.inspect
+      end
+
       port_type = find_port_type(binding)
 
       binding["operations"].each do |operation_name, binding_operation|
