@@ -1,0 +1,1857 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:tns="http://Hps.Exchange.PosGateway" elementFormDefault="qualified" targetNamespace="http://Hps.Exchange.PosGateway" id="schema1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="PosRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="Ver1.0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="1" name="Header">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="1" name="LicenseId" type="xs:int"/>
+                    <xs:element minOccurs="1" maxOccurs="1" name="SiteId" type="xs:int"/>
+                    <xs:element minOccurs="1" maxOccurs="1" name="DeviceId" type="xs:int"/>
+                    <xs:element minOccurs="0" maxOccurs="1" name="UserName" type="xs:string"/>
+                    <xs:element minOccurs="0" maxOccurs="1" name="Password" type="xs:string"/>
+                    <xs:element minOccurs="0" maxOccurs="1" name="CredentialToken" type="xs:string"/>
+                    <xs:element minOccurs="0" maxOccurs="1" name="SiteTrace" type="xs:string"/>
+                    <xs:element minOccurs="0" maxOccurs="1" name="DeveloperID" type="xs:string"/>
+                    <xs:element minOccurs="0" maxOccurs="1" name="VersionNbr" type="xs:string"/>
+                    <xs:element minOccurs="0" maxOccurs="1" name="ClerkID" type="xs:string"/>
+                    <xs:element minOccurs="0" maxOccurs="1" name="GPSCoordinates" type="tns:GPSCoordinatesType"/>
+                    <xs:element minOccurs="0" maxOccurs="1" name="ClientTxnId" type="xs:long"/>
+                    <xs:element minOccurs="0" maxOccurs="1" name="UniqueDeviceId" type="xs:string"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element minOccurs="0" maxOccurs="1" name="Transaction">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:choice minOccurs="1" maxOccurs="1">
+                      <xs:element minOccurs="0" maxOccurs="1" name="EBTVoucherPurchase" type="tns:PosEBTFSVoucherReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="TestCredentials" type="xs:string"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="Impersonate" type="tns:PosImpersonateReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CreditTxnEdit" type="tns:PosCreditTxnEditReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="FindTransactions" type="tns:FindTransactionsReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GetAttachments" type="tns:PosGetAttachmentReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GetUserDeviceSettings" type="tns:PosGetUserDeviceSettingsReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GetUserSettings" type="xs:string"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GiftCardActivate" type="tns:PosGiftCardActivateReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GiftCardAddValue" type="tns:PosGiftCardAddValueReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CreditVoid" type="tns:PosCreditVoidReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GiftCardBalance" type="tns:PosGiftCardBalanceReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GiftCardCurrentDayTotals" type="xs:string"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GiftCardDeactivate" type="tns:PosGiftCardDeactivateReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="DebitReturn" type="tns:PosDebitReturnReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="DebitReversal" type="tns:PosDebitReversalReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="DebitSale" type="tns:PosDebitSaleReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="EBTBalanceInquiry" type="tns:PosEBTBalanceInquiryReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GiftCardPreviousDayTotals" type="xs:string"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GiftCardReplace" type="tns:PosGiftCardReplaceReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GiftCardReversal" type="tns:PosGiftCardReversalReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="DebitAddValue" type="tns:PosDebitAddValueReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GiftCardSale" type="tns:PosGiftCardSaleReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GiftCardVoid" type="tns:PosGiftCardVoidReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="EBTCashBackPurchase" type="tns:PosEBTCashBackPurchaseReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="EBTCashBenefitWithdrawal" type="tns:PosEBTCashBenefitWithdrawalReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="EndToEndTest"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="InvalidateAuthentication" type="xs:string"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="EBTFSPurchase" type="tns:PosEBTFSPurchaseReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="EBTFSReturn" type="tns:PosEBTFSReturnReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="ManageSettings" type="tns:ManageSettingsReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="ManageUsers" type="tns:PosManageUsersReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="PrePaidAddValue" type="tns:PosPrePaidAddValueReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="PrePaidBalanceInquiry" type="tns:PosPrePaidBalanceInquiryReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="RecurringBilling" type="tns:PosRecurringBillReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="ReportActivity" type="tns:PosReportActivityReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="ReportBatchDetail" type="tns:PosReportBatchDetailReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="ReportBatchHistory" type="tns:PosReportBatchHistoryReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="ReportBatchSummary" type="tns:PosReportBatchSummaryReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="ReportOpenAuths" type="tns:PosReportOpenAuthsReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="ReportSearch" type="tns:PosReportSearchReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="ReportTxnDetail" type="tns:PosReportTxnDetailReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="SendReceipt" type="tns:PosSendReceiptReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="AddAttachment" type="tns:PosAddAttachmentReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="Authenticate" type="xs:string"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="BatchClose" type="xs:string"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CancelImpersonation" type="xs:string"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CreditAccountVerify" type="tns:PosCreditAccountVerifyReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CreditAddToBatch" type="tns:PosCreditAddToBatchReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CreditAuth" type="tns:PosCreditAuthReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CreditCPCEdit" type="tns:PosCreditCPCEditReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CreditIncrementalAuth" type="tns:PosCreditIncrementalAuthReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CreditOfflineAuth" type="tns:PosCreditOfflineAuthReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CreditOfflineSale" type="tns:PosCreditOfflineSaleReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CreditReturn" type="tns:PosCreditReturnReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CreditReversal" type="tns:PosCreditReversalReqType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CreditSale" type="tns:PosCreditSaleReqType"/>
+                    </xs:choice>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="clientType" type="xs:string"/>
+      <xs:attribute name="clientVer" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="GPSCoordinatesType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="Latitude" type="xs:decimal"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Longitude" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosEBTFSVoucherReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:EBTFSVoucherReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="EBTFSVoucherReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardData" type="tns:CardDataType"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="PinBlock" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderData" type="tns:CardHolderDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AllowDup" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="ExprDate" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="ElectronicVoucherSerialNbr" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="VoucherApprovalCd" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="PrimaryAcctNbr" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CardDataType">
+    <xs:sequence>
+      <xs:choice minOccurs="1" maxOccurs="1">
+        <xs:element minOccurs="0" maxOccurs="1" name="TokenData">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="1" name="TokenValue" type="xs:string"/>
+              <xs:element minOccurs="0" maxOccurs="1" name="ExpMonth" type="xs:int"/>
+              <xs:element minOccurs="0" maxOccurs="1" name="ExpYear" type="xs:int"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element minOccurs="0" maxOccurs="1" name="TrackData">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="xs:string">
+                <xs:attribute name="method">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:enumeration value="swipe"/>
+                      <xs:enumeration value="proximity"/>
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:attribute>
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+        <xs:element minOccurs="0" maxOccurs="1" name="ManualEntry">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="1" name="CardNbr" type="xs:string"/>
+              <xs:element minOccurs="1" maxOccurs="1" name="ExpMonth" type="xs:int"/>
+              <xs:element minOccurs="1" maxOccurs="1" name="ExpYear" type="xs:int"/>
+              <xs:element minOccurs="0" maxOccurs="1" name="CardPresent" type="tns:booleanType"/>
+              <xs:element minOccurs="0" maxOccurs="1" name="ReaderPresent" type="tns:booleanType"/>
+              <xs:element minOccurs="0" maxOccurs="1" name="CVV2" type="xs:string"/>
+              <xs:element minOccurs="0" maxOccurs="1" name="CVV2Status" type="tns:cvv2Status"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+      <xs:element minOccurs="0" maxOccurs="1" name="EncryptionData" type="tns:EncryptionDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" default="N" name="TokenRequest" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="TokenParameters" type="tns:TokenParametersType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="booleanType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="N"/>
+      <xs:enumeration value="Y"/>
+      <xs:enumeration value=""/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="cvv2Status">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ILLEGIBLE"/>
+      <xs:enumeration value="NOTPRESENT"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="EncryptionDataType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Version" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="EncryptedTrackNumber" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="KTB" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="KSN" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TokenParametersType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Mapping" type="tns:TokenMappingType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="TokenMappingType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="UNIQUE"/>
+      <xs:enumeration value="CONSTANT"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="CardHolderDataType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderFirstName" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderLastName" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderAddr" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderCity" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderState" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderZip" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderPhone" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderEmail" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosImpersonateReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="MerchNbr" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="UserName" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="DeviceId" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosCreditTxnEditReqType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="GatewayTxnId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Amt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="GratuityAmtInfo" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="LodgingDataEdit" type="tns:LodgingDataEditType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="LodgingDataEditType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="FolioNumber" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" default="1" name="Duration" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CheckInDate" type="xs:date"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CheckOutDate" type="xs:date"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Rate" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="ExtraCharges" type="tns:ExtraChargesDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="ExtraChargeAmtInfo" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ExtraChargesDataType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" default="N" name="Restaurant" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" default="N" name="GiftShop" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" default="N" name="MiniBar" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" default="N" name="Telephone" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" default="N" name="Other" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" default="N" name="Laundry" type="tns:booleanType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="FindTransactionsReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Criteria" type="tns:SearchCriteriaType"/>
+      <xs:element minOccurs="0" maxOccurs="1" default="UTC" name="TzConversion" type="tns:tzoneConversionType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="TxnId" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SearchCriteriaType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="StartUtcDT" type="xs:dateTime"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="EndUtcDT" type="xs:dateTime"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AuthCode" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderLastName" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderFirstName" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardNbrFirstSix" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardNbrLastFour" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="InvoiceNbr" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderPONbr" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CustomerID" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ServiceName">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="DebitSale"/>
+            <xs:enumeration value="DebitReturn"/>
+            <xs:enumeration value="CreditOfflineSale"/>
+            <xs:enumeration value="CreditOfflineAuth"/>
+            <xs:enumeration value="CreditReturn"/>
+            <xs:enumeration value="CreditAuth"/>
+            <xs:enumeration value="CreditSale"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PaymentType" type="tns:paymentTypeType"/>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CardType" type="tns:CardTypeType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="IssuerResult">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="A"/>
+            <xs:enumeration value="D"/>
+            <xs:enumeration value="P"/>
+            <xs:enumeration value="F"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="1" name="SettlementAmt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="IssTxnId" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="RefNbr" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="UserName" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="ClerkID" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="BatchSeqNbr" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="BatchId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="SiteTrace" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="DisplayName" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="ClientTxnId" type="xs:long"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="UniqueDeviceId" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="paymentTypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="OTHER"/>
+      <xs:enumeration value="PREPAID"/>
+      <xs:enumeration value="GIFTCARD"/>
+      <xs:enumeration value="EBT"/>
+      <xs:enumeration value="CREDIT"/>
+      <xs:enumeration value="DEBIT"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="CardTypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="VISA"/>
+      <xs:enumeration value="MC"/>
+      <xs:enumeration value="DISC"/>
+      <xs:enumeration value="AMEX"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="tzoneConversionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Merchant"/>
+      <xs:enumeration value="UTC"/>
+      <xs:enumeration value="Datacenter"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="PosGetAttachmentReqType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="GatewayTxnId" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosGetUserDeviceSettingsReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="MerchNbr" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="DeviceId" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosGiftCardActivateReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:GiftCardActivateReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GiftCardActivateReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardData" type="tns:GiftCardDataType"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GiftCardDataType">
+    <xs:sequence>
+      <xs:choice minOccurs="1" maxOccurs="1">
+        <xs:element minOccurs="0" maxOccurs="1" name="TrackData" type="xs:string"/>
+        <xs:element minOccurs="0" maxOccurs="1" name="CardNbr" type="xs:string"/>
+      </xs:choice>
+      <xs:element minOccurs="0" maxOccurs="1" name="EncryptionData" type="tns:EncryptionDataType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosGiftCardAddValueReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:GiftCardAddValueReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GiftCardAddValueReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardData" type="tns:GiftCardDataType"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosCreditVoidReqType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="GatewayTxnId" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosGiftCardBalanceReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:GiftCardBalanceReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GiftCardBalanceReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardData" type="tns:GiftCardDataType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosGiftCardDeactivateReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:GiftCardDeactivateReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GiftCardDeactivateReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardData" type="tns:GiftCardDataType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosDebitReturnReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:DebitReturnReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DebitReturnReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="GatewayTxnId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="TrackData" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="PinBlock" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderData" type="tns:CardHolderDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AllowDup" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="EncryptionData" type="tns:EncryptionDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AdditionalTxnFields" type="tns:AdditionalTxnFieldsType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AdditionalTxnFieldsType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Description" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="InvoiceNbr" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CustomerID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosDebitReversalReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:DebitReversalReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DebitReversalReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="GatewayTxnId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" default="0000000000000000" name="TrackData" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" default="0.0" name="Amt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AuthAmt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="EncryptionData" type="tns:EncryptionDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AdditionalTxnFields" type="tns:AdditionalTxnFieldsType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosDebitSaleReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:DebitSaleReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DebitSaleReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="TrackData" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="PinBlock" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CashbackAmtInfo" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderData" type="tns:CardHolderDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AllowDup" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="LodgingData" type="tns:LodgingDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AllowPartialAuth" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="EncryptionData" type="tns:EncryptionDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AdditionalTxnFields" type="tns:AdditionalTxnFieldsType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="LodgingDataType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="PrestigiousPropertyLimit" type="tns:prestigiousPropertyType"/>
+      <xs:element minOccurs="0" maxOccurs="1" default="N" name="NoShow" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AdvancedDepositType" type="tns:advancedDepositTypeType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="LodgingDataEdit" type="tns:LodgingDataEditType"/>
+      <xs:element minOccurs="0" maxOccurs="1" default="N" name="PreferredCustomer" type="tns:booleanType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="prestigiousPropertyType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NOT_PARTICIPATING"/>
+      <xs:enumeration value="LIMIT_500"/>
+      <xs:enumeration value="LIMIT_1000"/>
+      <xs:enumeration value="LIMIT_1500"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="advancedDepositTypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ASSURED_RESERVATION"/>
+      <xs:enumeration value="CARD_DEPOSIT"/>
+      <xs:enumeration value="PURCHASE"/>
+      <xs:enumeration value="OTHER"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="PosEBTBalanceInquiryReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:EBTBalanceInquiryReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="EBTBalanceInquiryReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardData" type="tns:CardDataType"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="PinBlock" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="BalanceInquiryType" type="tns:EBTBalanceInquiryType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="EBTBalanceInquiryType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="CASH"/>
+      <xs:enumeration value="FOODSTAMP"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="PosGiftCardReplaceReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:GiftCardReplaceReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GiftCardReplaceReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="OldCardData" type="tns:GiftCardDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="NewCardData" type="tns:GiftCardDataType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosGiftCardReversalReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:GiftCardReversalReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GiftCardReversalReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardData" type="tns:GiftCardDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="GatewayTxnId" type="xs:int"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosDebitAddValueReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:DebitAddValueReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DebitAddValueReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="TrackData" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="PinBlock" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderData" type="tns:CardHolderDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AllowDup" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="EncryptionData" type="tns:EncryptionDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AdditionalTxnFields" type="tns:AdditionalTxnFieldsType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosGiftCardSaleReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:GiftCardSaleReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GiftCardSaleReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardData" type="tns:GiftCardDataType"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="GratuityAmtInfo" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosGiftCardVoidReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:GiftCardVoidReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GiftCardVoidReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="GatewayTxnId" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosEBTCashBackPurchaseReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:EBTCashBackPurchaseReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="EBTCashBackPurchaseReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardData" type="tns:CardDataType"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="PinBlock" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderData" type="tns:CardHolderDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AllowDup" type="tns:booleanType"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="CashBackAmount" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosEBTCashBenefitWithdrawalReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:EBTCashBenefitWithdrawalReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="EBTCashBenefitWithdrawalReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardData" type="tns:CardDataType"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="PinBlock" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderData" type="tns:CardHolderDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AllowDup" type="tns:booleanType"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="CashBackAmount" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosEBTFSPurchaseReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:EBTFSPurchaseReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="EBTFSPurchaseReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardData" type="tns:CardDataType"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="PinBlock" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderData" type="tns:CardHolderDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AllowDup" type="tns:booleanType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosEBTFSReturnReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:EBTFSReturnReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="EBTFSReturnReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardData" type="tns:CardDataType"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="PinBlock" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderData" type="tns:CardHolderDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AllowDup" type="tns:booleanType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ManageSettingsReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="MerchNbr" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="DeviceId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="SettingActions">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:choice minOccurs="1" maxOccurs="1">
+              <xs:element minOccurs="0" maxOccurs="1" name="Query">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" name="Name" type="xs:string"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element minOccurs="0" maxOccurs="1" name="Set">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" name="NameValuePair" type="tns:NameValuePairType"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:choice>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NameValuePairType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Name" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Value" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosManageUsersReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="MerchNbr" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="UserActions">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="Query">
+              <xs:complexType/>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosPrePaidAddValueReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:PrePaidAddValueReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PrePaidAddValueReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardData" type="tns:CardDataType"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderData" type="tns:CardHolderDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AllowDup" type="tns:booleanType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosPrePaidBalanceInquiryReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:PrePaidBalanceInquiryReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PrePaidBalanceInquiryReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardData" type="tns:CardDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderData" type="tns:CardHolderDataType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosRecurringBillReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:RecurringBillReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RecurringBillReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardData" type="tns:CardDataType"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderData" type="tns:CardHolderDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AllowDup" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" default="N" name="OneTimePayment" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="InvoiceNbr" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosReportActivityReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="RptStartUtcDT" type="xs:dateTime"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="RptEndUtcDT" type="xs:dateTime"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="DeviceId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" default="UTC" name="TzConversion" type="tns:tzoneConversionType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosReportBatchDetailReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="BatchId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" default="UTC" name="TzConversion" type="tns:tzoneConversionType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosReportBatchHistoryReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="RptStartUtcDT" type="xs:dateTime"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="RptEndUtcDT" type="xs:dateTime"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="DeviceId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" default="UTC" name="TzConversion" type="tns:tzoneConversionType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosReportBatchSummaryReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="BatchId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="RptStartUtcDT" type="xs:dateTime"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="RptEndUtcDT" type="xs:dateTime"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="BatchSeqNbr" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="ClerkID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosReportOpenAuthsReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="DeviceId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" default="UTC" name="TzConversion" type="tns:tzoneConversionType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosReportSearchReqType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="ReturnHeaderOnly" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="RptStartUtcDT" type="xs:dateTime"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="RptEndUtcDT" type="xs:dateTime"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="DeviceId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Criteria" type="tns:ReportSearchCriteriaType"/>
+      <xs:element minOccurs="0" maxOccurs="1" default="UTC" name="TzConversion" type="tns:tzoneConversionType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ReportSearchCriteriaType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="SiteTraceCriteria" type="tns:ReportSearchSiteTraceCriteriaType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ReportSearchSiteTraceCriteriaType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="SiteTrace" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosReportTxnDetailReqType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="TxnId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" default="UTC" name="TzConversion" type="tns:tzoneConversionType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosSendReceiptReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Destinations">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="Destination" type="tns:DestinationType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="1" maxOccurs="1" name="GatewayTxnId" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DestinationType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="DataType">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="EMAIL_TO"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="1" name="Data" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosAddAttachmentReqType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="GatewayTxnId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Block1" type="tns:AttachmentDataType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AttachmentDataType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="AttachmentType" type="tns:attachmentTypeType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AttachmentData" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="AttachmentFormat" type="tns:attachmentFormatType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="attachmentTypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SIGNATURE_IMAGE"/>
+      <xs:enumeration value="RECEIPT_IMAGE"/>
+      <xs:enumeration value="CUSTOMER_IMAGE"/>
+      <xs:enumeration value="PRODUCT_IMAGE"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="attachmentFormatType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PNG"/>
+      <xs:enumeration value="JPG"/>
+      <xs:enumeration value="TIF"/>
+      <xs:enumeration value="BMP"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="PosCreditAccountVerifyReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:CreditAccountVerifyBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CreditAccountVerifyBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardData" type="tns:CardDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderData" type="tns:CardHolderDataType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosCreditAddToBatchReqType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="GatewayTxnId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Amt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="GratuityAmtInfo" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="LodgingDataEdit" type="tns:LodgingDataEditType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosCreditAuthReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:CreditAuthReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CreditAuthReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="GatewayTxnId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardData" type="tns:CardDataType"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="GratuityAmtInfo" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CPCReq" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderData" type="tns:CardHolderDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="DirectMktData" type="tns:DirectMktDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AllowDup" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="LodgingData" type="tns:LodgingDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AutoSubstantiation" type="tns:AutoSubstantiationType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AllowPartialAuth" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Ecommerce" type="tns:eCommerceType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AdditionalTxnFields" type="tns:AdditionalTxnFieldsType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="OrigTxnRefData" type="tns:origTxnRefDataType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DirectMktDataType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="DirectMktInvoiceNbr" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="DirectMktShipMonth" type="xs:int"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="DirectMktShipDay" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AutoSubstantiationType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="FirstAdditionalAmtInfo" type="tns:AdditionalAmtType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="SecondAdditionalAmtInfo" type="tns:AdditionalAmtType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="ThirdAdditionalAmtInfo" type="tns:AdditionalAmtType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="FourthAdditionalAmtInfo" type="tns:AdditionalAmtType"/>
+      <xs:element minOccurs="0" maxOccurs="1" default="0000000000" name="MerchantVerificationValue" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" default="N" name="RealTimeSubstantiation" type="tns:booleanType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AdditionalAmtType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="AmtType" type="tns:amtTypeType"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="amtTypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="TOTAL_HEALTHCARE_AMT"/>
+      <xs:enumeration value="SUBTOTAL_PRESCRIPTION_AMT"/>
+      <xs:enumeration value="SUBTOTAL_VISION__OPTICAL_AMT"/>
+      <xs:enumeration value="SUBTOTAL_CLINIC_OR_OTHER_AMT"/>
+      <xs:enumeration value="SUBTOTAL_DENTAL_AMT"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="eCommerceType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ECOM"/>
+      <xs:enumeration value="MOTO"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="origTxnRefDataType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="AuthCode" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardNbrLastFour" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosCreditCPCEditReqType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="GatewayTxnId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CPCData" type="tns:CPCDataType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CPCDataType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderPONbr" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="TaxType" type="tns:taxTypeType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="TaxAmt" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="taxTypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NOTUSED"/>
+      <xs:enumeration value="SALESTAX"/>
+      <xs:enumeration value="TAXEXEMPT"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="PosCreditIncrementalAuthReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:CreditIncrementalAuthReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CreditIncrementalAuthReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="GatewayTxnId" type="xs:int"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="LodgingData" type="tns:ExtraChargesDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AdditionalTxnFields" type="tns:AdditionalTxnFieldsType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosCreditOfflineAuthReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:CreditOfflineAuthReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CreditOfflineAuthReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardData" type="tns:CardDataType"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="GratuityAmtInfo" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CPCReq" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="OfflineAuthCode" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderData" type="tns:CardHolderDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="DirectMktData" type="tns:DirectMktDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AllowDup" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="LodgingData" type="tns:LodgingDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AutoSubstantiation" type="tns:AutoSubstantiationType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AdditionalTxnFields" type="tns:AdditionalTxnFieldsType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Ecommerce" type="tns:eCommerceType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosCreditOfflineSaleReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:CreditOfflineSaleReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CreditOfflineSaleReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardData" type="tns:CardDataType"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="GratuityAmtInfo" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CPCReq" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="OfflineAuthCode" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderData" type="tns:CardHolderDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="DirectMktData" type="tns:DirectMktDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AllowDup" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="LodgingData" type="tns:LodgingDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AutoSubstantiation" type="tns:AutoSubstantiationType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AdditionalTxnFields" type="tns:AdditionalTxnFieldsType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Ecommerce" type="tns:eCommerceType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosCreditReturnReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:CreditReturnReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CreditReturnReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="GatewayTxnId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardData" type="tns:CardDataType"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderData" type="tns:CardHolderDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="DirectMktData" type="tns:DirectMktDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AllowDup" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Ecommerce" type="tns:eCommerceType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AdditionalTxnFields" type="tns:AdditionalTxnFieldsType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosCreditReversalReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:CreditReversalReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CreditReversalReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="GatewayTxnId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardData" type="tns:CardDataType"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AuthAmt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Ecommerce" type="tns:eCommerceType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AdditionalTxnFields" type="tns:AdditionalTxnFieldsType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="ClientTxnId" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosCreditSaleReqType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Block1" type="tns:CreditSaleReqBlock1Type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CreditSaleReqBlock1Type">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="GatewayTxnId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardData" type="tns:CardDataType"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="GratuityAmtInfo" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CPCReq" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderData" type="tns:CardHolderDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="DirectMktData" type="tns:DirectMktDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AllowDup" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="LodgingData" type="tns:LodgingDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AutoSubstantiation" type="tns:AutoSubstantiationType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AllowPartialAuth" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Ecommerce" type="tns:eCommerceType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AdditionalTxnFields" type="tns:AdditionalTxnFieldsType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="OrigTxnRefData" type="tns:origTxnRefDataType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosGiftCardBalanceRspType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="RspCode" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="RspText" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AuthCode" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="BalanceAmt" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosGiftCardAddValueRspType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="RspCode" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="RspText" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AuthCode" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="BalanceAmt" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosGiftCardActivateRspType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="RspCode" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="RspText" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AuthCode" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="BalanceAmt" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosGetUserDeviceSettingsRspType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="MerchNbr" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Site" type="tns:ArrayOfNameValuePairType"/>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Permissions" type="tns:PermissionType"/>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Devices" type="tns:DeviceRspType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfNameValuePairType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="NameValuePair" type="tns:NameValuePairType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PermissionType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Permission" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DeviceRspType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Device" type="tns:DeviceType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Settings" type="tns:ArrayOfNameValuePairType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DeviceType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="DeviceId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="IndustryCode" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="DeviceTypeId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="DeviceDescription" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosGetAttachmentsRspType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Details" type="tns:AttachmentRspDataType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AttachmentRspDataType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="GatewayTxnId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AttachmentType" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AttachmentData" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AttachmentFormat" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Height" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Width" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="FindTransactionsRspType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Transactions" type="tns:TransactionDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" default="Merchant" name="TzConversion" type="tns:tzoneConversionType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TransactionDataType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="GatewayTxnId" type="xs:int"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="ClientTxnId" type="xs:long"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="GatewayRspCode" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="GatewayRspMsg" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardType" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="MaskedCardNbr" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardSwiped" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardHolderData" type="tns:CardHolderDataType"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="PaymentType" type="tns:paymentTypeType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="ServiceName" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="TxnStatus" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AuthCode" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AuthAmt" type="xs:decimal"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="SettlementAmt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="GratuityAmtInfo" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="UserName" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="ClerkID" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="RspDT" type="xs:dateTime"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="RspCode" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="RspText" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="IssTxnId" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="RefNbr" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="BatchSeqNbr" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="SiteTrace" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="OriginalGatewayTxnId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AcctDataSrc" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CPCData" type="tns:CPCDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="LodgingData" type="tns:LodgingDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AdditionalTxnFields" type="tns:AdditionalTxnFieldsType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CredentialData" type="tns:CredentialDataType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="UniqueDeviceId" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CredentialDataType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="DisplayName" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="ImpersonatedDisplayName" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosGiftCardDeactivateRspType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="RspCode" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="RspText" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AuthCode" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="RefundAmt" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosGetUserSettingsRspType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MIDS" type="tns:MidRspType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="User">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="UserInfo" type="tns:UserInfoRspType"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="DefaultMerchNbr" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="DefaultDeviceId" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="DefaultPermissions" type="tns:PermissionType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MidRspType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="MerchNbr" type="tns:MerchNbrRspType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Site" type="tns:SiteRspType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="License" type="tns:LicenseRspType"/>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Devices" type="tns:DeviceRspType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MerchNbrRspType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="MerchNbr" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Name" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Addr1" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Addr2" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="City" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="State" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Zip" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CustomerSvcPhoneNbr" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SiteRspType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="SiteId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Settings" type="tns:ArrayOfNameValuePairType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="LicenseRspType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="LicenseId" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="UserInfoRspType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="DisplayName" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="FirstName" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="LastName" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosGiftCardReplaceRspType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="RspCode" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="RspText" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AuthCode" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="BalanceAmt" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosBatchCloseRspType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="BatchId" type="xs:int"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="TxnCnt" type="xs:int"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="TotalAmt" type="xs:decimal"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="BatchSeqNbr" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosAuthenticateRspType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="CredentialToken" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosReportTxnDetailRspType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="GatewayTxnId" type="xs:int"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="ClientTxnId" type="xs:long"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="SiteId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="MerchName" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="DeviceId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="UserName" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="ServiceName" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="GatewayRspCode" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="GatewayRspMsg" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="ReqUtcDT" type="xs:dateTime"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="ReqDT" type="xs:dateTime"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="RspUtcDT" type="xs:dateTime"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="RspDT" type="xs:dateTime"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="SiteTrace" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="OriginalGatewayTxnId" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="MerchNbr" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="TermOrdinal" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="MerchAddr1" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="MerchAddr2" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="MerchCity" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="MerchState" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="MerchZip" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="MerchPhone" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="TzConversion" type="tns:tzoneConversionType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Data">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="TxnStatus" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardType" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="MaskedCardNbr" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardPresent" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="ReaderPresent" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardSwiped" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="DebitCreditInd" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="SaleReturnInd" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CVVReq" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CVVRsltCode" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="AuthAmt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="GratuityAmtInfo" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="CashbackAmtInfo" type="xs:decimal"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderLastName" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderFirstName" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderAddr" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderCity" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderState" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderZip" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderPhone" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderEmail" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="AVSRsltCode" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CPCReq" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CPCInd" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="RspCode" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="RspText" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="AuthCode" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="ReqACI" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="RspACI" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="MktSpecDataId" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="TxnCode" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="AcctDataSrc" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="AuthSrcCode" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="IssTxnId" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="IssValidationCode" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderIdCode" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="NetworkIdCode" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="RefNbr" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TxnSeqNbr" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="DirectMktInvoiceNbr" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="DirectMktShipMonth" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="DirectMktShipDay" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CPCCardHolderPONbr" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CPCTaxType" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="CPCTaxAmt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="SettlementAmt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="AllowPartialAuth" type="tns:booleanType"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="AutoSubstantiation" type="tns:AutoSubstantiationReportType"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="AdditionalTxnFields" type="tns:AdditionalTxnFieldsType"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="Attachment" type="tns:AttachmentRspDataType"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="AVSRsltText" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CVVRsltText" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="Ecommerce" type="tns:eCommerceType"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="TokenizationMsg" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CrytoTypeIn" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CryptoTypeOut" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="ClerkID" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CredentialData" type="tns:CredentialDataType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="1" name="UniqueDeviceId" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AutoSubstantiationReportType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="RealTimeSubstantiation" type="tns:booleanType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="FirstAdditionalAmtInfo" type="tns:AdditionalAmtType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="SecondAdditionalAmtInfo" type="tns:AdditionalAmtType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="ThirdAdditionalAmtInfo" type="tns:AdditionalAmtType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="FourthAdditionalAmtInfo" type="tns:AdditionalAmtType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosReportSearchRspType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Header">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="RptStartUtcDT" type="xs:dateTime"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="RptEndUtcDT" type="xs:dateTime"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="SiteId" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="MerchName" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="DeviceId" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TxnCnt" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TxnAmt" type="xs:decimal"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Details">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="GatewayTxnId" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="DeviceId" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="ServiceName" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TxnUtcDT" type="xs:dateTime"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="TxnStatus" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="SiteTrace" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="DebitCreditInd" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="SaleReturnInd" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardType" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="MaskedCardNbr" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="AuthAmt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="SettlementAmt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="CashbackAmtInfo" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="GratuityAmtInfo" type="xs:decimal"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="RspCode" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="RspText" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="AuthCode" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TzConversion" type="tns:tzoneConversionType"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TxnDT" type="xs:dateTime"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="ClerkID" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CredentialData" type="tns:CredentialDataType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosReportOpenAuthsRspType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Header">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="SiteId" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="MerchName" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="DeviceId" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TxnCnt" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TxnAmt" type="xs:decimal"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Details">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="DeviceId" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="GatewayTxnId" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="TxnStatus" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TxnUtcDT" type="xs:dateTime"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="SiteTrace" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="DebitCreditInd" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="SaleReturnInd" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardSwiped" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardType" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="MaskedCardNbr" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderLastName" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderFirstName" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderAddr" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderCity" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderState" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderZip" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderPhone" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderEmail" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="AuthAmt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="SettlementAmt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="GratuityAmtInfo" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="CashbackAmtInfo" type="xs:decimal"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="RspCode" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="RspText" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="AuthCode" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="AVSRsltCode" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CVVRsltCode" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="DirectMktInvoiceNbr" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="DirectMktShipMonth" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="DirectMktShipDay" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CPCCardHolderPONbr" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CPCTaxType" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="CPCTaxAmt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TzConversion" type="tns:tzoneConversionType"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TxnDT" type="xs:dateTime"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="ClerkID" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CredentialData" type="tns:CredentialDataType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosReportBatchSummaryRspType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Header">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="SiteId" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="MerchName" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="DeviceId" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="BatchId" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="BatchStatus" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="BatchSeqNbr" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="OpenUtcDT" type="xs:dateTime"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CloseUtcDT" type="xs:dateTime"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="OpenTxnId" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CloseTxnId" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="CreditCnt" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="CreditAmt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="DebitCnt" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="DebitAmt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="SaleCnt" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="SaleAmt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="ReturnCnt" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="ReturnAmt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TotalCnt" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TotalAmt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TotalGratuityAmtInfo" type="xs:decimal"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Details">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardType" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="CreditCnt" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="CreditAmt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="DebitCnt" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="DebitAmt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="SaleCnt" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="SaleAmt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="ReturnCnt" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="ReturnAmt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TotalCnt" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TotalAmt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TotalGratuityAmtInfo" type="xs:decimal"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosReportBatchHistoryRspType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Header">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="RptStartUtcDT" type="xs:dateTime"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="RptEndUtcDT" type="xs:dateTime"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="SiteId" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="MerchName" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="DeviceId" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="BatchCnt" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="BatchAmt" type="xs:decimal"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Details">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="DeviceId" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="BatchId" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="BatchStatus" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="BatchSeqNbr" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="OpenUtcDT" type="xs:dateTime"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CloseUtcDT" type="xs:dateTime"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="OpenTxnId" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CloseTxnId" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="BatchTxnCnt" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="BatchTxnAmt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TzConversion" type="tns:tzoneConversionType"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="OpenDT" type="xs:dateTime"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CloseDT" type="xs:dateTime"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosReportBatchDetailRspType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Header">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="SiteId" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="MerchName" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="DeviceId" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="BatchId" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="BatchStatus" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="BatchSeqNbr" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="OpenUtcDT" type="xs:dateTime"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CloseUtcDT" type="xs:dateTime"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="OpenTxnId" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CloseTxnId" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="BatchTxnCnt" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="BatchTxnAmt" type="xs:decimal"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Details">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="GatewayTxnId" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TxnUtcDT" type="xs:dateTime"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="TxnStatus" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="SiteTrace" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="DebitCreditInd" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="SaleReturnInd" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardSwiped" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardType" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="MaskedCardNbr" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderLastName" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderFirstName" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderAddr" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderCity" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderState" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderZip" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderPhone" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CardHolderEmail" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="GratuityAmtInfo" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="CashbackAmtInfo" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="AuthAmt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="SettlementAmt" type="xs:decimal"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="RspCode" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="RspText" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="AuthCode" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="AVSRsltCode" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CVVRsltCode" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="DirectMktInvoiceNbr" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="DirectMktShipMonth" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="DirectMktShipDay" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CPCCardHolderPONbr" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CPCTaxType" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="CPCTaxAmt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TzConversion" type="tns:tzoneConversionType"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TxnDT" type="xs:dateTime"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="LodgingData" type="tns:LodgingDataType"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="ClerkID" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="ServiceName" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="AdditionalTxnFields" type="tns:AdditionalTxnFieldsType"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CredentialData" type="tns:CredentialDataType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AuthRspStatusType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="RspCode" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="RspText" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AuthCode" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AVSRsltCode" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CVVRsltCode" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CPCInd" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="RefNbr" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AvailableBalance" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AuthAmt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AVSResultCodeAction" type="tns:resultCodeActionType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CVVResultCodeAction" type="tns:resultCodeActionType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CardType" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AVSRsltText" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="CVVRsltText" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="resultCodeActionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PROMPT"/>
+      <xs:enumeration value="DECLINE"/>
+      <xs:enumeration value="ACCEPT"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="PosManageUsersRspType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Users" type="tns:PosUserDetailRspType"/>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Device" type="tns:DeviceType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosUserDetailRspType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="UserName" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="DisplayName" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="FirstName" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="LastName" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Roles" type="tns:RoleRspType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RoleRspType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Role" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ManageSettingsRspType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Site" type="tns:ArrayOfNameValuePairType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Device" type="tns:ArrayOfNameValuePairType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosImpersonateRspType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MIDS" type="tns:MidRspType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="User">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="UserInfo" type="tns:UserInfoRspType"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="DefaultMerchNbr" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="DefaultDeviceId" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="DefaultPermissions" type="tns:PermissionType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosGiftCardVoidRspType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="RspCode" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="RspText" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AuthCode" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="BalanceAmt" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosGiftCardSaleRspType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="RspCode" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="RspText" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AuthCode" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="BalanceAmt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="SplitTenderCardAmt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="SplitTenderBalanceDueAmt" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosGiftCardReversalRspType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="RspCode" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="RspText" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AuthCode" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="BalanceAmt" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GiftCardTotalsType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="RspCode" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="RspText" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="SaleCnt" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="SaleAmt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="ActivateCnt" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="ActivateAmt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AddValueCnt" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="AddValueAmt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="VoidCnt" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="VoidAmt" type="xs:decimal"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="DeactivateCnt" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="DeactivateAmt" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PosReportActivityRspType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Header">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="RptStartUtcDT" type="xs:dateTime"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="RptEndUtcDT" type="xs:dateTime"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="SiteId" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="MerchName" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="DeviceId" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TxnCnt" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Details">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="DeviceId" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="UserName" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="ServiceName" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="GatewayTxnId" type="xs:int"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TxnUtcDT" type="xs:dateTime"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="OriginalGatewayTxnId" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="SiteTrace" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="GatewayRspCode" type="xs:int"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="GatewayRspMsg" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="Status" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="IssuerRspCode" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="IssuerRspText" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="MaskedCardNbr" type="xs:string"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="Amt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TzConversion" type="tns:tzoneConversionType"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="TxnDT" type="xs:dateTime"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="AuthAmt" type="xs:decimal"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="SettlementAmt" type="xs:decimal"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="ClerkID" type="xs:string"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="CredentialData" type="tns:CredentialDataType"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="UniqueDeviceId" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TokenDataRspType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="TokenRspCode" type="xs:int"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="TokenRspMsg" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="TokenValue" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PosResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="Ver1.0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="1" name="Header">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" name="LicenseId" type="xs:int"/>
+                    <xs:element minOccurs="0" maxOccurs="1" name="SiteId" type="xs:int"/>
+                    <xs:element minOccurs="0" maxOccurs="1" name="DeviceId" type="xs:int"/>
+                    <xs:element minOccurs="0" maxOccurs="1" name="SiteTrace" type="xs:string"/>
+                    <xs:element minOccurs="1" maxOccurs="1" name="GatewayTxnId" type="xs:int"/>
+                    <xs:element minOccurs="1" maxOccurs="1" name="GatewayRspCode" type="xs:int"/>
+                    <xs:element minOccurs="0" maxOccurs="1" name="GatewayRspMsg" type="xs:string"/>
+                    <xs:element minOccurs="0" maxOccurs="1" name="RspDT" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" maxOccurs="1" name="TokenData" type="tns:TokenDataRspType"/>
+                    <xs:element minOccurs="0" maxOccurs="1" name="ClientTxnId" type="xs:long"/>
+                    <xs:element minOccurs="0" maxOccurs="1" name="UniqueDeviceId" type="xs:string"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element minOccurs="0" maxOccurs="1" name="Transaction">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:choice minOccurs="1" maxOccurs="1">
+                      <xs:element minOccurs="0" maxOccurs="1" name="ReportActivity" type="tns:PosReportActivityRspType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GiftCardPreviousDayTotals" type="tns:GiftCardTotalsType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GiftCardReversal" type="tns:PosGiftCardReversalRspType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GiftCardSale" type="tns:PosGiftCardSaleRspType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GiftCardVoid" type="tns:PosGiftCardVoidRspType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="Impersonate" type="tns:PosImpersonateRspType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="InvalidateAuthentication" type="xs:string"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="ManageSettings" type="tns:ManageSettingsRspType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="ManageUsers" type="tns:PosManageUsersRspType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="PrePaidAddValue" type="tns:AuthRspStatusType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="PrePaidBalanceInquiry" type="tns:AuthRspStatusType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="RecurringBilling" type="tns:AuthRspStatusType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="ReportBatchDetail" type="tns:PosReportBatchDetailRspType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="ReportBatchHistory" type="tns:PosReportBatchHistoryRspType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="ReportBatchSummary" type="tns:PosReportBatchSummaryRspType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="ReportOpenAuths" type="tns:PosReportOpenAuthsRspType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="ReportSearch" type="tns:PosReportSearchRspType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="ReportTxnDetail" type="tns:PosReportTxnDetailRspType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="SendReceipt"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="TestCredentials" type="xs:string"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="DebitAddValue" type="tns:AuthRspStatusType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="AddAttachment"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="Authenticate" type="tns:PosAuthenticateRspType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="BatchClose" type="tns:PosBatchCloseRspType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CancelImpersonation" type="xs:string"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CreditAccountVerify" type="tns:AuthRspStatusType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CreditAddToBatch" type="xs:string"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CreditAuth" type="tns:AuthRspStatusType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CreditCPCEdit" type="xs:string"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CreditIncrementalAuth" type="tns:AuthRspStatusType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CreditOfflineAuth" type="xs:string"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CreditOfflineSale" type="xs:string"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GiftCardReplace" type="tns:PosGiftCardReplaceRspType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CreditReturn" type="xs:string"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CreditReversal" type="tns:AuthRspStatusType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CreditSale" type="tns:AuthRspStatusType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CreditTxnEdit" type="xs:string"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="CreditVoid" type="xs:string"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="EBTVoucherPurchase" type="tns:AuthRspStatusType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="DebitReturn" type="tns:AuthRspStatusType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="DebitReversal" type="tns:AuthRspStatusType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="DebitSale" type="tns:AuthRspStatusType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="EBTBalanceInquiry" type="tns:AuthRspStatusType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="EBTCashBackPurchase" type="tns:AuthRspStatusType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="EBTCashBenefitWithdrawal" type="tns:AuthRspStatusType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="EBTFSPurchase" type="tns:AuthRspStatusType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="EBTFSReturn" type="tns:AuthRspStatusType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GetUserSettings" type="tns:PosGetUserSettingsRspType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GiftCardDeactivate" type="tns:PosGiftCardDeactivateRspType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="FindTransactions" type="tns:FindTransactionsRspType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GetAttachments" type="tns:PosGetAttachmentsRspType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GetUserDeviceSettings" type="tns:PosGetUserDeviceSettingsRspType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="EndToEndTest"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GiftCardActivate" type="tns:PosGiftCardActivateRspType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GiftCardAddValue" type="tns:PosGiftCardAddValueRspType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GiftCardBalance" type="tns:PosGiftCardBalanceRspType"/>
+                      <xs:element minOccurs="0" maxOccurs="1" name="GiftCardCurrentDayTotals" type="tns:GiftCardTotalsType"/>
+                    </xs:choice>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="rootUrl" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

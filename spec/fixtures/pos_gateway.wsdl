@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://Hps.Exchange.PosGateway/PosGatewayService/" xmlns:i0="http://Hps.Exchange.PosGateway" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://Hps.Exchange.PosGateway/PosGatewayService/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:import namespace="http://Hps.Exchange.PosGateway" location="https://posgateway.cert.secureexchange.net/Hps.Exchange.PosGateway.UAT/PosGatewayService.asmx?wsdl=wsdl1"/>
+  <wsdl:types>
+    <s:schema targetNamespace="http://Hps.Exchange.PosGateway/PosGatewayService/">
+      <s:import schemaLocation="https://posgateway.cert.secureexchange.net/Hps.Exchange.PosGateway.UAT/PosGatewayService.asmx?schema=schema1" namespace="http://Hps.Exchange.PosGateway"/>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:service name="PosGatewayService">
+    <wsdl:port name="PosGatewayInterface" binding="i0:PosGatewayInterface">
+      <soap:address location="https://posgateway.cert.secureexchange.net/Hps.Exchange.PosGateway.UAT/PosGatewayService.asmx"/>
+    </wsdl:port>
+    <wsdl:port name="PosGatewayInterface1" binding="i0:PosGatewayInterface1">
+      <soap12:address location="https://posgateway.cert.secureexchange.net/Hps.Exchange.PosGateway.UAT/PosGatewayService.asmx"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
