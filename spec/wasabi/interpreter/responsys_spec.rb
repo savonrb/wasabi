@@ -22,9 +22,9 @@ describe Wasabi::Interpreter do
     end
 
     def mock_requests!
-      faults_response = new_response(:responsys_faults, :xsd)
-      schema_response = new_response(:responsys_schema, :xsd)
       wsdl_response   = new_response(:responsys)
+      schema_response = new_response(:responsys_schema, :xsd)
+      faults_response = new_response(:responsys_faults, :xsd)
 
       HTTPI.should_receive(:get) {
         HTTPI.should_receive(:get) {
