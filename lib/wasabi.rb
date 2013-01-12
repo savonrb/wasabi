@@ -24,7 +24,7 @@ module Wasabi
   end
 
   def self.interpreter(source, http_request = nil)
-    Interpreter.new sax(source, http_request).hash
+    Interpreter.new(source, http_request)
   end
 
 end
