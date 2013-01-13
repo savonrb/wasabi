@@ -253,29 +253,24 @@ module Wasabi
     end
 
     def type_map!
-      type_map  = {}
-      deferreds = []
+      type_map = {}
 
       sax[:schemas].each do |schema|
         schema[:elements].each do |element_name, element|
           if complex_type = element["complexType"]
-            type_map_element(type_map, deferreds, element_name, schema, complex_type)
+            type_map_element(type_map, element_name, schema, complex_type)
           end
         end
 
         schema[:complex_types].each do |complex_type_name, complex_type|
-          type_map_element(type_map, deferreds, complex_type_name, schema, complex_type)
+          type_map_element(type_map, complex_type_name, schema, complex_type)
         end
-      end
-
-      deferreds.each do |deferred|
-        deferred.call(type_map)
       end
 
       type_map
     end
 
-    def type_map_element(type_map, deferreds, name, schema, type)
+    def type_map_element(type_map, name, schema, type)
       type_map[name] ||= type_element = {}  # { :namespace => schema[:namespace] }
 
       #
