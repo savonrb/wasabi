@@ -13,10 +13,11 @@ module Wasabi
 
       @elements      = {}
       @complex_types = {}
+      @simple_types  = {}
     end
 
     attr_reader :namespace, :element_form_default, :attribute_form_default,
-                :elements, :complex_types
+                :elements, :complex_types, :simple_types
 
     def hash
       {
@@ -24,7 +25,8 @@ module Wasabi
         :element_form_default   => @element_form_default,
         :attribute_form_default => @attribute_form_default,
         :elements               => @elements,
-        :complex_types          => @complex_types
+        :complex_types          => @complex_types,
+        :simple_types           => @simple_types
       }
     end
 

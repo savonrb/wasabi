@@ -18,5 +18,12 @@ describe "Elements" do
       ])
     end
 
+    it "maps simple types" do
+      element = interpreter.type_map["PlaceBetsErrorEnum"]
+
+      expect(element[:restriction][:base]).to eq("xsd:string")
+      expect(element[:restriction][:enumeration]).to include("OK", "API_ERROR")
+    end
+
   end
 end

@@ -74,6 +74,21 @@ module Wasabi
           @last_complex_type = @last_complex_type[node.local] = {}
         end
 
+      # xs simple types
+      when matches("wsdl:definitions > wsdl:types > xs:schema > xs:simpleType",
+                   "xs:schema > xs:simpleType")
+        @last_simple_type = @last_schema.simple_types[node["name"]] ||= {}
+      when matches("wsdl:definitions > wsdl:types > xs:schema > xs:simpleType > *",
+                   "xs:schema > xs:simpleType > *")
+        if node.local == "restriction"
+          restriction = @last_simple_type[:restriction] = {}
+          restriction[:base] = node.attrs["base"] if node.attrs["base"]
+        elsif node.local == "enumeration"
+          restriction = @last_simple_type[:restriction]
+          restriction[:enumeration] ||= []
+          restriction[:enumeration]  << node.attrs["value"]
+        end
+
       # messages
       when matches("wsdl:definitions > wsdl:message")
         @last_message = @messages[node["name"]] = []

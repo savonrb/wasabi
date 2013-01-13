@@ -256,14 +256,18 @@ module Wasabi
       type_map = {}
 
       sax[:schemas].each do |schema|
-        schema[:elements].each do |element_name, element|
-          if complex_type = element["complexType"]
-            type_map_element(type_map, element_name, schema, complex_type)
+        schema[:elements].each do |name, type|
+          if complex_type = type["complexType"]
+            type_map_element(type_map, name, schema, complex_type)
           end
         end
 
-        schema[:complex_types].each do |complex_type_name, complex_type|
-          type_map_element(type_map, complex_type_name, schema, complex_type)
+        schema[:complex_types].each do |name, type|
+          type_map_element(type_map, name, schema, type)
+        end
+
+        schema[:simple_types].each do |name, type|
+          type_map_element(type_map, name, schema, type)
         end
       end
 
@@ -275,14 +279,13 @@ module Wasabi
 
       #
       # { :sequence => [
-      #     {
-      #       "minOccurs" => "1",
-      #       "maxOccurs" => "1",
-      #       "name"      => "CreditCardType",
-      #       "type"      => "tns:CCType"
-      #     }
-      #   ]
-      # }
+      #   {
+      #     "minOccurs" => "1",
+      #     "maxOccurs" => "1",
+      #     "name"      => "CreditCardType",
+      #     "type"      => "tns:CCType"
+      #   }
+      # ]}
       #
       if type["sequence"]
         sequence = type["sequence"]["element"]
@@ -329,6 +332,15 @@ module Wasabi
       #
       elsif type.empty?
         type_element[:empty] = true
+
+      #
+      # { :restriction => {
+      #   :base        => "xsd:string",
+      #   :enumeration => ["OK", "API_ERROR"]
+      # }}
+      #
+      elsif type[:restriction]
+        type_element.merge! type
 
       else
         p "else:"
