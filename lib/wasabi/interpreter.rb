@@ -88,6 +88,11 @@ module Wasabi
       @operations = operations
     end
 
+    def type_map
+      return @type_map if @type_map
+      @type_map = type_map!
+    end
+
     def types
       @types = {}
 
@@ -245,6 +250,87 @@ module Wasabi
 
     def resolve_deferred_types
       deferred_types.each(&:call)
+    end
+
+    def type_map!
+      type_map  = {}
+      deferreds = []
+
+      sax[:schemas].each do |schema|
+        schema[:elements].each do |element_name, element|
+          if complex_type = element["complexType"]
+            type_map_element(type_map, deferreds, element_name, schema, complex_type)
+          end
+        end
+
+        schema[:complex_types].each do |complex_type_name, complex_type|
+          type_map_element(type_map, deferreds, complex_type_name, schema, complex_type)
+        end
+      end
+
+      deferreds.each do |deferred|
+        deferred.call(type_map)
+      end
+
+      type_map
+    end
+
+    def type_map_element(type_map, deferreds, name, schema, type)
+      type_map[name] ||= type_element = {}  # { :namespace => schema[:namespace] }
+
+      #
+      # { :sequence => [
+      #     {
+      #       "minOccurs" => "1",
+      #       "maxOccurs" => "1",
+      #       "name"      => "CreditCardType",
+      #       "type"      => "tns:CCType"
+      #     }
+      #   ]
+      # }
+      #
+      if type["sequence"]
+        sequence = type["sequence"]["element"]
+        type_element[:sequence] = sequence
+
+      #
+      # { :extension => "ReturnValue",          # optional
+      #   :sequence  => [                       # optional
+      #     {
+      #       "minOccurs" => "1",
+      #       "maxOccurs" => "1",
+      #       "name"      => "CreditCardType",
+      #       "type"      => "tns:CCType"
+      #     }
+      #   ]
+      # }
+      #
+      elsif type["complexContent"] && type["complexContent"]["extension"]
+        extension = type["complexContent"]["extension"]
+
+        if extension["base"]
+          base = extension["base"].match(/\w+$/).to_s
+          type_element[:extension] = base
+        end
+
+        if extension["sequence"]
+          elements = extension["sequence"]["element"]
+          type_element[:sequence] = elements
+        end
+
+      #
+      # { :empty => true }
+      #
+      elsif type.empty?
+        type_element[:empty] = true
+
+      else
+        p "else:"
+        p type
+        raise "else"
+      end
+
+      type_map[name] = type_element
     end
 
   end
