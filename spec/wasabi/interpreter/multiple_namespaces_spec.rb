@@ -29,13 +29,13 @@ describe Wasabi::Interpreter do
     end
 
     it "knows the type namespaces" do
-      expect(interpreter.type_namespaces).to eq([
+      expect(interpreter.type_namespaces).to include(
         [["Save"], "http://example.com/actions"],
         [["Save", "article"], "http://example.com/actions"],
         [["Article"], "http://example.com/article"],
         [["Article", "Author"], "http://example.com/article"],
         [["Article", "Title"], "http://example.com/article"]
-      ])
+      )
     end
 
     it "knows the type definitions" do
