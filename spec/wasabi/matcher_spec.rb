@@ -68,6 +68,40 @@ describe Wasabi::Matcher do
     matcher.should === stack
   end
 
+  it "matches any direct child element" do
+    stack << "xs:schema" << "xs:simpleType"
+
+    matcher = matcher("xs:schema > xs:simpleType > .")
+    matcher.should_not === stack
+
+    stack << "xs:restriction"
+    matcher.should === stack
+
+    stack << "xs:enumeration"
+    matcher.should_not === stack
+
+    stack.pop
+    stack.pop
+    stack << "xs:whatever"
+    matcher.should === stack
+  end
+
+  it "works with wildcard and direct child matches" do
+    stack << "xs:schema" << "xs:simpleType"
+
+    matcher = matcher("xs:schema > xs:simpleType > . > *")
+    matcher.should_not === stack
+
+    stack << "xs:restriction"
+    matcher.should_not === stack
+
+    stack << "xs:enumeration"
+    matcher.should === stack
+
+    stack << "xs:whatever"
+    matcher.should === stack
+  end
+
   def matcher(*matcher)
     Wasabi::Matcher.create(*matcher)
   end

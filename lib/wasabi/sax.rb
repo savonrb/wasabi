@@ -78,12 +78,15 @@ module Wasabi
       when matches("wsdl:definitions > wsdl:types > xs:schema > xs:simpleType",
                    "xs:schema > xs:simpleType")
         @last_simple_type = @last_schema.simple_types[node["name"]] ||= {}
-      when matches("wsdl:definitions > wsdl:types > xs:schema > xs:simpleType > *",
-                   "xs:schema > xs:simpleType > *")
+      when matches("wsdl:definitions > wsdl:types > xs:schema > xs:simpleType > .",
+                   "xs:schema > xs:simpleType > .")
         if node.local == "restriction"
           restriction = @last_simple_type[:restriction] = {}
           restriction[:base] = node.attrs["base"] if node.attrs["base"]
-        elsif node.local == "enumeration"
+        end
+      when matches("wsdl:definitions > wsdl:types > xs:schema > xs:simpleType > . > *",
+                   "xs:schema > xs:simpleType > . > *")
+        if node.local == "enumeration"
           restriction = @last_simple_type[:restriction]
           restriction[:enumeration] ||= []
           restriction[:enumeration]  << node.attrs["value"]

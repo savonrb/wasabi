@@ -16,6 +16,7 @@ module Wasabi
       return false if matcher.size != stack.size
 
       matcher.each_with_index do |nodes, index|
+        next if nodes.include?(".")
         return false unless nodes.include?(stack[-(index+1)])
       end
       true

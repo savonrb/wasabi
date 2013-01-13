@@ -2,8 +2,12 @@ module Wasabi
   module Matcher
 
     def self.create(*matcher)
-      wildcard = matcher.first.end_with?("*")
-      wildcard ? WildcardMatcher.new(*matcher) : PathMatcher.new(*matcher)
+      case
+        when matcher.first.end_with?("*")
+          WildcardMatcher.new(*matcher)
+        else
+          PathMatcher.new(*matcher)
+      end
     end
 
     def parse(matcher)
