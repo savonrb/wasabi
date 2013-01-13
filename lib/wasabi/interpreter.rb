@@ -317,8 +317,12 @@ module Wasabi
         unless other_keys.empty?
           p "other keys:"
           p other_keys
-          raise "other keys"
+          pp extension
+          raise "other keys!"
         end
+
+      elsif type["annotation"]
+        nil
 
       #
       # { :empty => true }
@@ -328,8 +332,9 @@ module Wasabi
 
       else
         p "else:"
+        p type.keys
         p type
-        raise "else"
+        raise "else!"
       end
 
       type_map[name] = type_element
