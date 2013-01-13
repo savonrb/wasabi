@@ -15,7 +15,7 @@ describe "Elements" do
 
       expect(element[:extension]).to eq("ReturnValue")
       expect(element[:sequence]).to eq([
-        { "minOccurs" => "1", "maxOccurs" => "1", "name" => "CreditCardType", "type" => "tns:CCType" },
+        { "minOccurs" => "1", "maxOccurs" => "1", "name" => "CreditCardType",   "type" => "tns:CCType" },
         { "minOccurs" => "0", "maxOccurs" => "1", "name" => "CreditCardNumber", "type" => "s:string" },
         { "minOccurs" => "0", "maxOccurs" => "1", "name" => "CreditCardExpiry", "type" => "s:string" }
       ])
