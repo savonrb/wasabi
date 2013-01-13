@@ -1,32 +1,27 @@
 require "spec_helper"
 
 describe Wasabi::SAX do
+  include SpecSupport::SAX
 
-  subject(:sax) { new_sax(:authentication) }
+  subject(:sax) { new_sax(:authentication).hash }
 
   context "with authentication.wsdl" do
     it "knows the target namespace" do
-      expect(sax.target_namespace).to eq("http://v1_0.ws.auth.order.example.com/")
-    end
-
-    it "knows the elementFormDefault value" do
-      expect(sax.element_form_default).to eq("unqualified")
-    end
-
-    it "knows the attributeFormDefault value" do
-      expect(sax.attribute_form_default).to eq("unqualified")
+      expect(sax[:target_namespace]).to eq("http://v1_0.ws.auth.order.example.com/")
     end
 
     it "knows the elements" do
-      expect(sax).to have(4).elements
+      expect(count_elements(:elements)).to eq(4)
 
-      expect(sax.elements["authenticate"]).to eq("type" => "tns:authenticate")
+      element = find_element(:elements, "authenticate")
+      expect(element).to eq("type" => "tns:authenticate")
     end
 
     it "knows the complex types" do
-      expect(sax).to have(4).complex_types
+      expect(count_elements(:complex_types)).to eq(4)
 
-      expect(sax.complex_types["authenticationResult"]).to eq(
+      element = find_element(:complex_types, "authenticationResult")
+      expect(element).to eq(
         "sequence" => {
           "element" => [
             { "name" => "authenticationValue", "type" => "tns:authenticationValue", "minOccurs" => "0", "nillable" => "true" },
@@ -35,7 +30,8 @@ describe Wasabi::SAX do
         }
       )
 
-      expect(sax.complex_types["authenticationValue"]).to eq(
+      element = find_element(:complex_types, "authenticationValue")
+      expect(element).to eq(
         "sequence" => {
           "element" => [
             { "name" => "token",     "type" => "xs:string" },
@@ -47,14 +43,14 @@ describe Wasabi::SAX do
     end
 
     it "knows the messages" do
-      expect(sax.messages).to eql(
+      expect(sax[:messages]).to eql(
         "authenticate"         => [{ "name" => "parameters", "element" => "tns:authenticate" }],
         "authenticateResponse" => [{ "name" => "parameters", "element" => "tns:authenticateResponse" }]
       )
     end
 
     it "knows the bindings" do
-      expect(sax.bindings).to eq(
+      expect(sax[:bindings]).to eq(
         "AuthenticationWebServiceImplServiceSoapBinding" => {
           "type"            => "tns:AuthenticationWebService",
           "transport"       => "http://schemas.xmlsoap.org/soap/http",
@@ -73,7 +69,7 @@ describe Wasabi::SAX do
     end
 
     it "knows the port types" do
-      expect(sax.port_types).to eq(
+      expect(sax[:port_types]).to eq(
         "AuthenticationWebService" => {
           "operations"     => {
             "authenticate" => {
@@ -86,7 +82,7 @@ describe Wasabi::SAX do
     end
 
     it "knows the services" do
-      expect(sax.services).to eql(
+      expect(sax[:services]).to eql(
         "AuthenticationWebServiceImplService" => {
           "AuthenticationWebServiceImplPort" => {
             "namespace" => Wasabi::NAMESPACES["soap"],

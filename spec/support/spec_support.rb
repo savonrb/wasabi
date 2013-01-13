@@ -1,4 +1,5 @@
 require "support/fixture"
+require "support/sax"
 
 module SpecSupport
 

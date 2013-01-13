@@ -1,26 +1,20 @@
 require "spec_helper"
 
 describe Wasabi::SAX do
+  include SpecSupport::SAX
 
-  subject(:sax) { new_sax(:namespaced_actions) }
+  subject(:sax) { new_sax(:namespaced_actions).hash }
 
   context "with namespaced_actions.wsdl" do
     it "knows the target namespace" do
-      expect(sax.target_namespace).to eq("http://api.example.com/api/")
-    end
-
-    it "knows the elementFormDefault value" do
-      expect(sax.element_form_default).to eq("qualified")
-    end
-
-    it "knows the attributeFormDefault value" do
-      expect(sax.attribute_form_default).to eq("unqualified")
+      expect(sax[:target_namespace]).to eq("http://api.example.com/api/")
     end
 
     it "knows the elements" do
-      expect(sax).to have(8).elements
+      expect(count_elements(:elements)).to eq(8)
 
-      expect(sax.elements["User.GetApiKey"]).to eq(
+      element = find_element(:elements, "User.GetApiKey")
+      expect(element).to eq(
         "complexType" => {
           "sequence"  => {
             "element" => [
@@ -32,13 +26,15 @@ describe Wasabi::SAX do
         }
       )
 
-      expect(sax.elements["Result"]).to eq("nillable" => "true", "type" => "tns:Result")
+      element = find_element(:elements, "Result")
+      expect(element).to eq("nillable" => "true", "type" => "tns:Result")
     end
 
     it "knows the complex types" do
-      expect(sax).to have(3).complex_types
+      expect(count_elements(:complex_types)).to eq(3)
 
-      expect(sax.complex_types["Result"]).to eq(
+      element = find_element(:complex_types, "Result")
+      expect(element).to eq(
         "sequence"  => {
           "element" => [
             { "minOccurs" => "1", "maxOccurs" => "1", "name" => "Code",    "type" => "s:int" },
@@ -49,13 +45,13 @@ describe Wasabi::SAX do
     end
 
     it "knows the messages" do
-      expect(sax).to have(18).messages
+      expect(sax[:messages].count).to eq(18)
 
-      expect(sax.messages["User.GetClientsSoapIn"]).to eql(
+      expect(sax[:messages]["User.GetClientsSoapIn"]).to eql(
         [{ "name" => "parameters", "element" => "tns:User.GetClients" }]
       )
 
-      expect(sax.messages["User.GetApiKeyHttpGetIn"]).to eql(
+      expect(sax[:messages]["User.GetApiKeyHttpGetIn"]).to eql(
         [
           { "name" => "SiteUrl",  "type" => "s:string" },
           { "name" => "Username", "type" => "s:string" },
@@ -65,7 +61,7 @@ describe Wasabi::SAX do
     end
 
     it "knows the bindings" do
-      expect(sax.bindings).to eq(
+      expect(sax[:bindings]).to eq(
         "apiSoap"           => {
           "type"            => "tns:apiSoap",
           "transport"       => "http://schemas.xmlsoap.org/soap/http",
@@ -176,7 +172,7 @@ describe Wasabi::SAX do
     end
 
     it "knows the port types" do
-      expect(sax.port_types).to eq(
+      expect(sax[:port_types]).to eq(
         "apiSoap"          => {
           "operations"     => {
             "GetApiKey"    => {
@@ -229,7 +225,7 @@ describe Wasabi::SAX do
     end
 
     it "knows the services" do
-      expect(sax.services).to eql(
+      expect(sax[:services]).to eql(
         "api" => {
           "apiSoap"     => {
             "namespace" => Wasabi::NAMESPACES["soap"],
