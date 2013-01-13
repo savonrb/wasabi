@@ -318,6 +318,13 @@ module Wasabi
           type_element[:sequence] = elements
         end
 
+        other_keys = extension.keys - %w(base sequence)
+        unless other_keys.empty?
+          p "other keys:"
+          p other_keys
+          raise "other keys"
+        end
+
       #
       # { :empty => true }
       #
