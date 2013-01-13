@@ -199,6 +199,7 @@ module Wasabi
     end
 
     def resolve_import!(location)
+      return if !location || location.empty?
       source = URI.join(@source, location)
 
       if location && source
