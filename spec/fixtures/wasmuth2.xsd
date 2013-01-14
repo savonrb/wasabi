@@ -1,0 +1,438 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2.1-b01-. --><xs:schema xmlns:tns="customers.model.online.msw" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="customers.model.online.msw">
+
+<xs:complexType name="adressen">
+<xs:sequence>
+<xs:element name="adressUid" type="xs:string" minOccurs="0" />
+<xs:element name="anrede" type="xs:string" minOccurs="0" />
+<xs:element name="durchwahlFax" type="xs:string" minOccurs="0" />
+<xs:element name="durchwahlTelefon" type="xs:string" minOccurs="0" />
+<xs:element name="email" type="xs:string" minOccurs="0" />
+<xs:element name="internet" type="xs:string" minOccurs="0" />
+<xs:element name="land" type="xs:string" minOccurs="0" />
+<xs:element name="nachname" type="xs:string" minOccurs="0" />
+<xs:element name="name1" type="xs:string" minOccurs="0" />
+<xs:element name="name2" type="xs:string" minOccurs="0" />
+<xs:element name="ort" type="xs:string" minOccurs="0" />
+<xs:element name="pk" type="tns:adressenPK" minOccurs="0" />
+<xs:element name="plz" type="xs:string" minOccurs="0" />
+<xs:element name="postfach" type="xs:string" minOccurs="0" />
+<xs:element name="postfachOrt" type="xs:string" minOccurs="0" />
+<xs:element name="postfachPlz" type="xs:string" minOccurs="0" />
+<xs:element name="strasse" type="xs:string" minOccurs="0" />
+<xs:element name="vorname" type="xs:string" minOccurs="0" />
+<xs:element name="vorwahlFax" type="xs:string" minOccurs="0" />
+<xs:element name="vorwahlTelefon" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adressenPK">
+<xs:sequence>
+<xs:element name="adresstypId" type="xs:int" />
+<xs:element name="objektUid" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="bankenNEU">
+<xs:sequence>
+<xs:element name="bankName" type="xs:string" minOccurs="0" />
+<xs:element name="bankUid" type="xs:string" minOccurs="0" />
+<xs:element name="bankleitzahl" type="xs:string" minOccurs="0" />
+<xs:element name="bic" type="xs:string" minOccurs="0" />
+<xs:element name="iban" type="xs:string" minOccurs="0" />
+<xs:element name="kontonummer" type="xs:string" minOccurs="0" />
+<xs:element name="lkz" type="xs:string" minOccurs="0" />
+<xs:element name="objektUid" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="belegungseinheit">
+<xs:sequence />
+<xs:attribute name="beName" type="xs:string" />
+<xs:attribute name="beschreibung" type="xs:string" />
+<xs:attribute name="buchbar" type="xs:boolean" use="required" />
+<xs:attribute name="changedate" type="xs:dateTime" />
+<xs:attribute name="gattung" type="xs:int" use="required" />
+<xs:attribute name="gesamtangebot" type="xs:boolean" use="required" />
+<xs:attribute name="gueltigAb" type="xs:dateTime" />
+<xs:attribute name="gueltigBis" type="xs:dateTime" />
+<xs:attribute name="kombination" type="xs:boolean" use="required" />
+<xs:attribute name="landId" type="xs:int" use="required" />
+<xs:attribute name="newIdDate" type="xs:dateTime" />
+<xs:attribute name="newPlDate" type="xs:dateTime" />
+<xs:attribute name="objektUid" type="xs:string" />
+<xs:attribute name="omc" type="xs:string" />
+<xs:attribute name="platzierung" type="xs:int" use="required" />
+<xs:attribute name="preiseAufAnfrage" type="xs:boolean" use="required" />
+<xs:attribute name="preislistennummer" type="xs:string" />
+<xs:attribute name="vermarkterChangeDate" type="xs:dateTime" />
+<xs:attribute name="vermarkterId" type="xs:int" use="required" />
+<xs:attribute name="zugeordneteSites" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="datenanlieferungNEU">
+<xs:sequence>
+<xs:element name="anlieferschluss" type="xs:string" minOccurs="0" />
+<xs:element name="email" type="xs:string" minOccurs="0" />
+<xs:element name="hinweis" type="xs:string" minOccurs="0" />
+<xs:element name="maxGewicht" type="xs:int" />
+<xs:element name="pk" type="tns:datenanlieferungNEUPK" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="datenanlieferungNEUPK">
+<xs:sequence>
+<xs:element name="dateiformatId" type="xs:int" />
+<xs:element name="werbeformUid" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="erweiterteEigenschaften">
+<xs:sequence />
+<xs:attribute name="bezeichnung" type="xs:string" />
+<xs:attribute name="datentyp" type="xs:string" />
+<xs:attribute name="einheit" type="xs:string" />
+<xs:attribute name="fkTyp" type="xs:string" />
+<xs:attribute name="fkUid" type="xs:string" />
+<xs:attribute name="hinweis" type="xs:string" />
+<xs:attribute name="id" type="xs:int" use="required" />
+<xs:attribute name="wert" type="xs:string" />
+<xs:attribute name="zusatz" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="frequencycappingNEU">
+<xs:sequence>
+<xs:element name="aufschlag" type="xs:decimal" minOccurs="0" />
+<xs:element name="aufschlagartId" type="xs:int" />
+<xs:element name="maxCap" type="xs:int" />
+<xs:element name="minCap" type="xs:int" />
+<xs:element name="pk" type="tns:frequencycappingNEUPK" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="frequencycappingNEUPK">
+<xs:sequence>
+<xs:element name="freqcapartId" type="xs:int" />
+<xs:element name="objektUid" type="xs:string" minOccurs="0" />
+<xs:element name="werbeformUid" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="newsletterAussand">
+<xs:sequence />
+<xs:attribute name="aboZahl" type="xs:int" use="required" />
+<xs:attribute name="ewId" type="xs:int" use="required" />
+<xs:attribute name="objektUid" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="omcMatch">
+<xs:sequence />
+<xs:attribute name="agof" type="xs:string" />
+<xs:attribute name="ivw" type="xs:string" />
+<xs:attribute name="mds" type="xs:string" />
+<xs:attribute name="netmetrix" type="xs:string" />
+<xs:attribute name="omc" type="xs:string" />
+<xs:attribute name="xenion" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="preiseNEU">
+<xs:sequence>
+<xs:element name="garantierteReichweite" type="xs:int" />
+<xs:element name="pk" type="tns:preiseNEUPK" minOccurs="0" />
+<xs:element name="preis" type="xs:decimal" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="preiseNEUPK">
+<xs:sequence>
+<xs:element name="objektUid" type="xs:string" minOccurs="0" />
+<xs:element name="preistypId" type="xs:int" />
+<xs:element name="werbeformUid" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="rabatteNEU">
+<xs:sequence>
+<xs:element name="hinweis" type="xs:string" minOccurs="0" />
+<xs:element name="pk" type="tns:rabatteNEUPK" minOccurs="0" />
+<xs:element name="rabattUid" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="rabatteNEUPK">
+<xs:sequence>
+<xs:element name="objektUid" type="xs:string" minOccurs="0" />
+<xs:element name="rabatttypId" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="rabattstaffelnNEU">
+<xs:sequence>
+<xs:element name="pk" type="tns:rabattstaffelnNEUPK" minOccurs="0" />
+</xs:sequence>
+<xs:attribute name="abBis" type="xs:string" />
+<xs:attribute name="rabatt" type="xs:decimal" />
+<xs:attribute name="rabattEinheitId" type="xs:int" use="required" />
+<xs:attribute name="schwelleEinheitId" type="xs:int" use="required" />
+</xs:complexType>
+
+<xs:complexType name="rabattstaffelnNEUPK">
+<xs:sequence>
+<xs:element name="rabattUid" type="xs:string" minOccurs="0" />
+<xs:element name="schwelle" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sachgruppen">
+<xs:sequence>
+<xs:element name="pk" type="tns:sachgruppenPK" minOccurs="0" />
+</xs:sequence>
+<xs:attribute name="modifydate" type="xs:dateTime" />
+<xs:attribute name="vermarkterId" type="xs:int" use="required" />
+</xs:complexType>
+
+<xs:complexType name="sachgruppenPK">
+<xs:sequence />
+<xs:attribute name="objektUid" type="xs:string" />
+<xs:attribute name="sachgruppenUid" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="targetingNEU">
+<xs:sequence>
+<xs:element name="aufschlag" type="xs:decimal" minOccurs="0" />
+<xs:element name="aufschlagartId" type="xs:int" />
+<xs:element name="pk" type="tns:targetingNEUPK" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="targetingNEUPK">
+<xs:sequence>
+<xs:element name="objektUid" type="xs:string" minOccurs="0" />
+<xs:element name="targetingId" type="xs:int" />
+<xs:element name="targetingmerkmalId" type="xs:int" />
+<xs:element name="werbeformUid" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="werbeformGroessen">
+<xs:sequence>
+<xs:element name="pk" type="tns:werbeformGroessenPK" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="werbeformGroessenPK">
+<xs:sequence />
+<xs:attribute name="maxBreite" type="xs:int" use="required" />
+<xs:attribute name="maxHoehe" type="xs:int" use="required" />
+<xs:attribute name="minBreite" type="xs:int" use="required" />
+<xs:attribute name="minHoehe" type="xs:int" use="required" />
+<xs:attribute name="werbeformUid" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="werbeformKombinationen">
+<xs:sequence>
+<xs:element name="pk" type="tns:werbeformKombinationenPK" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="werbeformKombinationenPK">
+<xs:sequence />
+<xs:attribute name="kombiWerbeformUid" type="xs:string" />
+<xs:attribute name="mitgliedWerbeformUid" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="werbeformen">
+<xs:sequence />
+<xs:attribute name="extProperties" type="xs:int" use="required" />
+<xs:attribute name="extraBezeichnung" type="xs:string" />
+<xs:attribute name="hinweis" type="xs:string" />
+<xs:attribute name="kategorieWerbeformUid" type="xs:string" />
+<xs:attribute name="masterWerbeformUid" type="xs:string" />
+<xs:attribute name="objektUid" type="xs:string" />
+<xs:attribute name="werbeformUid" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="zahlungsbedingungenNEU">
+<xs:sequence>
+<xs:element name="pk" type="tns:zahlungsbedingungenNEUPK" minOccurs="0" />
+<xs:element name="zahlungProzent" type="xs:decimal" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="zahlungsbedingungenNEUPK">
+<xs:sequence>
+<xs:element name="zahlungBasis" type="xs:short" />
+<xs:element name="zahlungTage" type="xs:short" />
+<xs:element name="zahlungTyp" type="xs:short" />
+<xs:element name="zahlungZeit" type="xs:short" />
+<xs:element name="zahlungsbedingungenUid" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="zahlungsbedingungenZuordnung">
+<xs:sequence>
+<xs:element name="mindestvolumen" type="xs:decimal" minOccurs="0" />
+<xs:element name="objektUid" type="xs:string" minOccurs="0" />
+<xs:element name="zahlungsbedingungenUid" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="vermarkter">
+<xs:sequence />
+<xs:attribute name="gattung" type="xs:int" use="required" />
+<xs:attribute name="handelsregisterEintrag" type="xs:string" />
+<xs:attribute name="landId" type="xs:int" use="required" />
+<xs:attribute name="modifydate" type="xs:dateTime" />
+<xs:attribute name="umsatzsteuerId" type="xs:string" />
+<xs:attribute name="vermarkterAgofId" type="xs:string" />
+<xs:attribute name="vermarkterBezeichnung" type="xs:string" />
+<xs:attribute name="vermarkterId" type="xs:int" use="required" />
+<xs:attribute name="vermarkterPraefix" type="xs:string" />
+<xs:attribute name="vermarkterStatus" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="sachgruppenpool">
+<xs:sequence />
+<xs:attribute name="ebene1" type="xs:int" use="required" />
+<xs:attribute name="ebene2" type="xs:int" use="required" />
+<xs:attribute name="ebene3" type="xs:int" use="required" />
+<xs:attribute name="sachgruppenUid" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="stAnsprechpartnertypen">
+<xs:sequence />
+<xs:attribute name="ansprechpartnerTypId" type="xs:int" use="required" />
+<xs:attribute name="ansprechpartnerTypName" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="stAufschlagart">
+<xs:sequence />
+<xs:attribute name="aufschlagart" type="xs:int" use="required" />
+<xs:attribute name="aufschlagartBeschreibung" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="stDateiformate">
+<xs:sequence />
+<xs:attribute name="dateiformatId" type="xs:int" use="required" />
+<xs:attribute name="dateiformatName" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="stEinheiten">
+<xs:sequence />
+<xs:attribute name="einheitId" type="xs:int" use="required" />
+<xs:attribute name="einheitName" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="stErscheinungsweisen">
+<xs:sequence />
+<xs:attribute name="ewId" type="xs:int" use="required" />
+<xs:attribute name="ewName" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="stFreqcaparten">
+<xs:sequence />
+<xs:attribute name="freqcapartId" type="xs:int" use="required" />
+<xs:attribute name="frequencycappingart" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="stGattungen">
+<xs:sequence />
+<xs:attribute name="gattungId" type="xs:int" use="required" />
+<xs:attribute name="gattungKuerzel" type="xs:string" />
+<xs:attribute name="gattungName" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="stLaender">
+<xs:sequence />
+<xs:attribute name="isoLandBezeichnung" type="xs:string" />
+<xs:attribute name="isoLandCode" type="xs:string" />
+<xs:attribute name="landBezeichnung" type="xs:string" />
+<xs:attribute name="landCode" type="xs:string" />
+<xs:attribute name="landId" type="xs:int" use="required" />
+</xs:complexType>
+
+<xs:complexType name="stPlatzierungen">
+<xs:sequence />
+<xs:attribute name="platzierungId" type="xs:int" use="required" />
+<xs:attribute name="platzierungName" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="stPreistypen">
+<xs:sequence>
+<xs:element name="preistypId" type="xs:int" />
+<xs:element name="preistypName" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="stRabatttypen">
+<xs:sequence />
+<xs:attribute name="rabatttypId" type="xs:int" use="required" />
+<xs:attribute name="rabatttypName" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="stSachgruppen">
+<xs:sequence />
+<xs:attribute name="hierarchie" type="xs:int" use="required" />
+<xs:attribute name="sachgruppenId" type="xs:int" use="required" />
+<xs:attribute name="sachgruppenName" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="stTargetingarten">
+<xs:sequence />
+<xs:attribute name="kombiwarnung" type="xs:short" use="required" />
+<xs:attribute name="targetingId" type="xs:int" use="required" />
+<xs:attribute name="targetingName" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="stTargetingmerkmale">
+<xs:sequence>
+<xs:element name="pk" type="tns:stTargetingmerkmalePK" minOccurs="0" />
+</xs:sequence>
+<xs:attribute name="merkmalBeschreibung" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="stTargetingmerkmalePK">
+<xs:sequence />
+<xs:attribute name="merkmal" type="xs:int" use="required" />
+<xs:attribute name="targetingId" type="xs:int" use="required" />
+</xs:complexType>
+
+<xs:complexType name="stWerbeformKategorien">
+<xs:sequence />
+<xs:attribute name="kategorieId" type="xs:int" use="required" />
+<xs:attribute name="kategorieName" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="stWerbeformenNEU">
+<xs:sequence />
+<xs:attribute name="breite" type="xs:int" use="required" />
+<xs:attribute name="hoehe" type="xs:int" use="required" />
+<xs:attribute name="werbeformId" type="xs:int" use="required" />
+<xs:attribute name="werbeformName" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="stZahlungBasen">
+<xs:sequence />
+<xs:attribute name="zahlungBasisId" type="xs:short" use="required" />
+<xs:attribute name="zahlungBasisName" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="stZahlungTypen">
+<xs:sequence />
+<xs:attribute name="zahlungTypId" type="xs:short" use="required" />
+<xs:attribute name="zahlungTypName" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="stZahlungZeiten">
+<xs:sequence />
+<xs:attribute name="zahlungZeitId" type="xs:short" use="required" />
+<xs:attribute name="zahlungZeitName" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="werbeformenpool">
+<xs:sequence />
+<xs:attribute name="isStandard" type="xs:boolean" use="required" />
+<xs:attribute name="kategorieId" type="xs:int" use="required" />
+<xs:attribute name="kategorieWerbeformUid" type="xs:string" />
+<xs:attribute name="werbeformId" type="xs:int" use="required" />
+</xs:complexType>
+</xs:schema>
