@@ -317,21 +317,7 @@ module Wasabi
         end
 
         other_keys = extension.keys - %w(base sequence)
-        unless other_keys.empty?
-          p "other keys:"
-          p other_keys
-          pp extension
-          raise "other keys!"
-        end
-
-      elsif type["annotation"]
-        nil
-
-      #
-      # { :empty => true }
-      #
-      elsif type.empty?
-        type_element[:empty] = true
+        raise "other keys!" unless other_keys.empty?
 
       #
       # { :restriction => {
@@ -342,10 +328,16 @@ module Wasabi
       elsif type["restriction"]
         type_element.merge! type
 
+      #
+      # { :empty => true }
+      #
+      elsif type.empty?
+        type_element[:empty] = true
+
+      elsif type["annotation"]
+        nil  # ignore
+
       else
-        p "else:"
-        p type.keys
-        p type
         raise "else!"
       end
 
