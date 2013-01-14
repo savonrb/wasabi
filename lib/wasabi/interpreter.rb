@@ -55,7 +55,7 @@ module Wasabi
       return @operations if @operations
       operations = {}
 
-      soap_port = ports!.find { |port|
+      soap_port = ports.find { |port|
         port["namespace"] == Wasabi::NAMESPACES["soap"] ||
         port["namespace"] == Wasabi::NAMESPACES["soap2"]
       }
@@ -147,12 +147,12 @@ module Wasabi
     private
 
     def endpoints
-      ports!.inject({}) do |endpoints, port|
+      ports.inject({}) do |endpoints, port|
         endpoints.merge(port["namespace"] => port["location"])
       end
     end
 
-    def ports!
+    def ports
       ports = []
 
       sax[:services].each do |service_name, port_map|
