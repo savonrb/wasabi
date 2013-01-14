@@ -35,12 +35,6 @@ module Wasabi
 
     attr_writer :soap_endpoint
 
-    def endpoints
-      ports!.inject({}) do |endpoints, port|
-        endpoints.merge(port["namespace"] => port["location"])
-      end
-    end
-
     def namespaces
       sax[:namespaces]
     end
@@ -151,6 +145,12 @@ module Wasabi
     end
 
     private
+
+    def endpoints
+      ports!.inject({}) do |endpoints, port|
+        endpoints.merge(port["namespace"] => port["location"])
+      end
+    end
 
     def ports!
       ports = []
