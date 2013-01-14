@@ -10,7 +10,7 @@ describe Wasabi::Interpreter do
     let(:schema2) { "http://www3.mediaservice-wasmuth.de:80/online-ws-2.0/OnlineSync?xsd=2" }
 
     before do
-      #mock_requests!  # comment out to test against the real service
+      mock_requests!  # comment out to test against the real service
     end
 
     it "knows the SOAP endpoint" do
@@ -28,7 +28,7 @@ describe Wasabi::Interpreter do
     end
 
     it "knows the namespaces" do
-      namespace = { "xmlns:tns" => "http://ws.online.msw/"}
+      namespace = { "xmlns:tns" => "http://ws.online.msw/" }
       expect(interpreter.namespaces).to include(namespace)
     end
 
@@ -37,7 +37,7 @@ describe Wasabi::Interpreter do
         :get_vermarkter_list => {
           :input       => ["tns", "getVermarkterList"],
           :output      => ["tns", "getVermarkterListResponse"],
-          :soap_action => "getVermarkterList"
+          :soap_action => "getVermarkterList"  # soapUI sends an empty SOAPAction?!
         }
       }
 
