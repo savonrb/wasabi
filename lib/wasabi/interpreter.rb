@@ -339,7 +339,7 @@ module Wasabi
       #   :enumeration => ["OK", "API_ERROR"]
       # }}
       #
-      elsif type[:restriction]
+      elsif type["restriction"]
         type_element.merge! type
 
       else
