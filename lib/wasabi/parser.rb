@@ -111,7 +111,7 @@ module Wasabi
       @types[name] ||= { :namespace => find_namespace(type) }
 
       xpath(type, "./xs:sequence/xs:element").
-        each { |inner| @types[name][inner.attribute("name").to_s] = { :type => inner.attribute("type").to_s } }
+        each { |inner| @types[name][inner.attribute("name").to_s] = process_element(inner) }
 
       type.xpath("./xs:complexContent/xs:extension/xs:sequence/xs:element",
         "xs" => "http://www.w3.org/2001/XMLSchema"
@@ -130,6 +130,21 @@ module Wasabi
         else
           deferred_types << Proc.new { @types[name].merge! @types[base] }
         end
+      end
+    end
+
+    def process_element(element)
+      if (element.children.count > 0)
+        children = {}
+        element.xpath('./xs:complexType/xs:sequence/xs:element[@name]', 
+          "xs" => "http://www.w3.org/2001/XMLSchema"
+        ).each do |inner_e|
+          children[inner_e.attribute("name").to_s] = process_element(inner_e) 
+        end
+        response = children
+        return response
+      else       
+        { :type => element.attribute("type").to_s }
       end
     end
 
