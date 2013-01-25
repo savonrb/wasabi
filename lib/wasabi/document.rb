@@ -92,13 +92,20 @@ module Wasabi
         result = []
         parser.types.each do |type, info|
           (info.keys - [:namespace]).each do |field|
-            field_type = info[field][:type]
+            field_type = complex_field?(info[field]) ? 'complex' : info[field][:type]
             tag, namespace = field_type.split(":").reverse
             result << [[type, field], tag] if user_defined(namespace)
           end
         end if document
         result
       end
+    end
+
+    def complex_field? (field)
+      field.each_value do |v| 
+        return true if v.is_a? Hash
+      end
+      return false
     end
 
     # Returns whether the given +namespace+ was defined manually.
