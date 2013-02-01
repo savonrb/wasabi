@@ -15,8 +15,8 @@ describe Wasabi::Document do
 
     its(:operations) do
       should include(
-        { :get_quick_approver_list => { :input => "GetQuickApproverList", :action => "GetQuickApproverList" } },
-        { :hello => { :input => "hello", :action => "hello" } }
+        { :get_quick_approver_list => { :input => "GetQuickApproverList", :action => "GetQuickApproverList", :parameters=>{:Request=>{:name=>"Request", :type=>"GetQuickApproverListInput"}}}},
+        { :hello => { :input => "hello", :action => "hello", :parameters=>{:Input=>{:name=>"Input", :type=>"string"}} } }
       )
     end
 

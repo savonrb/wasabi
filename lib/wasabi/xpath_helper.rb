@@ -2,6 +2,7 @@ module Wasabi
   module XPathHelper
 
     NAMESPACES = {
+      "s"     => "http://www.w3.org/2001/XMLSchema",
       "xs"     => "http://www.w3.org/2001/XMLSchema",
       "wsdl"   => "http://schemas.xmlsoap.org/wsdl/",
       "soap11" => "http://schemas.xmlsoap.org/wsdl/soap/",
