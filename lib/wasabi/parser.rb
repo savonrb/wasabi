@@ -84,7 +84,7 @@ module Wasabi
             attr_name = p.attribute("name").to_s
             attr_type = (attr_type = p.attribute("type").to_s.split(":")).size > 1 ? attr_type[1] : attr_type[0]
             operation[:parameters] ||= {}
-            operation[:parameters][attr_name.to_sym] = {name: attr_name, type: attr_type}
+            operation[:parameters][attr_name.to_sym] = {:name => attr_name, :type => attr_type}
           end
         end
       end
