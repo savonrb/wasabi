@@ -3,10 +3,10 @@ require "spec_helper"
 describe "Elements" do
   context "with: betfair.wsdl" do
 
-    subject(:interpreter) { new_interface(:betfair) }
+    subject(:interface) { new_interface(:betfair) }
 
     it "maps array elements" do
-      element = interpreter.type_map["ArrayOfUpdateBets"]
+      element = interface.type_map["ArrayOfUpdateBets"]
       expect(element).to eq(:sequence => [
         { "form"      => "qualified",
           "maxOccurs" => "unbounded",
@@ -19,7 +19,7 @@ describe "Elements" do
     end
 
     it "maps simple types" do
-      element = interpreter.type_map["PlaceBetsErrorEnum"]
+      element = interface.type_map["PlaceBetsErrorEnum"]
 
       expect(element["restriction"]["base"]).to eq("xsd:string")
       expect(element["restriction"]["enumeration"]).to include("OK", "API_ERROR")

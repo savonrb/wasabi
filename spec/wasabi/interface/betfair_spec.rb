@@ -3,7 +3,7 @@ require "spec_helper"
 describe Wasabi::Interface do
   context "with: betfair.wsdl" do
 
-    subject(:interpreter) { Wasabi.interface(wsdl) }
+    subject(:interface) { Wasabi.interface(wsdl) }
 
     let(:wsdl) { "https://api.betfair.com/exchange/v5/BFExchangeService.wsdl" }
 
@@ -13,22 +13,22 @@ describe Wasabi::Interface do
 
     it "knows the SOAP endpoint" do
       endpoint = "https://api.betfair.com/exchange/v5/BFExchangeService"
-      expect(interpreter.soap_endpoint).to eq(endpoint)
+      expect(interface.soap_endpoint).to eq(endpoint)
     end
 
     it "knows the target namespace" do
       namespace = "http://www.betfair.com/publicapi/v5/BFExchangeService/"
-      expect(interpreter.target_namespace).to eq(namespace)
+      expect(interface.target_namespace).to eq(namespace)
     end
 
     it "knows whether elements should be namespaced" do
       pending "elementFormDefault belongs to a schema. needs to be refactored!"
-      expect(interpreter.element_form_default).to eq(:unqualified)
+      expect(interface.element_form_default).to eq(:unqualified)
     end
 
     it "knows the namespaces" do
       namespace = { "xmlns:tns" => "http://www.betfair.com/publicapi/v5/BFExchangeService/"}
-      expect(interpreter.namespaces).to include(namespace)
+      expect(interface.namespaces).to include(namespace)
     end
 
     it "knows the available operations" do
@@ -40,8 +40,8 @@ describe Wasabi::Interface do
         }
       }
 
-      expect(interpreter).to have(30).operations
-      expect(interpreter.operations).to include(operation)
+      expect(interface).to have(30).operations
+      expect(interface.operations).to include(operation)
     end
 
     def mock_requests!

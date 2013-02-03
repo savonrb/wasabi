@@ -3,10 +3,10 @@ require "spec_helper"
 describe Wasabi::Interface do
   context "with: inherited.xml" do
 
-    subject(:interpreter) { new_interface(:inherited) }
+    subject(:interface) { new_interface(:inherited) }
 
     it "knows the type definitions" do
-      definitions = interpreter.type_definitions
+      definitions = interface.type_definitions
 
       expect(definitions).to include([["Account", "Id"], "ID"])
       expect(definitions).to include([["Account", "ProcessId"], "ID"])

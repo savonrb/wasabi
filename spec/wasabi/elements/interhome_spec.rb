@@ -3,15 +3,15 @@ require "spec_helper"
 describe "Elements" do
   context "with: interhome.wsdl" do
 
-    subject(:interpreter) { new_interface(:interhome) }
+    subject(:interface) { new_interface(:interhome) }
 
     it "maps elements with only an extension" do
-      element = interpreter.type_map["NewsletterReturnValue"]
+      element = interface.type_map["NewsletterReturnValue"]
       expect(element).to eq(:extension => "ReturnValue")
     end
 
     it "maps elements with an extension and a sequence" do
-      element = interpreter.type_map["PaymentInformationReturnValue"]
+      element = interface.type_map["PaymentInformationReturnValue"]
 
       expect(element[:extension]).to eq("ReturnValue")
       expect(element[:sequence]).to eq([
@@ -22,7 +22,7 @@ describe "Elements" do
     end
 
     it "maps empty elements" do
-      element = interpreter.type_map["CheckServerHealth"]
+      element = interface.type_map["CheckServerHealth"]
       expect(element[:empty]).to be_true
     end
 
@@ -82,9 +82,9 @@ describe "Elements" do
       def map(search_path)
         expected = {}
 
-        operation     = interpreter.operations[operation_name.snakecase.to_sym]
+        operation     = interface.operations[operation_name.snakecase.to_sym]
         input_name    = operation[:input].last
-        input_element = interpreter.type_map[input_name]
+        input_element = interface.type_map[input_name]
 
         map!(expected, input_element)
 
@@ -97,11 +97,11 @@ describe "Elements" do
           memo[new_path] = child
 
           local, nsid = child["type"].split(":").reverse
-          namespace   = interpreter.namespaces["xmlns:#{nsid}"]
+          namespace   = interface.namespaces["xmlns:#{nsid}"]
 
           # custom namespace, custom element?!
           unless Wasabi::NAMESPACES_BY_URI[namespace] == "xs"
-            child_element = interpreter.type_map[local]
+            child_element = interface.type_map[local]
             map!(memo, child_element, new_path)
           else
             # do something

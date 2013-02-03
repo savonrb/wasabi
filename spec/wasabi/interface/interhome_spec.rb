@@ -3,7 +3,7 @@ require "spec_helper"
 describe Wasabi::Interface do
   context "with: interhome.wsdl" do
 
-    subject(:interpreter) { new_interface(:interhome) }
+    subject(:interface) { new_interface(:interhome) }
 
     it "knows the available operations" do
       operations = {
@@ -14,7 +14,7 @@ describe Wasabi::Interface do
         }
       }
 
-      expect(interpreter.operations).to include(operations)
+      expect(interface.operations).to include(operations)
     end
 
   end

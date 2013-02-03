@@ -3,7 +3,7 @@ require "spec_helper"
 describe Wasabi::Interface do
   context "with: wasmuth.wsdl" do
 
-    subject(:interpreter) { Wasabi.interface(wsdl) }
+    subject(:interface) { Wasabi.interface(wsdl) }
 
     let(:wsdl)    { "http://www3.mediaservice-wasmuth.de/online-ws-2.0/OnlineSync?wsdl" }
     let(:schema1) { "http://www3.mediaservice-wasmuth.de:80/online-ws-2.0/OnlineSync?xsd=1" }
@@ -15,22 +15,22 @@ describe Wasabi::Interface do
 
     it "knows the SOAP endpoint" do
       endpoint = "http://www3.mediaservice-wasmuth.de:80/online-ws-2.0/OnlineSync"
-      expect(interpreter.soap_endpoint).to eq(endpoint)
+      expect(interface.soap_endpoint).to eq(endpoint)
     end
 
     it "knows the target namespace" do
       namespace = "http://ws.online.msw/"
-      expect(interpreter.target_namespace).to eq(namespace)
+      expect(interface.target_namespace).to eq(namespace)
     end
 
     it "knows whether elements should be namespaced" do
       pending "elementFormDefault belongs to a schema. needs to be refactored!"
-      expect(interpreter.element_form_default).to eq(:unqualified)
+      expect(interface.element_form_default).to eq(:unqualified)
     end
 
     it "knows the namespaces" do
       namespace = { "xmlns:tns" => "http://ws.online.msw/" }
-      expect(interpreter.namespaces).to include(namespace)
+      expect(interface.namespaces).to include(namespace)
     end
 
     it "knows the available operations" do
@@ -42,8 +42,8 @@ describe Wasabi::Interface do
         }
       }
 
-      expect(interpreter).to have(7).operations
-      expect(interpreter.operations).to include(operation)
+      expect(interface).to have(7).operations
+      expect(interface.operations).to include(operation)
     end
 
     def mock_requests!

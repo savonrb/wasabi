@@ -3,7 +3,7 @@ require "spec_helper"
 describe Wasabi::Interface do
   context "with: responsys.wsdl" do
 
-    subject(:interpreter) { Wasabi.interface(wsdl) }
+    subject(:interface) { Wasabi.interface(wsdl) }
 
     let(:wsdl)   { "https://ws5.responsys.net/webservices/wsdl/ResponsysWS_Level1.wsdl" }
     let(:types)  { "https://ws5.responsys.net/webservices/services/ResponsysWSService/_resources_/xsd/ResponsysWSTypes_Schema.xsd" }
@@ -12,13 +12,13 @@ describe Wasabi::Interface do
     it "resolves xs imports" do
       mock_requests!  # comment out to test against the real service
 
-      expect(interpreter).to have(172).types
+      expect(interface).to have(172).types
 
       # element from the schema file
-      expect(interpreter.types.keys.sort).to include("AccountFault")
+      expect(interface.types.keys.sort).to include("AccountFault")
 
       # element from the faults file
-      expect(interpreter.types.keys.sort).to include("LoginResult")
+      expect(interface.types.keys.sort).to include("LoginResult")
     end
 
     def mock_requests!
