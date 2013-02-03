@@ -1,14 +1,14 @@
 require "wasabi/sax"
-require "wasabi/interpreter_shim"
+require "wasabi/interface_shim"
 require "wasabi/core_ext/string"
 
 module Wasabi
 
-  # = Wasabi::Interpreter
+  # = Wasabi::Interface
   #
   # Purpose:
   #   Interprets the SAX information.
-  class Interpreter
+  class Interface
 
     def initialize(source, http_request = nil)
       @source = source

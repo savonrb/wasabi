@@ -3,8 +3,8 @@ require "support/sax"
 
 module SpecSupport
 
-  def new_interpreter(fixture_name)
-    Wasabi.interpreter fixture(fixture_name).read
+  def new_interface(fixture_name)
+    Wasabi.interface fixture(fixture_name).read
   end
 
   def new_sax(fixture_name)

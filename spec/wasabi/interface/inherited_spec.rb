@@ -1,9 +1,9 @@
 require "spec_helper"
 
-describe Wasabi::Interpreter do
+describe Wasabi::Interface do
   context "with: inherited.xml" do
 
-    subject(:interpreter) { new_interpreter(:inherited) }
+    subject(:interpreter) { new_interface(:inherited) }
 
     it "knows the type definitions" do
       definitions = interpreter.type_definitions

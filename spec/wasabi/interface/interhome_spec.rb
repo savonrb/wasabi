@@ -1,9 +1,9 @@
 require "spec_helper"
 
-describe Wasabi::Interpreter do
+describe Wasabi::Interface do
   context "with: interhome.wsdl" do
 
-    subject(:interpreter) { new_interpreter(:interhome) }
+    subject(:interpreter) { new_interface(:interhome) }
 
     it "knows the available operations" do
       operations = {

@@ -1,9 +1,9 @@
 require "spec_helper"
 
-describe Wasabi::Interpreter do
+describe Wasabi::Interface do
   context "with: geotrust.wsdl" do
 
-    subject(:interpreter) { new_interpreter(:geotrust) }
+    subject(:interpreter) { new_interface(:geotrust) }
 
     it "knows the SOAP endpoint" do
       endpoint = "https://test-api.geotrust.com:443/webtrust/query.jws"

@@ -1,10 +1,10 @@
 module Wasabi
 
-  # = Wasabi::InterpreterShim
+  # = Wasabi::InterfaceShim
   #
   # Purpose:
-  #   Acts as an Interpreter with a WSDL.
-  class InterpreterShim
+  #   Acts as an Interface with a WSDL.
+  class InterfaceShim
 
     def initialize
       @type_definitions     = []

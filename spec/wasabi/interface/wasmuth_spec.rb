@@ -1,9 +1,9 @@
 require "spec_helper"
 
-describe Wasabi::Interpreter do
+describe Wasabi::Interface do
   context "with: wasmuth.wsdl" do
 
-    subject(:interpreter) { Wasabi.interpreter(wsdl) }
+    subject(:interpreter) { Wasabi.interface(wsdl) }
 
     let(:wsdl)    { "http://www3.mediaservice-wasmuth.de/online-ws-2.0/OnlineSync?wsdl" }
     let(:schema1) { "http://www3.mediaservice-wasmuth.de:80/online-ws-2.0/OnlineSync?xsd=1" }

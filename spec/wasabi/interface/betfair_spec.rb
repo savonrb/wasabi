@@ -1,9 +1,9 @@
 require "spec_helper"
 
-describe Wasabi::Interpreter do
+describe Wasabi::Interface do
   context "with: betfair.wsdl" do
 
-    subject(:interpreter) { Wasabi.interpreter(wsdl) }
+    subject(:interpreter) { Wasabi.interface(wsdl) }
 
     let(:wsdl) { "https://api.betfair.com/exchange/v5/BFExchangeService.wsdl" }
 

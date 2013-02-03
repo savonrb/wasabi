@@ -1,9 +1,9 @@
 require "spec_helper"
 
-describe Wasabi::Interpreter do
+describe Wasabi::Interface do
   context "with: multiple_namespaces.wsdl" do
 
-    subject(:interpreter) { new_interpreter(:multiple_namespaces) }
+    subject(:interpreter) { new_interface(:multiple_namespaces) }
 
     it "knows the available types" do
       expect(interpreter).to have(2).types

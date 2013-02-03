@@ -1,9 +1,9 @@
 require "spec_helper"
 
-describe Wasabi::Interpreter do
+describe Wasabi::Interface do
   context "with: no_namespace.wsdl" do
 
-    subject(:interpreter) { new_interpreter(:no_namespace) }
+    subject(:interpreter) { new_interface(:no_namespace) }
 
     it "knows the SOAP endpoint" do
       endpoint = "http://example.com/api/api"

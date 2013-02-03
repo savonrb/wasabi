@@ -1,9 +1,9 @@
 require "spec_helper"
 
-describe Wasabi::Interpreter do
+describe Wasabi::Interface do
   context "with: authentication.wsdl" do
 
-    subject(:interpreter) { new_interpreter(:authentication) }
+    subject(:interpreter) { new_interface(:authentication) }
 
     it "knows the SOAP endpoint" do
       endpoint = "http://example.com/validation/1.0/AuthenticationService"

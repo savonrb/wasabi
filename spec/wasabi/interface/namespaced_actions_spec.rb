@@ -1,9 +1,9 @@
 require "spec_helper"
 
-describe Wasabi::Interpreter do
+describe Wasabi::Interface do
   context "with: namespaced_actions.wsdl" do
 
-    subject(:interpreter) { new_interpreter(:namespaced_actions) }
+    subject(:interpreter) { new_interface(:namespaced_actions) }
 
     it "knows the SOAP endpoint" do
       endpoint = "https://api.example.com/api/api.asmx"

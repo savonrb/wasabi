@@ -3,7 +3,7 @@ require "spec_helper"
 describe "Elements" do
   context "with: betfair.wsdl" do
 
-    subject(:interpreter) { new_interpreter(:betfair) }
+    subject(:interpreter) { new_interface(:betfair) }
 
     it "maps array elements" do
       element = interpreter.type_map["ArrayOfUpdateBets"]

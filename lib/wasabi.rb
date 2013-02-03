@@ -1,6 +1,6 @@
 require "wasabi/version"
 require "wasabi/resolver"
-require "wasabi/interpreter"
+require "wasabi/interface"
 require "wasabi/definition"
 
 module Wasabi
@@ -30,8 +30,8 @@ module Wasabi
     Definition.new(sax)
   end
 
-  def self.interpreter(source, http_request = nil)
-    Interpreter.new(source, http_request)
+  def self.interface(source, http_request = nil)
+    Interface.new(source, http_request)
   end
 
 end

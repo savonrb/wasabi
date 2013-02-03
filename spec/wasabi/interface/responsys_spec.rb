@@ -1,9 +1,9 @@
 require "spec_helper"
 
-describe Wasabi::Interpreter do
+describe Wasabi::Interface do
   context "with: responsys.wsdl" do
 
-    subject(:interpreter) { Wasabi.interpreter(wsdl) }
+    subject(:interpreter) { Wasabi.interface(wsdl) }
 
     let(:wsdl)   { "https://ws5.responsys.net/webservices/wsdl/ResponsysWS_Level1.wsdl" }
     let(:types)  { "https://ws5.responsys.net/webservices/services/ResponsysWSService/_resources_/xsd/ResponsysWSTypes_Schema.xsd" }

@@ -3,7 +3,7 @@ require "spec_helper"
 describe "Elements" do
   context "with: interhome.wsdl" do
 
-    subject(:interpreter) { new_interpreter(:interhome) }
+    subject(:interpreter) { new_interface(:interhome) }
 
     it "maps elements with only an extension" do
       element = interpreter.type_map["NewsletterReturnValue"]

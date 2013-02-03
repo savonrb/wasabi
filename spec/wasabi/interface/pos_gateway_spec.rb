@@ -1,9 +1,9 @@
 require "spec_helper"
 
-describe Wasabi::Interpreter do
+describe Wasabi::Interface do
   context "with: pos_gateway.wsdl" do
 
-    subject(:interpreter) { Wasabi.interpreter(wsdl) }
+    subject(:interpreter) { Wasabi.interface(wsdl) }
 
     let(:wsdl)   { "https://posgateway.cert.secureexchange.net/Hps.Exchange.PosGateway.UAT/PosGatewayService.asmx?wsdl" }
     let(:wsdl2)  { "https://posgateway.cert.secureexchange.net/Hps.Exchange.PosGateway.UAT/PosGatewayService.asmx?wsdl=wsdl" }
