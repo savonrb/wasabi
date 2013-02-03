@@ -21,11 +21,6 @@ describe Wasabi::Interface do
       expect(interface.target_namespace).to eq(namespace)
     end
 
-    it "knows whether elements should be namespaced" do
-      pending "elementFormDefault belongs to a schema. needs to be refactored!"
-      expect(interface.element_form_default).to eq(:unqualified)
-    end
-
     it "knows the namespaces" do
       namespace = { "xmlns:tns" => "http://www.betfair.com/publicapi/v5/BFExchangeService/"}
       expect(interface.namespaces).to include(namespace)

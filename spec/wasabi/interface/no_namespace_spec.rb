@@ -15,11 +15,6 @@ describe Wasabi::Interface do
       expect(interface.target_namespace).to eq(namespace)
     end
 
-    it "knows whether elements should be namespaced" do
-      pending "elementFormDefault belongs to a schema. needs to be refactored!"
-      expect(interface.element_form_default).to eq(:unqualified)
-    end
-
     it "knows the available operations" do
       expect(interface).to have(3).operations
 

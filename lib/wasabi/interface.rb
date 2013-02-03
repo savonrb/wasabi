@@ -41,13 +41,6 @@ module Wasabi
 
     attr_writer :target_namespace
 
-    def element_form_default
-      raise "TODO: REMOVE!"
-      #@element_form_default ||= sax[:schemas].first[:element_form_default].to_sym
-    end
-
-    attr_writer :element_form_default
-
     def operations
       @operations ||= operations!
     end
