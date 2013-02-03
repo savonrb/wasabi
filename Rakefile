@@ -16,7 +16,7 @@ namespace :benchmark do
     Benchmark.bm(20) do |x|
       x.report(fixture_name) do
         n.times do
-          Wasabi.sax(fixture)
+          Wasabi.parser(fixture)
         end
       end
     end

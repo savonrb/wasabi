@@ -1,9 +1,9 @@
 require "spec_helper"
 
-describe Wasabi::SAX do
-  include SpecSupport::SAX
+describe Wasabi::Parser do
+  include SpecSupport::Parser
 
-  subject(:sax) { new_sax(:betfair).definition }
+  subject(:parser) { new_parser(:betfair).definition }
 
   context "with betfair.wsdl" do
     it "knows the simple types" do

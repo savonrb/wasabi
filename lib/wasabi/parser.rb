@@ -6,11 +6,11 @@ require "wasabi/core_ext/hash"
 
 module Wasabi
 
-  # = Wasabi::SAX
+  # = Wasabi::Parser
   #
   # Purpose:
   #   Parses WSDL documents.
-  class SAX < Nokogiri::XML::SAX::Document
+  class Parser < Nokogiri::XML::SAX::Document
 
     def initialize(source, http_request = nil)
       @source       = source
@@ -199,8 +199,8 @@ module Wasabi
 
     def resolve_xs_imports
       @xs_imports.each do |namespace, import|
-        resolve_import! import["schemaLocation"] do |sax|
-          schemas = sax.definition[:schemas]
+        resolve_import! import["schemaLocation"] do |parser|
+          schemas = parser.definition[:schemas]
           definition[:schemas] += schemas
         end
       end
@@ -208,8 +208,8 @@ module Wasabi
 
     def resolve_wsdl_imports
       @wsdl_imports.each do |namespace, import|
-        resolve_import! import["location"] do |sax|
-          @definition = definition.deep_merge(sax.definition)
+        resolve_import! import["location"] do |parser|
+          @definition = definition.deep_merge(parser.definition)
         end
       end
     end
@@ -219,7 +219,7 @@ module Wasabi
       source = URI.join(@source, location)
 
       if location && source
-        yield Wasabi.sax(source, @http_request)
+        yield Wasabi.parser(source, @http_request)
       end
     end
 

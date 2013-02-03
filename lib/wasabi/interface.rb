@@ -1,4 +1,4 @@
-require "wasabi/sax"
+require "wasabi/parser"
 require "wasabi/interface_shim"
 require "wasabi/core_ext/string"
 
@@ -7,7 +7,7 @@ module Wasabi
   # = Wasabi::Interface
   #
   # Purpose:
-  #   Interprets the SAX information.
+  #   Interface for the parser's definition.
   class Interface
 
     def initialize(source, http_request = nil)
@@ -73,7 +73,7 @@ module Wasabi
     def types
       @types = {}
 
-      definition.sax[:schemas].each do |schema|
+      definition.definition[:schemas].each do |schema|
         schema[:elements].each do |element_name, element|
           complex_type = element["complexType"]
           process_type(element_name, schema, complex_type) if complex_type
@@ -131,8 +131,8 @@ module Wasabi
 
     def definition
        @definition ||= begin
-         sax = Wasabi.sax(@source, @http_request)
-         Wasabi.definition(sax.definition)
+         parser = Wasabi.parser(@source, @http_request)
+         Wasabi.definition(parser.definition)
        end
     end
 
@@ -171,7 +171,7 @@ module Wasabi
     def type_map!
       type_map = {}
 
-      definition.sax[:schemas].each do |schema|
+      definition.definition[:schemas].each do |schema|
         schema[:elements].each do |name, type|
           if complex_type = type["complexType"]
             type_map_element(type_map, name, schema, complex_type)

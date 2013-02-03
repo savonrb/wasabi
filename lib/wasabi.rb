@@ -17,21 +17,22 @@ module Wasabi
 
   DefinitionError = Class.new(StandardError)
 
-  def self.sax(source, http_request = nil)
+  def self.parser(source, http_request = nil)
     wsdl   = Resolver.new(source, http_request).xml
-    sax    = SAX.new(source, http_request)
-    parser = Nokogiri::XML::SAX::Parser.new(sax)
+    parser = Parser.new(source, http_request)
 
-    parser.parse(wsdl)
-    sax
+    nokogiri = Nokogiri::XML::SAX::Parser.new(parser)
+    nokogiri.parse(wsdl)
+
+    parser
   end
 
   def self.interface(source, http_request = nil)
     Interface.new(source, http_request)
   end
 
-  def self.definition(sax)
-    Definition.new(sax)
+  def self.definition(definition)
+    Definition.new(definition)
   end
 
 end

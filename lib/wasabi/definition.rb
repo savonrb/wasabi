@@ -6,20 +6,20 @@ module Wasabi
   #   Interprets the parser's WSDL definition.
   class Definition
 
-    def initialize(sax)
-      @sax = sax
+    def initialize(definition)
+      @definition = definition
     end
 
     # TODO: find a better way to support the interpreter's type_map
     #       than exposing the definition. [dh, 2013-02-03]
-    attr_reader :sax
+    attr_reader :definition
 
     def target_namespace
-      @sax[:target_namespace]
+      @definition[:target_namespace]
     end
 
     def namespaces
-      @sax[:namespaces]
+      @definition[:namespaces]
     end
 
     def endpoints
@@ -84,7 +84,7 @@ module Wasabi
     def ports!
       ports = []
 
-      @sax[:services].each do |_, port_map|
+      @definition[:services].each do |_, port_map|
         port_map.each do |_, details|
           ports << details
         end
@@ -95,12 +95,12 @@ module Wasabi
 
     def find_binding(port)
       binding_name = port["binding"].split(":").last
-      @sax[:bindings][binding_name]
+      @definition[:bindings][binding_name]
     end
 
     def find_port_type(binding)
       port_type_name = binding["type"].split(":").last
-      @sax[:port_types][port_type_name]
+      @definition[:port_types][port_type_name]
     end
 
     def find_port_type_operation(operation_name, port_type)
@@ -123,7 +123,7 @@ module Wasabi
       message_nsid = nil
       message_type = nil
 
-      port_message_part = @sax[:messages][port_message_type]
+      port_message_part = @definition[:messages][port_message_type]
       if port_message_part && port_message_part.first
         port_message_part_element = port_message_part.first["element"]
         if port_message_part_element

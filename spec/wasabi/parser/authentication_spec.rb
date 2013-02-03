@@ -1,13 +1,13 @@
 require "spec_helper"
 
-describe Wasabi::SAX do
-  include SpecSupport::SAX
+describe Wasabi::Parser do
+  include SpecSupport::Parser
 
-  subject(:sax) { new_sax(:authentication).definition }
+  subject(:parser) { new_parser(:authentication).definition }
 
   context "with authentication.wsdl" do
     it "knows the target namespace" do
-      expect(sax[:target_namespace]).to eq("http://v1_0.ws.auth.order.example.com/")
+      expect(parser[:target_namespace]).to eq("http://v1_0.ws.auth.order.example.com/")
     end
 
     it "knows the elements" do
@@ -43,14 +43,14 @@ describe Wasabi::SAX do
     end
 
     it "knows the messages" do
-      expect(sax[:messages]).to eql(
+      expect(parser[:messages]).to eql(
         "authenticate"         => [{ "name" => "parameters", "element" => "tns:authenticate" }],
         "authenticateResponse" => [{ "name" => "parameters", "element" => "tns:authenticateResponse" }]
       )
     end
 
     it "knows the bindings" do
-      expect(sax[:bindings]).to eq(
+      expect(parser[:bindings]).to eq(
         "AuthenticationWebServiceImplServiceSoapBinding" => {
           "type"            => "tns:AuthenticationWebService",
           "transport"       => "http://schemas.xmlsoap.org/soap/http",
@@ -69,7 +69,7 @@ describe Wasabi::SAX do
     end
 
     it "knows the port types" do
-      expect(sax[:port_types]).to eq(
+      expect(parser[:port_types]).to eq(
         "AuthenticationWebService" => {
           "operations"     => {
             "authenticate" => {
@@ -82,7 +82,7 @@ describe Wasabi::SAX do
     end
 
     it "knows the services" do
-      expect(sax[:services]).to eql(
+      expect(parser[:services]).to eql(
         "AuthenticationWebServiceImplService" => {
           "AuthenticationWebServiceImplPort" => {
             "namespace" => Wasabi::NAMESPACES["soap"],

@@ -1,8 +1,8 @@
 module SpecSupport
-  module SAX
+  module Parser
 
     def count_elements(element_type)
-      sax[:schemas].inject(0) { |count, schema|
+      parser[:schemas].inject(0) { |count, schema|
         count + schema[element_type].count
       }
     end
@@ -12,7 +12,7 @@ module SpecSupport
     end
 
     def all_elements(element_type)
-      sax[:schemas].inject({}) { |memo, schema|
+      parser[:schemas].inject({}) { |memo, schema|
         memo.merge schema[element_type]
       }
     end

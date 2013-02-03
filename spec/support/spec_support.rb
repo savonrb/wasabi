@@ -1,14 +1,14 @@
 require "support/fixture"
-require "support/sax"
+require "support/parser"
 
 module SpecSupport
 
-  def new_interface(fixture_name)
-    Wasabi.interface fixture(fixture_name).read
+  def new_parser(fixture_name)
+    Wasabi.parser fixture(fixture_name).read
   end
 
-  def new_sax(fixture_name)
-    Wasabi.sax fixture(fixture_name).read
+  def new_interface(fixture_name)
+    Wasabi.interface fixture(fixture_name).read
   end
 
   def fixture(*args)

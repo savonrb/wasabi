@@ -1,13 +1,13 @@
 require "spec_helper"
 
-describe Wasabi::SAX do
-  include SpecSupport::SAX
+describe Wasabi::Parser do
+  include SpecSupport::Parser
 
-  subject(:sax) { new_sax(:namespaced_actions).definition }
+  subject(:parser) { new_parser(:namespaced_actions).definition }
 
   context "with namespaced_actions.wsdl" do
     it "knows the target namespace" do
-      expect(sax[:target_namespace]).to eq("http://api.example.com/api/")
+      expect(parser[:target_namespace]).to eq("http://api.example.com/api/")
     end
 
     it "knows the elements" do
@@ -45,13 +45,13 @@ describe Wasabi::SAX do
     end
 
     it "knows the messages" do
-      expect(sax[:messages].count).to eq(18)
+      expect(parser[:messages].count).to eq(18)
 
-      expect(sax[:messages]["User.GetClientsSoapIn"]).to eql(
+      expect(parser[:messages]["User.GetClientsSoapIn"]).to eql(
         [{ "name" => "parameters", "element" => "tns:User.GetClients" }]
       )
 
-      expect(sax[:messages]["User.GetApiKeyHttpGetIn"]).to eql(
+      expect(parser[:messages]["User.GetApiKeyHttpGetIn"]).to eql(
         [
           { "name" => "SiteUrl",  "type" => "s:string" },
           { "name" => "Username", "type" => "s:string" },
@@ -61,7 +61,7 @@ describe Wasabi::SAX do
     end
 
     it "knows the bindings" do
-      expect(sax[:bindings]).to eq(
+      expect(parser[:bindings]).to eq(
         "apiSoap"           => {
           "type"            => "tns:apiSoap",
           "transport"       => "http://schemas.xmlsoap.org/soap/http",
@@ -172,7 +172,7 @@ describe Wasabi::SAX do
     end
 
     it "knows the port types" do
-      expect(sax[:port_types]).to eq(
+      expect(parser[:port_types]).to eq(
         "apiSoap"          => {
           "operations"     => {
             "GetApiKey"    => {
@@ -225,7 +225,7 @@ describe Wasabi::SAX do
     end
 
     it "knows the services" do
-      expect(sax[:services]).to eql(
+      expect(parser[:services]).to eql(
         "api" => {
           "apiSoap"     => {
             "namespace" => Wasabi::NAMESPACES["soap"],
