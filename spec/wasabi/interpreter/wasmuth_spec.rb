@@ -24,6 +24,7 @@ describe Wasabi::Interpreter do
     end
 
     it "knows whether elements should be namespaced" do
+      pending "elementFormDefault belongs to a schema. needs to be refactored!"
       expect(interpreter.element_form_default).to eq(:unqualified)
     end
 
@@ -37,7 +38,7 @@ describe Wasabi::Interpreter do
         :get_vermarkter_list => {
           :input       => ["tns", "getVermarkterList"],
           :output      => ["tns", "getVermarkterListResponse"],
-          :soap_action => "getVermarkterList"  # soapUI sends an empty SOAPAction?!
+          :soap_action => ""
         }
       }
 

@@ -19,78 +19,61 @@ module Wasabi
       false
     end
 
-    def sax
-       @sax ||= Wasabi.sax(@source, @http_request).hash
-    end
-
     def soap_endpoint
       return @soap_endpoint if @soap_endpoint
 
       soap_namespace  = Wasabi::NAMESPACES["soap"]
       soap2_namespace = Wasabi::NAMESPACES["soap2"]
 
-      @soap_endpoint  = endpoints[soap_namespace] ||
-                        endpoints[soap2_namespace]
+      @soap_endpoint  = definition.endpoints[soap_namespace] ||
+                        definition.endpoints[soap2_namespace]
     end
 
     attr_writer :soap_endpoint
 
     def namespaces
-      sax[:namespaces]
+      definition.namespaces
     end
 
     def target_namespace
-      @target_namespace ||= sax[:target_namespace]
+      definition.target_namespace
     end
 
     attr_writer :target_namespace
 
     def element_form_default
-      @element_form_default ||= sax[:schemas].first[:element_form_default].to_sym
+      raise "TODO: REMOVE!"
+      #@element_form_default ||= sax[:schemas].first[:element_form_default].to_sym
     end
 
     attr_writer :element_form_default
 
     def operations
-      return @operations if @operations
+      @operations ||= operations!
+    end
+
+    def operations!
       operations = {}
 
-      soap_port = ports.find { |port|
-        port["namespace"] == Wasabi::NAMESPACES["soap"] ||
-        port["namespace"] == Wasabi::NAMESPACES["soap2"]
-      }
-
-      unless binding = find_binding(soap_port)
-        raise InterpreterError, "Unable to find binding for soap port:\n" +
-                                soap_port.inspect
+      definition.operations.each do |operation_name, _|
+        operations[operation_name] = {
+          :input       => definition.input_for(operation_name),
+          :output      => definition.output_for(operation_name),
+          :soap_action => definition.soap_action_for(operation_name)
+        }
       end
 
-      port_type = find_port_type(binding)
-
-      binding["operations"].each do |operation_name, binding_operation|
-        port_type_operation = find_port_type_operation(operation_name, port_type)
-
-        operations.update(
-          operation_name.snakecase.to_sym => {
-            :input       => input_for(operation_name, port_type_operation),
-            :output      => output_for(operation_name, port_type_operation),
-            :soap_action => soap_action_for(operation_name, binding_operation)
-          }
-        )
-      end
-
-      @operations = operations
+      operations
     end
 
     def type_map
-      return @type_map if @type_map
-      @type_map = type_map!
+      @type_map ||= type_map!
     end
 
     def types
       @types = {}
 
-      sax[:schemas].each do |schema|
+      definition.sax[:schemas].each do |schema|
         schema[:elements].each do |element_name, element|
           complex_type = element["complexType"]
           process_type(element_name, schema, complex_type) if complex_type
@@ -146,78 +129,11 @@ module Wasabi
 
     private
 
-    def endpoints
-      ports.inject({}) do |endpoints, port|
-        endpoints.merge(port["namespace"] => port["location"])
-      end
-    end
-
-    def ports
-      ports = []
-
-      sax[:services].each do |service_name, port_map|
-        port_map.each do |port_name, details|
-          ports << details
-        end
-      end
-
-      ports
-    end
-
-    def find_port_type(binding)
-      port_type_name = binding["type"].split(":").last
-      sax[:port_types][port_type_name]
-    end
-
-    def find_binding(port)
-      binding_name = port["binding"].split(":").last
-      sax[:bindings][binding_name]
-    end
-
-    def find_port_type_operation(operation_name, port_type)
-      port_type["operations"][operation_name]
-    end
-
-    def input_for(operation_name, port_type_operation)
-      message_for(operation_name, port_type_operation, "input")
-    end
-
-    def output_for(operation_name, port_type_operation)
-      message_for(operation_name, port_type_operation, "output")
-    end
-
-    def message_for(operation_name, input_output, type)
-      message_name = input_output[type].first.last["message"].to_s
-
-      port_message_nsid, port_message_type = message_name.split(":")
-      message_nsid = nil
-      message_type = nil
-
-      # TODO: support multiple 'part' elements in the message
-      port_message_part = sax[:messages][port_message_type]
-      if port_message_part && port_message_part.first
-        port_message_part_element = port_message_part.first["element"]
-        if port_message_part_element
-          message_nsid, message_type = port_message_part_element.to_s.split(":")
-        end
-      end
-
-      if message_type
-        [message_nsid, message_type]
-      else
-        fallback_name = type == "input" ? operation_name : port_message_type
-        [port_message_nsid, fallback_name]
-      end
-    end
-
-    def soap_action_for(operation_name, binding_operation)
-      soap_action = binding_operation["soap_action"].to_s
-
-      if !soap_action.empty?
-        soap_action
-      else
-        operation_name
-      end
+    def definition
+       @definition ||= begin
+         sax = Wasabi.sax(@source, @http_request)
+         Wasabi.definition(sax.definition)
+       end
     end
 
     def process_type(name, schema, type)
@@ -255,7 +171,7 @@ module Wasabi
     def type_map!
       type_map = {}
 
-      sax[:schemas].each do |schema|
+      definition.sax[:schemas].each do |schema|
         schema[:elements].each do |name, type|
           if complex_type = type["complexType"]
             type_map_element(type_map, name, schema, complex_type)

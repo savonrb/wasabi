@@ -1,6 +1,7 @@
 require "wasabi/version"
 require "wasabi/resolver"
 require "wasabi/interpreter"
+require "wasabi/definition"
 
 module Wasabi
 
@@ -14,7 +15,7 @@ module Wasabi
 
   NAMESPACES_BY_URI = NAMESPACES.invert
 
-  InterpreterError = Class.new(StandardError)
+  DefinitionError = Class.new(StandardError)
 
   def self.sax(source, http_request = nil)
     wsdl   = Resolver.new(source, http_request).xml
@@ -23,6 +24,10 @@ module Wasabi
 
     parser.parse(wsdl)
     sax
+  end
+
+  def self.definition(sax)
+    Definition.new(sax)
   end
 
   def self.interpreter(source, http_request = nil)

@@ -3,7 +3,7 @@ require "spec_helper"
 describe Wasabi::SAX do
   include SpecSupport::SAX
 
-  subject(:sax) { new_sax(:namespaced_actions).hash }
+  subject(:sax) { new_sax(:namespaced_actions).definition }
 
   context "with namespaced_actions.wsdl" do
     it "knows the target namespace" do

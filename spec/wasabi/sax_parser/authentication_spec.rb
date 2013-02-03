@@ -3,7 +3,7 @@ require "spec_helper"
 describe Wasabi::SAX do
   include SpecSupport::SAX
 
-  subject(:sax) { new_sax(:authentication).hash }
+  subject(:sax) { new_sax(:authentication).definition }
 
   context "with authentication.wsdl" do
     it "knows the target namespace" do

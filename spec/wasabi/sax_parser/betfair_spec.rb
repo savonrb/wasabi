@@ -3,7 +3,7 @@ require "spec_helper"
 describe Wasabi::SAX do
   include SpecSupport::SAX
 
-  subject(:sax) { new_sax(:betfair).hash }
+  subject(:sax) { new_sax(:betfair).definition }
 
   context "with betfair.wsdl" do
     it "knows the simple types" do

@@ -183,18 +183,16 @@ module Wasabi
       resolve_xs_imports
     end
 
-    def hash
-      @hash ||= begin
-        {
-          :namespaces       => @namespaces,
-          :target_namespace => @target_namespace,
-          :schemas          => @schemas.map(&:hash),
-          :messages         => @messages,
-          :bindings         => @bindings,
-          :port_types       => @port_types,
-          :services         => @services
-        }
-      end
+    def definition
+      @definition ||= {
+        :namespaces       => @namespaces,
+        :target_namespace => @target_namespace,
+        :schemas          => @schemas.map(&:hash),
+        :messages         => @messages,
+        :bindings         => @bindings,
+        :port_types       => @port_types,
+        :services         => @services
+      }
     end
 
     private
@@ -202,8 +200,8 @@ module Wasabi
     def resolve_xs_imports
       @xs_imports.each do |namespace, import|
         resolve_import! import["schemaLocation"] do |sax|
-          schemas = sax.hash[:schemas]
-          hash[:schemas] += schemas
+          schemas = sax.definition[:schemas]
+          definition[:schemas] += schemas
         end
       end
     end
@@ -211,7 +209,7 @@ module Wasabi
     def resolve_wsdl_imports
       @wsdl_imports.each do |namespace, import|
         resolve_import! import["location"] do |sax|
-          @hash = hash.deep_merge(sax.hash)
+          @definition = definition.deep_merge(sax.definition)
         end
       end
     end
