@@ -10,10 +10,6 @@ module Wasabi
       @definition = definition
     end
 
-    # TODO: find a better way to support the interpreter's type_map
-    #       than exposing the definition. [dh, 2013-02-03]
-    attr_reader :definition
-
     def target_namespace
       @definition[:target_namespace]
     end
