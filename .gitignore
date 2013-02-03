@@ -5,4 +5,5 @@ pkg
 *~
 *.gem
 .bundle
+.rspec
 Gemfile.lock
