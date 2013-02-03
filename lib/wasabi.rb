@@ -26,12 +26,12 @@ module Wasabi
     sax
   end
 
-  def self.definition(sax)
-    Definition.new(sax)
-  end
-
   def self.interface(source, http_request = nil)
     Interface.new(source, http_request)
+  end
+
+  def self.definition(sax)
+    Definition.new(sax)
   end
 
 end
