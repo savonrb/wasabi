@@ -47,6 +47,7 @@ module Wasabi
       parse_namespaces
       parse_endpoint
       parse_operations
+      parse_operations_parameters
       parse_types
       parse_deferred_types
     end
@@ -72,6 +73,20 @@ module Wasabi
         @endpoint = URI(URI.escape(endpoint.to_s)) if endpoint
       rescue URI::InvalidURIError
         @endpoint = nil
+      end
+    end
+
+    def parse_operations_parameters
+      ops = xpath("wsdl:definitions/wsdl:types/*[local-name()='schema']/*[local-name()='element']").each do |o|
+        name = o.attribute("name").to_s.snakecase.to_sym
+        if operation = @operations[name]
+          o.xpath("*[local-name() ='complexType']/*[local-name() ='sequence']/*[local-name() ='element']").each do |p|
+            attr_name = p.attribute("name").to_s
+            attr_type = (attr_type = p.attribute("type").to_s.split(":")).size > 1 ? attr_type[1] : attr_type[0]
+            operation[:parameters] ||= {}
+            operation[:parameters][attr_name.to_sym] = {:name => attr_name, :type => attr_type}
+          end
+        end
       end
     end
 
