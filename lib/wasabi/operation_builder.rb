@@ -34,11 +34,9 @@ class Wasabi
 
     def find_soap_service
       @documents.services.each do |name, service|
-        soap_1_1_port = service.soap_1_1_port
-        return [service, Wasabi::SOAP_1_1] if soap_1_1_port
+        return [service, Wasabi::SOAP_1_1] if service.soap_1_1_port
 
-        service.soap_1_2_port
-        return [service, Wasabi::SOAP_1_2] if soap_1_2_port
+        return [service, Wasabi::SOAP_1_2] if service.soap_1_2_port
       end
 
       raise 'Unable to find a SOAP service'
