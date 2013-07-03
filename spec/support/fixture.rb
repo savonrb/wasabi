@@ -33,10 +33,8 @@ module SpecSupport
     end
   end
 
-  module Methods
-    def fixture(*args)
-      Fixture.new(*args)
-    end
+  def fixture(*args)
+    Fixture.new(*args)
   end
 
 end
