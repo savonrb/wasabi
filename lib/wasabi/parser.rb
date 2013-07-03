@@ -195,7 +195,9 @@ module Wasabi
 
       # TODO: Stupid fix for missing support for imports.
       # Sometimes portTypes are actually included in a separate WSDL.
-      if port_type_input
+      if port_type_input.nil?
+        [nil, operation_name]
+      else                
         port_message_ns_id, port_message_type = port_type_input.attribute("message").to_s.split(':')
 
         message_ns_id, message_type = nil
@@ -216,8 +218,6 @@ module Wasabi
         else
           [port_message_ns_id, operation_name]
         end
-      else
-        [nil, operation_name]
       end
     end
 
