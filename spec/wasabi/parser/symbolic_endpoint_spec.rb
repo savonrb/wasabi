@@ -15,5 +15,10 @@ describe Wasabi::Parser do
       subject.endpoint.should be_nil
     end
 
+    it "should position base class attributes before subclass attributes in :order! array" do
+      type = subject.types["ROPtsLiesListe"]
+      type[:order!].should == ["messages", "returncode", "listenteil"]
+    end
+
   end
 end

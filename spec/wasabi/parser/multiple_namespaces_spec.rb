@@ -20,16 +20,20 @@ describe Wasabi::Parser do
     end
 
     it "records the fields under a type" do
-      subject.types["Save"].keys.should =~ ["article", :namespace]
+      subject.types["Save"].keys.should =~ ["article", :namespace, :order!]
     end
 
     it "records multiple fields when there are more than one" do
-      subject.types["Article"].keys.should =~ ["Title", "Author", :namespace]
+      subject.types["Article"].keys.should =~ ["Title", "Author", :namespace, :order!]
     end
 
     it "records the type of a field" do
       subject.types["Save"]["article"][:type].should == "article:Article"
       subject.namespaces["article"].should == "http://example.com/article"
+    end
+
+    it "lists the order of the type elements" do
+      subject.types["Article"][:order!].should == ["Author", "Title"]
     end
 
   end
