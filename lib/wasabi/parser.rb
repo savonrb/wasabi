@@ -126,10 +126,11 @@ module Wasabi
           action = soap_action && !soap_action.empty? ? soap_action : name
 
           # There should be a matching portType for each binding, so we will lookup the input from there.
+          namespace_id, output = output_for(operation)
           namespace_id, input = input_for(operation)
 
           # Store namespace identifier so this operation can be mapped to the proper namespace.
-          @operations[name.snakecase.to_sym] = { :action => action, :input => input, :namespace_identifier => namespace_id }
+          @operations[name.snakecase.to_sym] = { :action => action, :input => input, :output => output, :namespace_identifier => namespace_id}
         elsif !@operations[name.snakecase.to_sym]
           @operations[name.snakecase.to_sym] = { :action => name, :input => name }
         end
@@ -182,6 +183,14 @@ module Wasabi
     end
 
     def input_for(operation)
+     input_output_for(operation, "input")
+    end
+
+    def output_for(operation)
+     input_output_for(operation, "output")
+    end
+
+    def input_output_for(operation, input_output)
       operation_name = operation["name"]
 
       # Look up the input by walking up to portType, then up to the message.
@@ -191,12 +200,13 @@ module Wasabi
         port_type_operation = @port_type_operations[binding_type][operation_name]
       end
 
-      port_type_input = port_type_operation && port_type_operation.element_children.find { |node| node.name == 'input' }
+      port_type_input_output = port_type_operation &&
+                               port_type_operation.element_children.find { |node| node.name == input_output }
 
       # TODO: Stupid fix for missing support for imports.
       # Sometimes portTypes are actually included in a separate WSDL.
-      if port_type_input
-        port_message_ns_id, port_message_type = port_type_input.attribute("message").to_s.split(':')
+      if port_type_input_output
+        port_message_ns_id, port_message_type = port_type_input_output.attribute("message").to_s.split(':')
 
         message_ns_id, message_type = nil
 
@@ -214,7 +224,7 @@ module Wasabi
         if message_type
           [message_ns_id, message_type]
         else
-          [port_message_ns_id, operation_name]
+          [port_message_ns_id, port_message_type]
         end
       else
         [nil, operation_name]
@@ -247,4 +257,5 @@ module Wasabi
     end
 
   end
+
 end
