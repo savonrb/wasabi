@@ -83,6 +83,17 @@ module Wasabi
 
     attr_writer :service_name
 
+    # Returns a list of parameter names for a given +key+
+    def soap_action_parameters(key)
+      params = operation_input_parameters(key)
+      params.keys if params
+    end
+
+    # Returns a list of input parameters for a given +key+.
+    def operation_input_parameters(key)
+      parser.operations[key][:parameters] if operations[key]
+    end
+
     def type_namespaces
       @type_namespaces ||= begin
         namespaces = []

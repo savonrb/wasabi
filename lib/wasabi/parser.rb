@@ -58,6 +58,7 @@ module Wasabi
       parse_port_types
       parse_port_type_operations
       parse_operations
+      parse_operations_parameters
       parse_types
       parse_deferred_types
     end
@@ -112,6 +113,22 @@ module Wasabi
       @port_types.each do |port_type_name, port_type|
         operations = port_type.element_children.select { |node| node.name == 'operation' }
         @port_type_operations[port_type_name] = Hash[operations.map { |node| [node['name'], node] }]
+      end
+    end
+
+    def parse_operations_parameters
+      root_elements = document.xpath("wsdl:definitions/wsdl:types/*[local-name()='schema']/*[local-name()='element']", 'wsdl' => WSDL).each do |element|
+        name = element.attribute("name").to_s.snakecase.to_sym
+
+        if operation = @operations[name]
+          element.xpath("*[local-name() ='complexType']/*[local-name() ='sequence']/*[local-name() ='element']").each do |child_element|
+            attr_name = child_element.attribute("name").to_s
+            attr_type = (attr_type = child_element.attribute("type").to_s.split(":")).size > 1 ? attr_type[1] : attr_type[0]
+
+            operation[:parameters] ||= {}
+            operation[:parameters][attr_name.to_sym] = { :name => attr_name, :type => attr_type }
+          end
+        end
       end
     end
 
