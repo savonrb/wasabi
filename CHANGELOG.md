@@ -1,6 +1,19 @@
-## master
+## 3.2.0 (UPCOMING)
+
+* Feature: [#20](https://github.com/savonrb/wasabi/issues/20) Limited support for listing an
+  operation's parameters. Please note that if your WSDL defines imports, this method might
+  not return all types.
 
 * Improvement: [#7](https://github.com/savonrb/wasabi/issues/7) Major speed improvements.
+
+* Improvement: [#16](https://github.com/savonrb/wasabi/issues/16) Various improvements regarding
+  element order and type information.
+
+* Fix: [#25](https://github.com/savonrb/wasabi/issues/25) Fixes a problem where Wasabi escaped
+  an already escaped endpoint URL.
+
+* Fix: [#15](https://github.com/savonrb/wasabi/issues/15) Fixes a bug where the operation tag
+  name was not correctly extracted from the WSDL document.
 
 ## 3.1.0 (2013-04-21)
 
