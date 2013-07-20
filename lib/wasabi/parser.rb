@@ -81,11 +81,14 @@ module Wasabi
         endpoint ||= service_node.at_xpath(service_node, ".//soap12:address/@location", 'soap12' => SOAP_1_2)
       end
 
-      begin
-        @endpoint = URI(URI.escape(endpoint.to_s)) if endpoint
-      rescue URI::InvalidURIError
-        @endpoint = nil
-      end
+      @endpoint = parse_url(endpoint) if endpoint
+    end
+
+    def parse_url(url)
+      unescaped_url = URI.unescape(url.to_s)
+      escaped_url   = URI.escape(unescaped_url)
+      URI.parse(escaped_url)
+    rescue URI::InvalidURIError
     end
 
     def parse_service_name

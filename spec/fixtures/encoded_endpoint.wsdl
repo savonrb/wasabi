@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:s="http://www.w3.org/2001/XMLSchema"
+  xmlns:actions="http://example.com/actions"
+  targetNamespace="http://example.com/topLevelNamespace">
+    <types>
+        <s:schema elementFormDefault="qualified" targetNamespace="http://example.com/actions">
+            <s:element name="SomeRequest">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element name="status" type="s:string"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+        </s:schema>
+    </types>
+    <message name="SomeInput">
+        <part name="parameters" element="actions:SomeRequest"/>
+    </message>
+    <message name="SomeOutput">
+        <part name="parameters" element="actions:SomeResponse"/>
+    </message>
+    <portType name="ExamplePortType">
+        <operation name="SomeOperation">
+            <input message="actions:SomeInput"/>
+            <output message="actions:SomeOutput"/>
+        </operation>
+    </portType>
+    <binding name="ExampleBinding" type="actions:ExamplePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <operation name="SomeOperation">
+            <soap:operation soapAction="http://example.com/actions.SomeOperation" style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="ExampleService">
+        <port name="ExamplePort" binding="actions:ExampleBinding">
+            <soap:address location="http://localhost/soapservice/execute?path=%2Fbase%2Fincludes%2FTest+Soap%2FReturn+Rows"/>
+        </port>
+    </service>
+</definitions>
