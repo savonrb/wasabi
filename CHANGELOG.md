@@ -1,4 +1,4 @@
-## 3.2.0 (UPCOMING)
+## 3.2.0 (2013-07-26)
 
 * Feature: [#20](https://github.com/savonrb/wasabi/issues/20) Limited support for listing an
   operation's parameters. Please note that if your WSDL defines imports, this method might
