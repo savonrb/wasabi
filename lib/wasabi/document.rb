@@ -25,7 +25,9 @@ module Wasabi
       self.document = document
     end
 
-    attr_accessor :document, :request, :xml
+    attr_accessor :document, :request
+
+    attr_writer :xml
 
     alias_method :document?, :document
 
