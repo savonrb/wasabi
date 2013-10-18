@@ -249,7 +249,11 @@ module Wasabi
       # TODO: Stupid fix for missing support for imports.
       # Sometimes portTypes are actually included in a separate WSDL.
       if port_type_input_output
-        port_message_ns_id, port_message_type = port_type_input_output.attribute("message").to_s.split(':')
+        if port_type_input_output.attribute("message").to_s.include? ':'
+          port_message_ns_id, port_message_type = port_type_input_output.attribute("message").to_s.split(':')
+        else
+          port_message_type = port_type_input_output.attribute("message").to_s
+        end
 
         message_ns_id, message_type = nil
 
