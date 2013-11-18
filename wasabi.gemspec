@@ -17,6 +17,10 @@ Gem::Specification.new do |s|
   s.add_dependency "httpi",    "~> 2.0"
   s.add_dependency "nokogiri", ">= 1.4.0", "< 1.6"
 
+  if RUBY_VERSION < "1.9"
+    s.add_dependency "mime-types", "< 2.0.0"
+  end
+
   s.add_development_dependency "rake",  "~> 0.9"
   s.add_development_dependency "rspec", "~> 2.10"
 
