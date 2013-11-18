@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
 
   if RUBY_VERSION[0,3] == "1.8"
     # nokogiri 1.6 dropped support for ruby 1.8
-    s.add_dependency "nokogiri", ">= 1.4.0", "< 1.6"
+    s.add_dependency "nokogiri", ">= 1.4.0"
   else
     s.add_dependency "nokogiri", ">= 1.4.0"
   end
