@@ -73,8 +73,8 @@
       <output message="typens:GetAllContactsResponse"/>
     </operation>
     <operation name="SearchUser">
-      <input message="typens:SearchUser"/>
-      <output message="typens:SearchUserResponse"/>
+      <input message="SearchUser"/>
+      <output message="SearchUserResponse"/>
     </operation>
   </portType>
   <binding name="ApiApiBinding" type="typens:ApiApiPort">
