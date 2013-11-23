@@ -15,17 +15,8 @@ Gem::Specification.new do |s|
   s.license = 'MIT'
 
   s.add_dependency "httpi",    "~> 2.0"
-
-  if RUBY_VERSION[0,3] == "1.8"
-    # nokogiri 1.6 dropped support for ruby 1.8
-    s.add_dependency "nokogiri", ">= 1.4.0", "< 1.6"
-  else
-    s.add_dependency "nokogiri", ">= 1.4.0"
-  end
-
-  if RUBY_VERSION < "1.9"
-    s.add_dependency "mime-types", "< 2.0.0"
-  end
+  s.add_dependency "nokogiri", ">= 1.4.0"
+  s.add_dependency "mime-types", "< 2.0.0"
 
   s.add_development_dependency "rake",  "~> 0.9"
   s.add_development_dependency "rspec", "~> 2.10"
