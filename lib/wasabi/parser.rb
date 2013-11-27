@@ -263,7 +263,11 @@ module Wasabi
 
         if port_message_part
           if (port_message_part_element = port_message_part.attribute("element"))
-            message_ns_id, message_type = port_message_part_element.to_s.split(':')
+            if port_message_part_element.to_s.include? ':'
+              message_ns_id, message_type = port_message_part_element.to_s.split(':')
+            else
+              message_type = port_message_part_element.to_s
+            end
           end
         end
 
