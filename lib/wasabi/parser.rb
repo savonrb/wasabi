@@ -269,9 +269,9 @@ module Wasabi
 
         # Fall back to the name of the binding operation
         if message_type
-          [message_ns_id, message_type]
+          [message_ns_id, operation_name]
         else
-          [port_message_ns_id, port_message_type]
+          [port_message_ns_id, operation_name]
         end
       else
         [nil, operation_name]
