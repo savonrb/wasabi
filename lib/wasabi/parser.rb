@@ -185,7 +185,7 @@ module Wasabi
 
         [ :nillable, :minOccurs, :maxOccurs ].each do |attr|
           if v = inner.attribute(attr.to_s)
-           @types[name][element_name][attr] = v.to_s
+            @types[name][element_name][attr] = v.to_s
           end
         end
 
@@ -226,11 +226,11 @@ module Wasabi
     end
 
     def input_for(operation)
-     input_output_for(operation, 'input')
+      input_output_for(operation, 'input')
     end
 
     def output_for(operation)
-     input_output_for(operation, 'output')
+      input_output_for(operation, 'output')
     end
 
     def input_output_for(operation, input_output)
@@ -244,7 +244,7 @@ module Wasabi
       end
 
       port_type_input_output = port_type_operation &&
-                               port_type_operation.element_children.find { |node| node.name == input_output }
+        port_type_operation.element_children.find { |node| node.name == input_output }
 
       # TODO: Stupid fix for missing support for imports.
       # Sometimes portTypes are actually included in a separate WSDL.
@@ -302,7 +302,5 @@ module Wasabi
 
       @sections = sections
     end
-
   end
-
 end
