@@ -1,5 +1,5 @@
-require "uri"
-require "wasabi/core_ext/string"
+require 'uri'
+require 'wasabi/core_ext/string'
 
 module Wasabi
 
@@ -8,10 +8,10 @@ module Wasabi
   # Parses WSDL documents and remembers their important parts.
   class Parser
 
-    XSD      = "http://www.w3.org/2001/XMLSchema"
-    WSDL     = "http://schemas.xmlsoap.org/wsdl/"
-    SOAP_1_1 = "http://schemas.xmlsoap.org/wsdl/soap/"
-    SOAP_1_2 = "http://schemas.xmlsoap.org/wsdl/soap12/"
+    XSD      = 'http://www.w3.org/2001/XMLSchema'
+    WSDL     = 'http://schemas.xmlsoap.org/wsdl/'
+    SOAP_1_1 = 'http://schemas.xmlsoap.org/wsdl/soap/'
+    SOAP_1_2 = 'http://schemas.xmlsoap.org/wsdl/soap12/'
 
     def initialize(document)
       self.document = document
@@ -71,15 +71,15 @@ module Wasabi
       @namespace = namespace.to_s if namespace
 
       @namespaces = @document.namespaces.inject({}) do |memo, (key, value)|
-        memo[key.sub("xmlns:", "")] = value
+        memo[key.sub('xmlns:', '')] = value
         memo
       end
     end
 
     def parse_endpoint
       if service_node = service
-        endpoint = service_node.at_xpath(".//soap11:address/@location", 'soap11' => SOAP_1_1)
-        endpoint ||= service_node.at_xpath(service_node, ".//soap12:address/@location", 'soap12' => SOAP_1_2)
+        endpoint = service_node.at_xpath('.//soap11:address/@location', 'soap11' => SOAP_1_1)
+        endpoint ||= service_node.at_xpath(service_node, './/soap12:address/@location', 'soap12' => SOAP_1_2)
       end
 
       @endpoint = parse_url(endpoint) if endpoint
@@ -118,12 +118,12 @@ module Wasabi
 
     def parse_operations_parameters
       root_elements = document.xpath("wsdl:definitions/wsdl:types/*[local-name()='schema']/*[local-name()='element']", 'wsdl' => WSDL).each do |element|
-        name = element.attribute("name").to_s.snakecase.to_sym
+        name = element.attribute('name').to_s.snakecase.to_sym
 
         if operation = @operations[name]
           element.xpath("*[local-name() ='complexType']/*[local-name() ='sequence']/*[local-name() ='element']").each do |child_element|
-            attr_name = child_element.attribute("name").to_s
-            attr_type = (attr_type = child_element.attribute("type").to_s.split(":")).size > 1 ? attr_type[1] : attr_type[0]
+            attr_name = child_element.attribute('name').to_s
+            attr_type = (attr_type = child_element.attribute('type').to_s.split(':')).size > 1 ? attr_type[1] : attr_type[0]
 
             operation[:parameters] ||= {}
             operation[:parameters][attr_name.to_sym] = { :name => attr_name, :type => attr_type }
@@ -133,9 +133,9 @@ module Wasabi
     end
 
     def parse_operations
-      operations = document.xpath("wsdl:definitions/wsdl:binding/wsdl:operation", 'wsdl' => WSDL)
+      operations = document.xpath('wsdl:definitions/wsdl:binding/wsdl:operation', 'wsdl' => WSDL)
       operations.each do |operation|
-        name = operation.attribute("name").to_s
+        name = operation.attribute('name').to_s
 
         # TODO: check for soap namespace?
         soap_operation = operation.element_children.find { |node| node.name == 'operation' }
@@ -179,9 +179,9 @@ module Wasabi
       @types[name] ||= { :namespace => namespace }
       @types[name][:order!] = []
 
-      type.xpath("./xs:sequence/xs:element", 'xs' => XSD).each do |inner|
-        element_name = inner.attribute("name").to_s
-        @types[name][element_name] = { :type => inner.attribute("type").to_s }
+      type.xpath('./xs:sequence/xs:element', 'xs' => XSD).each do |inner|
+        element_name = inner.attribute('name').to_s
+        @types[name][element_name] = { :type => inner.attribute('type').to_s }
 
         [ :nillable, :minOccurs, :maxOccurs ].each do |attr|
           if v = inner.attribute(attr.to_s)
@@ -192,7 +192,7 @@ module Wasabi
         @types[name][:order!] << element_name
       end
 
-      type.xpath("./xs:complexContent/xs:extension/xs:sequence/xs:element", 'xs' => XSD).each do |inner_element|
+      type.xpath('./xs:complexContent/xs:extension/xs:sequence/xs:element', 'xs' => XSD).each do |inner_element|
         element_name = inner_element.attribute('name').to_s
         @types[name][element_name] = { :type => inner_element.attribute('type').to_s }
 
@@ -226,15 +226,15 @@ module Wasabi
     end
 
     def input_for(operation)
-     input_output_for(operation, "input")
+     input_output_for(operation, 'input')
     end
 
     def output_for(operation)
-     input_output_for(operation, "output")
+     input_output_for(operation, 'output')
     end
 
     def input_output_for(operation, input_output)
-      operation_name = operation["name"]
+      operation_name = operation['name']
 
       # Look up the input by walking up to portType, then up to the message.
 
@@ -249,10 +249,10 @@ module Wasabi
       # TODO: Stupid fix for missing support for imports.
       # Sometimes portTypes are actually included in a separate WSDL.
       if port_type_input_output
-        if port_type_input_output.attribute("message").to_s.include? ':'
-          port_message_ns_id, port_message_type = port_type_input_output.attribute("message").to_s.split(':')
+        if port_type_input_output.attribute('message').to_s.include? ':'
+          port_message_ns_id, port_message_type = port_type_input_output.attribute('message').to_s.split(':')
         else
-          port_message_type = port_type_input_output.attribute("message").to_s
+          port_message_type = port_type_input_output.attribute('message').to_s
         end
 
         message_ns_id, message_type = nil
@@ -262,7 +262,7 @@ module Wasabi
         port_message_part = message.element_children.find { |node| node.name == 'part' }
 
         if port_message_part
-          if (port_message_part_element = port_message_part.attribute("element"))
+          if (port_message_part_element = port_message_part.attribute('element'))
             message_ns_id, message_type = port_message_part_element.to_s.split(':')
           end
         end
