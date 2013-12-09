@@ -1,3 +1,11 @@
+# 3.2.2 (2013-12-09)
+
+* Fix: [#32](https://github.com/savonrb/wasabi/issues/32) fixes a regression in operation names that was adversely affecting Savon: https://github.com/savonrb/savon/issues/520
+
+# 3.2.1 (2013-12-05)
+
+* Feature: Drops requirement for Nokogiri <= 1.6 for modern rubies. This was in place for ruby 1.8 but since support for that is going away, we shouldn't prevent users from using newer versions of Nokogiri.
+
 ## 3.2.0 (2013-07-26)
 
 * Feature: [#20](https://github.com/savonrb/wasabi/issues/20) Limited support for listing an
