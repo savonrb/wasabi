@@ -1,3 +1,6 @@
+# 3.2.3 (2013-12-16)
+* Fix [#39](https://github.com/savonrb/wasabi/pull/39) fixes new regression in operation names. Huge thank you to #leoping for investigating this and issuing a pull request.
+
 # 3.2.2 (2013-12-09)
 
 * Fix: [#32](https://github.com/savonrb/wasabi/issues/32) fixes a regression in operation names that was adversely affecting Savon: https://github.com/savonrb/savon/issues/520
