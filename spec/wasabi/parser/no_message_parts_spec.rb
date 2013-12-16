@@ -16,7 +16,7 @@ describe Wasabi::Parser do
       subject.operations[:save][:input].should == 'Save'
 
       # Operation's output has part element in the message, so using part element's type.
-      subject.operations[:save][:output].should == 'Save'
+      subject.operations[:save][:output].should == 'SaveResponse'
     end
 
     it 'falls back to using the namespace ID in the port element' do
