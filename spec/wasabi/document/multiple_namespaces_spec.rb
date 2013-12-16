@@ -14,7 +14,7 @@ describe Wasabi::Document do
     it { should have(1).operations }
 
     its(:operations) do
-      should == { :save => { :input => "Save", :output=>"Save", :action => "http://example.com/actions.Save", :namespace_identifier => "actions", :parameters => { :article => { :name => "article", :type => "Article" } } } }
+      should == { :save => { :input => "Save", :output=>"SaveResponse", :action => "http://example.com/actions.Save", :namespace_identifier => "actions", :parameters => { :article => { :name => "article", :type => "Article" } } } }
     end
 
     its(:type_namespaces) do
