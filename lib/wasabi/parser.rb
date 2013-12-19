@@ -261,9 +261,12 @@ module Wasabi
         message = @messages[port_message_type]
         port_message_part = message.element_children.find { |node| node.name == 'part' }
 
-        if port_message_part
-          if (port_message_part_element = port_message_part.attribute('element'))
-            message_ns_id, message_type = port_message_part_element.to_s.split(':')
+        if port_message_part && port_element = port_message_part.attribute('element')
+          port_message_part = port_element.to_s
+          if port_message_part.include?(':')
+            message_ns_id, message_type = port_message_part.split(':')
+          else
+            message_type = port_message_part
           end
         end
 
