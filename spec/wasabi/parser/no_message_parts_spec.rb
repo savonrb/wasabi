@@ -22,5 +22,11 @@ describe Wasabi::Parser do
     it 'falls back to using the namespace ID in the port element' do
       subject.operations[:save][:namespace_identifier].should == 'actions'
     end
+
+    it 'gracefully handles port messages without a colon' do
+      subject.operations[:delete][:input].should == 'Delete'
+      subject.operations[:delete][:output].should == 'DeleteResponse'
+      subject.operations[:delete][:namespace_identifier].should be_nil
+    end
   end
 end
