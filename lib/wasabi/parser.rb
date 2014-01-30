@@ -257,10 +257,19 @@ module Wasabi
 
         message_ns_id, message_type = nil
 
-        # TODO: Support multiple 'part' elements in the message.
-        message = @messages[port_message_type]
-        port_message_part = message.element_children.find { |node| node.name == 'part' }
+        # When there is a parts attribute in soap:body element, we should use that value
+        # to look up the message part from messages array.
+        input_output_element = operation.element_children.find { |node| node.name == input_output }
+        if input_output_element
+          soap_body_element = input_output_element.element_children.find { |node| node.name == 'body' }
+          soap_body_parts = soap_body_element['parts'] if soap_body_element
+        end
 
+        message = @messages[port_message_type]
+        port_message_part = message.element_children.find do |node| 
+          soap_body_parts.nil? ? (node.name == 'part') : ( node.name == 'part' && node['name'] == soap_body_parts)
+        end
+        
         if port_message_part && port_element = port_message_part.attribute('element')
           port_message_part = port_element.to_s
           if port_message_part.include?(':')
