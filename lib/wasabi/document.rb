@@ -21,11 +21,12 @@ module Wasabi
     end
 
     # Accepts a WSDL +document+ to parse.
-    def initialize(document = nil)
+    def initialize(document = nil, adapter = nil)
       self.document = document
+      self.adapter  = adapter
     end
 
-    attr_accessor :document, :request
+    attr_accessor :document, :request, :adapter
 
     attr_writer :xml
 
@@ -138,7 +139,7 @@ module Wasabi
     # Returns the raw WSDL document.
     # Can be used as a hook to extend the library.
     def xml
-      @xml ||= Resolver.new(document, request).resolve
+      @xml ||= Resolver.new(document, request, adapter).resolve
     end
 
     # Parses the WSDL document and returns the <tt>Wasabi::Parser</tt>.
