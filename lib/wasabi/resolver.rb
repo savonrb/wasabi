@@ -18,12 +18,13 @@ module Wasabi
     URL = /^http[s]?:/
     XML = /^</
 
-    def initialize(document, request = nil)
+    def initialize(document, request = nil, adapter = nil)
       @document = document
       @request  = request || HTTPI::Request.new
+      @adapter  = adapter
     end
 
-    attr_reader :document, :request
+    attr_reader :document, :request, :adapter
 
     def resolve
       raise ArgumentError, "Unable to resolve: #{document.inspect}" unless document
@@ -39,7 +40,7 @@ module Wasabi
 
     def load_from_remote
       request.url = document
-      response = HTTPI.get(request)
+      response = HTTPI.get(request, adapter)
 
       raise HTTPError.new("Error: #{response.code}", response) if response.error?
 
