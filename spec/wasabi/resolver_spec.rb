@@ -9,6 +9,17 @@ describe Wasabi::Resolver do
       xml.should == "wsdl"
     end
 
+    it "resolves remote documents with custom adapter" do
+      prev_logging = HTTPI.instance_variable_get(:@log)
+      HTTPI.log = false # Don't pollute rspec output by request logging
+      xml = Wasabi::Resolver.new("http://example.com?wsdl", nil, :fake_adapter_for_test).resolve
+      xml.should == "wsdl_by_adapter"
+      expect(FakeAdapterForTest.class_variable_get(:@@requests).size).to eq(1)
+      expect(FakeAdapterForTest.class_variable_get(:@@requests).first.url).to eq(URI.parse("http://example.com?wsdl"))
+      expect(FakeAdapterForTest.class_variable_get(:@@methods)).to eq([:get])
+      HTTPI.log = prev_logging
+    end
+
     it "resolves local documents" do
       xml = Wasabi::Resolver.new(fixture(:authentication).path).resolve
       xml.should == fixture(:authentication).read
