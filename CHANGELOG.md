@@ -1,3 +1,6 @@
+# 3.3.0 (2014-05-03)
+* Feature: [#44](https://github.com/savonrb/wasabi/pull/44) adds a feature to specify the HTTPI adapter you'd like to use.
+
 # 3.2.3 (2013-12-16)
 * Fix [#39](https://github.com/savonrb/wasabi/pull/39) fixes new regression in operation names. Huge thank you to #leoping for investigating this and issuing a pull request.
 
