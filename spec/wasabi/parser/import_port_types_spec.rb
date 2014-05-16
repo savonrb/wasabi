@@ -14,8 +14,8 @@ describe Wasabi::Parser do
     it "does blow up when portTypes are imported" do
       get_customer = subject.operations[:get_customer]
 
-      get_customer[:input].should == "GetCustomer"
-      get_customer[:namespace_identifier].should be_nil
+      expect(get_customer[:input]).to eq("GetCustomer")
+      expect(get_customer[:namespace_identifier]).to be_nil
     end
 
   end

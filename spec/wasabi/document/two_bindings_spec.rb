@@ -5,16 +5,24 @@ describe Wasabi::Document do
 
     subject { Wasabi::Document.new fixture(:two_bindings).read }
 
-    its(:element_form_default) { should == :unqualified }
+    describe '#element_form_default' do
+      subject { super().element_form_default }
+      it { should == :unqualified }
+    end
 
-    it { should have(3).operations }
+    it 'has 3 operations' do
+      expect(subject.operations.size).to eq(3)
+    end
 
-    its(:operations) do
+    describe '#operations' do
+      subject { super().operations }
+      it do
       should include(
         { :post => { :input => "Post", :action => "Post" } },
         { :post11only => { :input => "Post11only", :action => "Post11only" } },
         { :post12only => { :input => "Post12only", :action => "Post12only" } }
       )
+    end
     end
 
   end

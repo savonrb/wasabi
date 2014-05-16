@@ -4,16 +4,16 @@ describe Wasabi::Resolver do
 
   describe "#resolve" do
     it "resolves remote documents" do
-      HTTPI.should_receive(:get) { HTTPI::Response.new(200, {}, "wsdl") }
+      expect(HTTPI).to receive(:get) { HTTPI::Response.new(200, {}, "wsdl") }
       xml = Wasabi::Resolver.new("http://example.com?wsdl").resolve
-      xml.should == "wsdl"
+      expect(xml).to eq("wsdl")
     end
 
     it "resolves remote documents with custom adapter" do
       prev_logging = HTTPI.instance_variable_get(:@log)
       HTTPI.log = false # Don't pollute rspec output by request logging
       xml = Wasabi::Resolver.new("http://example.com?wsdl", nil, :fake_adapter_for_test).resolve
-      xml.should == "wsdl_by_adapter"
+      expect(xml).to eq("wsdl_by_adapter")
       expect(FakeAdapterForTest.class_variable_get(:@@requests).size).to eq(1)
       expect(FakeAdapterForTest.class_variable_get(:@@requests).first.url).to eq(URI.parse("http://example.com?wsdl"))
       expect(FakeAdapterForTest.class_variable_get(:@@methods)).to eq([:get])
@@ -22,12 +22,12 @@ describe Wasabi::Resolver do
 
     it "resolves local documents" do
       xml = Wasabi::Resolver.new(fixture(:authentication).path).resolve
-      xml.should == fixture(:authentication).read
+      expect(xml).to eq(fixture(:authentication).read)
     end
 
     it "simply returns raw XML" do
       xml = Wasabi::Resolver.new("<xml/>").resolve
-      xml.should == "<xml/>"
+      expect(xml).to eq("<xml/>")
     end
 
     it "raises HTTPError when #load_from_remote gets a response error" do
@@ -38,12 +38,12 @@ describe Wasabi::Resolver do
       body = "<html><head><title>404 Not Found</title></head><body>Oops!</body></html>"
       failed_response = HTTPI::Response.new(code, headers, body)
       HTTPI.stub(:get => failed_response)
-      lambda do
+      expect do
         Wasabi::Resolver.new("http://example.com?wsdl").resolve
-      end.should raise_error { |ex|
-        ex.should be_a(Wasabi::Resolver::HTTPError)
-        ex.message.should == "Error: #{code}"
-        ex.response.should == failed_response
+      end.to raise_error { |ex|
+        expect(ex).to be_a(Wasabi::Resolver::HTTPError)
+        expect(ex.message).to eq("Error: #{code}")
+        expect(ex.response).to eq(failed_response)
       }
     end
   end

@@ -5,19 +5,35 @@ describe Wasabi::Document do
 
     subject { Wasabi::Document.new fixture(:multiple_namespaces).read }
 
-    its(:namespace) { should == "http://example.com/actions" }
-
-    its(:endpoint) { should == URI("http://example.com:1234/soap") }
-
-    its(:element_form_default) { should == :qualified }
-
-    it { should have(1).operations }
-
-    its(:operations) do
-      should == { :save => { :input => "Save", :output=>"SaveResponse", :action => "http://example.com/actions.Save", :namespace_identifier => "actions", :parameters => { :article => { :name => "article", :type => "Article" } } } }
+    describe '#namespace' do
+      subject { super().namespace }
+      it { should == "http://example.com/actions" }
     end
 
-    its(:type_namespaces) do
+    describe '#endpoint' do
+      subject { super().endpoint }
+      it { should == URI("http://example.com:1234/soap") }
+    end
+
+    describe '#element_form_default' do
+      subject { super().element_form_default }
+      it { should == :qualified }
+    end
+
+    it 'has 1 operation' do
+      expect(subject.operations.size).to eq(1)
+    end
+
+    describe '#operations' do
+      subject { super().operations }
+      it do
+      should == { :save => { :input => "Save", :output=>"SaveResponse", :action => "http://example.com/actions.Save", :namespace_identifier => "actions", :parameters => { :article => { :name => "article", :type => "Article" } } } }
+    end
+    end
+
+    describe '#type_namespaces' do
+      subject { super().type_namespaces }
+      it do
       should =~ [
         [["Save"], "http://example.com/actions"],
         [["Save", "article"], "http://example.com/actions"],
@@ -26,9 +42,13 @@ describe Wasabi::Document do
         [["Article", "Title"], "http://example.com/article"]
       ]
     end
+    end
 
-    its(:type_definitions) do
+    describe '#type_definitions' do
+      subject { super().type_definitions }
+      it do
       should =~ [ [["Save", "article"], "Article"] ]
+    end
     end
 
   end

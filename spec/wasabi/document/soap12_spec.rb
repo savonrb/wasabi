@@ -5,7 +5,10 @@ describe Wasabi::Document do
 
     subject { Wasabi::Document.new fixture(:soap12).read }
 
-    its(:endpoint) { should == URI("http://blogsite.example.com/endpoint12") }
+    describe '#endpoint' do
+      subject { super().endpoint }
+      it { should == URI("http://blogsite.example.com/endpoint12") }
+    end
 
   end
 end

@@ -5,10 +5,13 @@ describe Wasabi::Document do
 
     subject { Wasabi::Document.new fixture(:savon295).read }
 
-    its(:operations) do
+    describe '#operations' do
+      subject { super().operations }
+      it do
       should include(
         { :sendsms => { :input => "sendsms", :output => "sendsms", :action => "sendsms", :namespace_identifier => "tns" } }
       )
+    end
     end
 
   end

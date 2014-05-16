@@ -12,12 +12,12 @@ describe Wasabi::Parser do
     let(:xml) { fixture(:symbolic_endpoint).read }
 
     it "allows symbolic endpoints" do
-      subject.endpoint.should be_nil
+      expect(subject.endpoint).to be_nil
     end
 
     it "should position base class attributes before subclass attributes in :order! array" do
       type = subject.types["ROPtsLiesListe"]
-      type[:order!].should == ["messages", "returncode", "listenteil"]
+      expect(type[:order!]).to eq(["messages", "returncode", "listenteil"])
     end
 
   end

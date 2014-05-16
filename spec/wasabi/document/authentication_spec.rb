@@ -5,18 +5,32 @@ describe Wasabi::Document do
 
     subject { Wasabi::Document.new fixture(:authentication).read }
 
-    its(:namespace) { should == "http://v1_0.ws.auth.order.example.com/" }
+    describe '#namespace' do
+      subject { super().namespace }
+      it { should == "http://v1_0.ws.auth.order.example.com/" }
+    end
 
-    its(:endpoint) { should == URI("http://example.com/validation/1.0/AuthenticationService") }
+    describe '#endpoint' do
+      subject { super().endpoint }
+      it { should == URI("http://example.com/validation/1.0/AuthenticationService") }
+    end
 
-    its(:element_form_default) { should == :unqualified }
+    describe '#element_form_default' do
+      subject { super().element_form_default }
+      it { should == :unqualified }
+    end
 
-    it { should have(1).operations }
+    it 'has 1 operation' do
+      expect(subject.operations.size).to eq(1)
+    end
 
-    its(:operations) do
+    describe '#operations' do
+      subject { super().operations }
+      it do
       should == {
         :authenticate => { :input => "authenticate", :output => "authenticateResponse", :action => "authenticate", :namespace_identifier => "tns" }
       }
+    end
     end
 
   end

@@ -12,28 +12,28 @@ describe Wasabi::Parser do
     let(:xml) { fixture(:multiple_namespaces).read }
 
     it "lists the types" do
-      subject.types.keys.sort.should == ["Article", "Save"]
+      expect(subject.types.keys.sort).to eq(["Article", "Save"])
     end
 
     it "records the namespace for each type" do
-      subject.types["Save"][:namespace].should == "http://example.com/actions"
+      expect(subject.types["Save"][:namespace]).to eq("http://example.com/actions")
     end
 
     it "records the fields under a type" do
-      subject.types["Save"].keys.should =~ ["article", :namespace, :order!]
+      expect(subject.types["Save"].keys).to match_array(["article", :namespace, :order!])
     end
 
     it "records multiple fields when there are more than one" do
-      subject.types["Article"].keys.should =~ ["Title", "Author", :namespace, :order!]
+      expect(subject.types["Article"].keys).to match_array(["Title", "Author", :namespace, :order!])
     end
 
     it "records the type of a field" do
-      subject.types["Save"]["article"][:type].should == "article:Article"
-      subject.namespaces["article"].should == "http://example.com/article"
+      expect(subject.types["Save"]["article"][:type]).to eq("article:Article")
+      expect(subject.namespaces["article"]).to eq("http://example.com/article")
     end
 
     it "lists the order of the type elements" do
-      subject.types["Article"][:order!].should == ["Author", "Title"]
+      expect(subject.types["Article"][:order!]).to eq(["Author", "Title"])
     end
 
   end

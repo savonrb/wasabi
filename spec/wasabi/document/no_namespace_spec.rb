@@ -5,20 +5,34 @@ describe Wasabi::Document do
 
     subject { Wasabi::Document.new fixture(:no_namespace).read }
 
-    its(:namespace) { should == "urn:ActionWebService" }
+    describe '#namespace' do
+      subject { super().namespace }
+      it { should == "urn:ActionWebService" }
+    end
 
-    its(:endpoint) { should == URI("http://example.com/api/api") }
+    describe '#endpoint' do
+      subject { super().endpoint }
+      it { should == URI("http://example.com/api/api") }
+    end
 
-    its(:element_form_default) { should == :unqualified }
+    describe '#element_form_default' do
+      subject { super().element_form_default }
+      it { should == :unqualified }
+    end
 
-    it { should have(3).operations }
+    it 'has 3 operations' do
+      expect(subject.operations.size).to eq(3)
+    end
 
-    its(:operations) do
+    describe '#operations' do
+      subject { super().operations }
+      it do
       should include(
         { :get_user_login_by_id => { :input => "GetUserLoginById", :output => "GetUserLoginById", :action => "/api/api/GetUserLoginById", :namespace_identifier => "typens" } },
         { :get_all_contacts => { :input => "GetAllContacts", :output =>"GetAllContacts", :action => "/api/api/GetAllContacts", :namespace_identifier => "typens" } },
         { :search_user => { :input => "SearchUser", :output =>"SearchUser", :action => "/api/api/SearchUser", :namespace_identifier => nil } }
       )
+    end
     end
 
   end

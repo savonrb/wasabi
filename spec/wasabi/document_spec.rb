@@ -5,20 +5,20 @@ describe Wasabi::Document do
   subject { Wasabi::Document.new fixture(:authentication).read }
 
   it "accepts a URL" do
-    HTTPI.should_receive(:get) { HTTPI::Response.new(200, {}, "wsdl") }
+    expect(HTTPI).to receive(:get) { HTTPI::Response.new(200, {}, "wsdl") }
 
     document = Wasabi::Document.new("http://example.com?wsdl")
-    document.xml.should == "wsdl"
+    expect(document.xml).to eq("wsdl")
   end
 
   it "accepts a path" do
     document = Wasabi::Document.new fixture(:authentication).path
-    document.xml.should == fixture(:authentication).read
+    expect(document.xml).to eq(fixture(:authentication).read)
   end
 
   it "accepts raw XML" do
     document = Wasabi::Document.new fixture(:authentication).read
-    document.xml.should == fixture(:authentication).read
+    expect(document.xml).to eq(fixture(:authentication).read)
   end
 
   describe ".validate_element_form_default!" do
@@ -39,13 +39,13 @@ describe Wasabi::Document do
 
   describe "#element_form_default" do
     it "defaults to :unqualified" do
-      subject.element_form_default.should == :unqualified
+      expect(subject.element_form_default).to eq(:unqualified)
     end
 
     [:unqualified, :qualified].each do |value|
       it "accepts :#{value}" do
         subject.element_form_default = value
-        subject.element_form_default.should == value
+        expect(subject.element_form_default).to eq(value)
       end
     end
 

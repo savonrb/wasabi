@@ -11,7 +11,7 @@ describe Wasabi::Parser do
     let(:xml) { fixture(:tradetracker).read }
 
     it 'parses the operations' do
-      subject.operations[:get_feeds][:input].should == 'getFeeds'
+      expect(subject.operations[:get_feeds][:input]).to eq('getFeeds')
     end
   end
 end

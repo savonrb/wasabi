@@ -5,20 +5,34 @@ describe Wasabi::Document do
 
     subject { Wasabi::Document.new fixture(:namespaced_actions).read }
 
-    its(:namespace) { should == "http://api.example.com/api/" }
+    describe '#namespace' do
+      subject { super().namespace }
+      it { should == "http://api.example.com/api/" }
+    end
 
-    its(:endpoint) { should == URI("https://api.example.com/api/api.asmx") }
+    describe '#endpoint' do
+      subject { super().endpoint }
+      it { should == URI("https://api.example.com/api/api.asmx") }
+    end
 
-    its(:element_form_default) { should == :qualified }
+    describe '#element_form_default' do
+      subject { super().element_form_default }
+      it { should == :qualified }
+    end
 
-    it { should have(3).operations }
+    it 'has 3 operations' do
+      expect(subject.operations.size).to eq(3)
+    end
 
-    its(:operations) do
+    describe '#operations' do
+      subject { super().operations }
+      it do
       should include(
         { :delete_client => { :input => "Client.Delete", :output => "Client.DeleteResponse", :action => "http://api.example.com/api/Client.Delete", :namespace_identifier => "tns" } },
         { :get_clients   => { :input => "User.GetClients", :output => "User.GetClientsResponse", :action => "http://api.example.com/api/User.GetClients", :namespace_identifier => "tns" } },
         { :get_api_key   => { :input => "User.GetApiKey", :output => "User.GetApiKeyResponse", :action => "http://api.example.com/api/User.GetApiKey", :namespace_identifier => "tns" } }
       )
+    end
     end
 
   end

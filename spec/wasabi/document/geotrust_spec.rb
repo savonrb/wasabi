@@ -5,19 +5,33 @@ describe Wasabi::Document do
 
     subject { Wasabi::Document.new fixture(:geotrust).read }
 
-    its(:namespace) { should == "http://api.geotrust.com/webtrust/query" }
+    describe '#namespace' do
+      subject { super().namespace }
+      it { should == "http://api.geotrust.com/webtrust/query" }
+    end
 
-    its(:endpoint) { should == URI("https://test-api.geotrust.com:443/webtrust/query.jws") }
+    describe '#endpoint' do
+      subject { super().endpoint }
+      it { should == URI("https://test-api.geotrust.com:443/webtrust/query.jws") }
+    end
 
-    its(:element_form_default) { should == :qualified }
+    describe '#element_form_default' do
+      subject { super().element_form_default }
+      it { should == :qualified }
+    end
 
-    it { should have(2).operations }
+    it 'has 2 operations' do
+      expect(subject.operations.size).to eq(2)
+    end
 
-    its(:operations) do
+    describe '#operations' do
+      subject { super().operations }
+      it do
       should include(
         { :get_quick_approver_list => { :input => "GetQuickApproverList", :action => "GetQuickApproverList", :parameters=>{:Request=>{:name=>"Request", :type=>"GetQuickApproverListInput"}}}},
         { :hello => { :input => "hello", :action => "hello", :parameters=>{:Input=>{:name=>"Input", :type=>"string"}} } }
       )
+    end
     end
 
   end

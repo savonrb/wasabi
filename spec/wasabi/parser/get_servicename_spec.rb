@@ -12,7 +12,7 @@ describe Wasabi::Parser do
     let(:xml) { fixture(:geotrust).read }
 
     it "returns the #service_name attribute" do
-      subject.service_name.should == "queryDefinitions"
+      expect(subject.service_name).to eq("queryDefinitions")
     end
 
   end

@@ -12,15 +12,15 @@ describe Wasabi::Parser do
     let(:xml) { fixture(:no_namespace).read }
 
     it "lists the types" do
-      subject.types.keys.sort.should == ["McContact", "McContactArray", "MpUser", "MpUserArray"]
+      expect(subject.types.keys.sort).to eq(["McContact", "McContactArray", "MpUser", "MpUserArray"])
     end
 
     it "ignores xsd:all" do
       keys =  subject.types["MpUser"].keys
-      keys.size.should == 2
+      expect(keys.size).to eq(2)
 
-      keys.should include(:namespace)
-      keys.should include(:order!)
+      expect(keys).to include(:namespace)
+      expect(keys).to include(:order!)
     end
   end
 end
