@@ -226,50 +226,99 @@ module Wasabi
     end
 
     def input_for(operation)
-      input_output_for(operation, 'input')
-    end
-
-    def output_for(operation)
-      input_output_for(operation, 'output')
-    end
-
-    def input_output_for(operation, input_output)
       operation_name = operation['name']
 
       # Look up the input by walking up to portType, then up to the message.
-
       binding_type = operation.parent['type'].to_s.split(':').last
       if @port_type_operations[binding_type]
         port_type_operation = @port_type_operations[binding_type][operation_name]
       end
 
-      port_type_input_output = port_type_operation &&
-        port_type_operation.element_children.find { |node| node.name == input_output }
+      port_type_input = port_type_operation &&
+        port_type_operation.element_children.find { |node| node.name == 'input' }
 
       # TODO: Stupid fix for missing support for imports.
       # Sometimes portTypes are actually included in a separate WSDL.
-      if port_type_input_output
-        if port_type_input_output.attribute('message').to_s.include? ':'
-          port_message_ns_id, port_message_type = port_type_input_output.attribute('message').to_s.split(':')
+      if port_type_input
+        if port_type_input.attribute('message').to_s.include? ':'
+          port_message_ns_id, port_message_type = port_type_input.attribute('message').to_s.split(':')
         else
-          port_message_type = port_type_input_output.attribute('message').to_s
+          port_message_type = port_type_input.attribute('message').to_s
         end
 
         message_ns_id, message_type = nil
 
         # When there is a parts attribute in soap:body element, we should use that value
         # to look up the message part from messages array.
-        input_output_element = operation.element_children.find { |node| node.name == input_output }
-        if input_output_element
-          soap_body_element = input_output_element.element_children.find { |node| node.name == 'body' }
+        input_element = operation.element_children.find { |node| node.name == 'input' }
+        if input_element
+          soap_body_element = input_element.element_children.find { |node| node.name == 'body' }
           soap_body_parts = soap_body_element['parts'] if soap_body_element
         end
 
         message = @messages[port_message_type]
-        port_message_part = message.element_children.find do |node| 
+        port_message_part = message.element_children.find do |node|
           soap_body_parts.nil? ? (node.name == 'part') : ( node.name == 'part' && node['name'] == soap_body_parts)
         end
-        
+
+        if port_message_part && port_element = port_message_part.attribute('element')
+          port_message_part = port_element.to_s
+          if port_message_part.include?(':')
+            message_ns_id, message_type = port_message_part.split(':')
+            message_type = input_element['name']
+          else
+            message_type = port_message_part['name']
+          end
+        end
+
+        # Fall back to the name of the binding operation
+        if message_type
+          [message_ns_id, message_type]
+        else
+          [port_message_ns_id, operation_name]
+        end
+      else
+        [nil, operation_name]
+      end
+    end
+
+    def output_for(operation)
+      operation_name = operation['name']
+
+      # Look up by walking up to portType, then up to the message.
+      binding_type = operation.parent['type'].to_s.split(':').last
+      if @port_type_operations[binding_type]
+        port_type_operation = @port_type_operations[binding_type][operation_name]
+      end
+
+      port_type_output = port_type_operation &&
+        port_type_operation.element_children.find { |node| node.name == 'output' }
+
+      # TODO: Stupid fix for missing support for imports.
+      # Sometimes portTypes are actually included in a separate WSDL.
+      if port_type_output
+        if port_type_output.attribute('message').to_s.include? ':'
+          port_message_ns_id, port_message_type = port_type_output.attribute('message').to_s.split(':')
+        else
+          port_message_type = port_type_output.attribute('message').to_s
+        end
+
+
+        message_ns_id, message_type = nil
+
+        # When there is a parts attribute in soap:body element, we should use that value
+        # to look up the message part from messages array.
+        output_element = operation.element_children.find { |node| node.name == 'output' }
+        if output_element
+          soap_body_element = output_element.element_children.find { |node| node.name == 'body' }
+          soap_body_parts = soap_body_element['parts'] if soap_body_element
+        end
+
+        message = @messages[port_message_type]
+        port_message_part = message.element_children.find do |node|
+          soap_body_parts.nil? ? (node.name == 'part') : ( node.name == 'part' && node['name'] == soap_body_parts)
+        end
+
         if port_message_part && port_element = port_message_part.attribute('element')
           port_message_part = port_element.to_s
           if port_message_part.include?(':')

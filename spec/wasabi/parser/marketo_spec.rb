@@ -11,7 +11,7 @@ describe Wasabi::Parser do
     let(:xml) { fixture(:marketo).read }
 
     it 'parses the operations' do
-      expect(subject.operations[:get_lead][:input]).to eq('paramsGetLead')
+      expect(subject.operations[:get_lead][:input]).to eq('getLead')
     end
   end
 end
