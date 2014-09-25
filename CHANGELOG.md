@@ -1,3 +1,7 @@
+# 3.3.1 (2014-09-25)
+
+* Fix: [#48](https://github.com/savonrb/wasabi/issue/48) Remove dependency on mime-type gem
+
 # 3.3.0 (2014-05-03)
 * Feature: [#44](https://github.com/savonrb/wasabi/pull/44) adds a feature to specify the HTTPI adapter you'd like to use.
 
