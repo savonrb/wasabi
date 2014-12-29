@@ -11,7 +11,7 @@ describe Wasabi::Parser do
     let(:xml) { fixture(:savon562).read }
 
     it 'parses the operations' do
-      subject.operations[:write_case_eform_data][:input].should == 'writeCaseEformData'
+      subject.operations[:write_case_eform_data][:input].should == 'FLEformFields'
     end
   end
 end

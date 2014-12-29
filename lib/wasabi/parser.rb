@@ -265,7 +265,6 @@ module Wasabi
           port_message_part = port_element.to_s
           if port_message_part.include?(':')
             message_ns_id, message_type = port_message_part.split(':')
-            message_type = input_element['name']
           else
             message_type = port_message_part['name']
           end
