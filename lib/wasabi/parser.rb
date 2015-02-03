@@ -257,8 +257,10 @@ module Wasabi
         end
 
         message = @messages[port_message_type]
-        port_message_part = message.element_children.find do |node|
-          soap_body_parts.nil? ? (node.name == 'part') : ( node.name == 'part' && node['name'] == soap_body_parts)
+        if !message.nil?
+          port_message_part = message.element_children.find do |node|
+            soap_body_parts.nil? ? (node.name == 'part') : ( node.name == 'part' && node['name'] == soap_body_parts)
+          end
         end
 
         if port_message_part && port_element = port_message_part.attribute('element')
@@ -315,8 +317,10 @@ module Wasabi
         end
 
         message = @messages[port_message_type]
-        port_message_part = message.element_children.find do |node|
-          soap_body_parts.nil? ? (node.name == 'part') : ( node.name == 'part' && node['name'] == soap_body_parts)
+        if !message.nil?
+          port_message_part = message.element_children.find do |node|
+            soap_body_parts.nil? ? (node.name == 'part') : ( node.name == 'part' && node['name'] == soap_body_parts)
+          end
         end
 
         if port_message_part && port_element = port_message_part.attribute('element')
