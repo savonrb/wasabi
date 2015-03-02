@@ -1,3 +1,7 @@
+# 3.4.0 (2015-03-02)
+
+* Fix: [#634](https://github.com/savonrb/savon/issues/634) Reverts PR #46, generates *most* operation names correctly.
+
 # 3.3.1 (2014-09-25)
 
 * Fix: [#48](https://github.com/savonrb/wasabi/issues/48) Remove dependency on mime-type gem
