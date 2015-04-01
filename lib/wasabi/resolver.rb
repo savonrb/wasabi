@@ -42,7 +42,7 @@ module Wasabi
       request.url = document
       response = HTTPI.get(request, adapter)
 
-      raise HTTPError.new("Error: #{response.code}", response) if response.error?
+      raise HTTPError.new("Error: #{response.code} for url #{request.url}", response) if response.error?
 
       response.body
     end

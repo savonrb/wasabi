@@ -37,12 +37,16 @@ describe Wasabi::Resolver do
       }
       body = "<html><head><title>404 Not Found</title></head><body>Oops!</body></html>"
       failed_response = HTTPI::Response.new(code, headers, body)
+
       HTTPI.stub(:get => failed_response)
+
+      url = "http://example.com?wsdl"
+
       expect do
-        Wasabi::Resolver.new("http://example.com?wsdl").resolve
+        Wasabi::Resolver.new(url).resolve
       end.to raise_error { |ex|
         expect(ex).to be_a(Wasabi::Resolver::HTTPError)
-        expect(ex.message).to eq("Error: #{code}")
+        expect(ex.message).to eq("Error: #{code} for url #{url}")
         expect(ex.response).to eq(failed_response)
       }
     end
