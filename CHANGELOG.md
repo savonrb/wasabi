@@ -1,3 +1,7 @@
+# 3.5.0 (2015-03-31)
+
+* Formally drop support for ruby 1.8.7
+
 # 3.4.0 (2015-03-02)
 
 * Fix: [#634](https://github.com/savonrb/savon/issues/634) Reverts PR #46, generates *most* operation names correctly.
