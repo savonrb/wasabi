@@ -29,7 +29,7 @@ describe Wasabi::Parser do
     # but I suppose we should do something reasonable if they do.
 
     it "defaults to the target namespace from xs:definitions" do
-      expect(subject.types["Save"][:namespace]).to eq("http://def.example.com")
+      expect(subject.types["http://def.example.com"]["Save"][:namespace]).to eq("http://def.example.com")
     end
 
   end
