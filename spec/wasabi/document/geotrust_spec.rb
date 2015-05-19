@@ -27,11 +27,11 @@ describe Wasabi::Document do
     describe '#operations' do
       subject { super().operations }
       it do
-      should include(
-        { :get_quick_approver_list => { :input => "GetQuickApproverList", :action => "GetQuickApproverList", :parameters=>{:Request=>{:name=>"Request", :type=>"GetQuickApproverListInput"}}}},
-        { :hello => { :input => "hello", :action => "hello", :parameters=>{:Input=>{:name=>"Input", :type=>"string"}} } }
-      )
-    end
+        should include(
+          { :get_quick_approver_list => { :input => "GetQuickApproverList", :action => "GetQuickApproverList", :parameters=>{:Request=>{:name=>"Request", :type=>"GetQuickApproverListInput"}}}},
+          { :hello => { :input => "hello", :action => "hello", :parameters=>{:Input=>{:name=>"Input", :type=>"string"}} } }
+          )
+      end
     end
 
   end
