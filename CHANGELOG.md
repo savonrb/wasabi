@@ -1,3 +1,7 @@
+# 3.5.1 (2015-05-18)
+
+* Fix: [#59](https://github.com/savonrb/wasabi/issue/59) Stop monkey patching the String class to provide #snakecase
+
 # 3.5.0 (2015-03-31)
 
 * Formally drop support for ruby 1.8.7
