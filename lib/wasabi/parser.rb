@@ -118,7 +118,7 @@ module Wasabi
 
     def parse_operations_parameters
       root_elements = document.xpath("wsdl:definitions/wsdl:types/*[local-name()='schema']/*[local-name()='element']", 'wsdl' => WSDL).each do |element|
-        name = element.attribute('name').to_s.snakecase.to_sym
+        name = Wasabi::CoreExt::String.snakecase(element.attribute('name').to_s).to_sym
 
         if operation = @operations[name]
           element.xpath("*[local-name() ='complexType']/*[local-name() ='sequence']/*[local-name() ='element']").each do |child_element|
@@ -136,6 +136,7 @@ module Wasabi
       operations = document.xpath('wsdl:definitions/wsdl:binding/wsdl:operation', 'wsdl' => WSDL)
       operations.each do |operation|
         name = operation.attribute('name').to_s
+        snakecase_name = Wasabi::CoreExt::String.snakecase(name).to_sym
 
         # TODO: check for soap namespace?
         soap_operation = operation.element_children.find { |node| node.name == 'operation' }
@@ -150,9 +151,9 @@ module Wasabi
           namespace_id, input = input_for(operation)
 
           # Store namespace identifier so this operation can be mapped to the proper namespace.
-          @operations[name.snakecase.to_sym] = { :action => action, :input => input, :output => output, :namespace_identifier => namespace_id}
-        elsif !@operations[name.snakecase.to_sym]
-          @operations[name.snakecase.to_sym] = { :action => name, :input => name }
+          @operations[snakecase_name] = { :action => action, :input => input, :output => output, :namespace_identifier => namespace_id}
+        elsif !@operations[snakecase_name]
+          @operations[snakecase_name] = { :action => name, :input => name }
         end
       end
     end
