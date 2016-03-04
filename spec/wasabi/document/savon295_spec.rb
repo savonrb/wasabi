@@ -9,7 +9,7 @@ describe Wasabi::Document do
       subject { super().operations }
       it do
       should include(
-        { :sendsms => { :input => "sendsms", :output => "sendsms", :action => "sendsms", :namespace_identifier => "tns" } }
+        { :sendsms => { :input=>{"sendsms"=>{"sender"=>["xsd", "string"], "cellular"=>["xsd", "string"], "msg"=>["xsd", "string"], "smsnumgroup"=>["xsd", "string"], "emailaddr"=>["xsd", "string"], "udh"=>["xsd", "string"], "datetime"=>["xsd", "string"], "format"=>["xsd", "string"], "dlrurl"=>["xsd", "string"]}}, :output=>{"sendsms"=>{"body"=>["xsd", "string"]}}, :action => "sendsms", :namespace_identifier => 'tns' } }
       )
     end
     end
