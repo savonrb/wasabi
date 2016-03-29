@@ -12,11 +12,11 @@ describe Wasabi::Parser do
     let(:xml) { fixture(:no_namespace).read }
 
     it "lists the types" do
-      expect(subject.types.keys.sort).to eq(["McContact", "McContactArray", "MpUser", "MpUserArray"])
+      expect(subject.types['urn:ActionWebService'].keys.sort).to eq(["McContact", "McContactArray", "MpUser", "MpUserArray"])
     end
 
     it "ignores xsd:all" do
-      keys =  subject.types["MpUser"].keys
+      keys =  subject.types['urn:ActionWebService']["MpUser"].keys
       expect(keys.size).to eq(2)
 
       expect(keys).to include(:namespace)
