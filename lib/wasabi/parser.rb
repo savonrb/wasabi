@@ -1,3 +1,20 @@
+Skip to content
+This repository
+Search
+Pull requests
+Issues
+Gist
+ @gokhankuyucak
+ Watch 4
+  Star 45
+  Fork 60 savonrb/wasabi
+ Code  Issues 10  Pull requests 5  Projects 0  Pulse  Graphs
+Branch: master Find file Copy pathwasabi/lib/wasabi/parser.rb
+6fc97c6  on Mar 3
+@fernandes fernandes Add support for rpc encoded wsdl
+8 contributors @rubiii @tjarratt @keltia @hoverlover @hesenrre @mikeantonelli @jmao @fernandes
+RawBlameHistory     
+333 lines (268 sloc)  11.3 KB
 require 'uri'
 require 'wasabi/core_ext/string'
 
@@ -118,7 +135,7 @@ module Wasabi
 
     def parse_operations_parameters
       root_elements = document.xpath("wsdl:definitions/wsdl:types/*[local-name()='schema']/*[local-name()='element']", 'wsdl' => WSDL).each do |element|
-        name = element.attribute('name').to_s.snakecase.to_sym
+        name = Wasabi::CoreExt::String.snakecase(element.attribute('name').to_s).to_sym
 
         if operation = @operations[name]
           element.xpath("*[local-name() ='complexType']/*[local-name() ='sequence']/*[local-name() ='element']").each do |child_element|
@@ -136,12 +153,13 @@ module Wasabi
       operations = document.xpath('wsdl:definitions/wsdl:binding/wsdl:operation', 'wsdl' => WSDL)
       operations.each do |operation|
         name = operation.attribute('name').to_s
+        snakecase_name = Wasabi::CoreExt::String.snakecase(name).to_sym
 
         # TODO: check for soap namespace?
         soap_operation = operation.element_children.find { |node| node.name == 'operation' }
         soap_action = soap_operation['soapAction'] if soap_operation
-		soap_document = soap_operation['style'] if soap_operation
-        if soap_action
+        soap_document = soap_operation['style'] if soap_operation
+		if soap_action
           soap_action = soap_action.to_s
           action = soap_action && !soap_action.empty? ? soap_action : name
 
@@ -150,15 +168,14 @@ module Wasabi
           namespace_id, input = input_for(operation)
 
           # Store namespace identifier so this operation can be mapped to the proper namespace.
-		  # Store original operation name
-          @operations[name.snakecase.to_sym] = { :name =>name, :action => action, :input => input, :output => output, :namespace_identifier => namespace_id}
-	   elsif soap_document
+          @operations[snakecase_name] = { :name =>name, :action => action, :input => input, :output => output, :namespace_identifier => namespace_id}
+        elsif soap_document
 		  #if there is no soap_action under operation element maybe operation's style is document and still have input & output
-		  namespace_id, output = output_for(operation)
+          namespace_id, output = output_for(operation)
           namespace_id, input = input_for(operation)
-		  @operations[name.snakecase.to_sym] = { :name =>name, :action => name, :input => input, :output => output, :namespace_identifier => namespace_id}
-	   elsif !@operations[name.snakecase.to_sym]
-          @operations[name.snakecase.to_sym] = { :name =>name, :action => name, :input => name }
+          @operations[name.snakecase.to_sym] = { :name =>name, :action => name, :input => input, :output => output, :namespace_identifier => namespace_id}
+        elsif !@operations[snakecase_name]
+          @operations[snakecase_name] = { :action => name, :input => name }
         end
       end
     end
@@ -285,6 +302,19 @@ module Wasabi
           end
         end
 
+        # if multi part message, return a hash representing
+        part_messages = message.element_children.select { |node| node.name == "part" && node.attribute('type') }.size
+        if part_messages > 0
+          part_messages_hash = {}
+          part_messages_hash[operation_name] = {}
+          message.element_children.select { |node| node.name == "part" }.each do |node|
+            part_message_name = node.attribute('name').value
+            part_message_type = node.attribute('type').value.split(':')
+            part_messages_hash[operation_name][part_message_name] = part_message_type
+          end
+          return [port_message_ns_id, part_messages_hash]
+        end
+
         # Fall back to the name of the binding operation
         if message_type
           [message_ns_id, message_type]
@@ -322,3 +352,5 @@ module Wasabi
     end
   end
 end
+Contact GitHub API Training Shop Blog About
+© 2016 GitHub, Inc. Terms Privacy Security Status Help
