@@ -142,7 +142,7 @@ module Wasabi
         soap_operation = operation.element_children.find { |node| node.name == 'operation' }
         soap_action = soap_operation['soapAction'] if soap_operation
         soap_document = soap_operation['style'] if soap_operation
-		if soap_action
+        if soap_action
           soap_action = soap_action.to_s
           action = soap_action && !soap_action.empty? ? soap_action : name
 
@@ -153,7 +153,7 @@ module Wasabi
           # Store namespace identifier so this operation can be mapped to the proper namespace.
           @operations[snakecase_name] = { :name =>name, :action => action, :input => input, :output => output, :namespace_identifier => namespace_id}
         elsif soap_document
-		  #if there is no soap_action under operation element maybe operation's style is document and still have input & output
+          #if there is no soap_action under operation element maybe operation's style is document and still have input & output
           namespace_id, output = output_for(operation)
           namespace_id, input = input_for(operation)
           @operations[name.snakecase.to_sym] = { :name =>name, :action => name, :input => input, :output => output, :namespace_identifier => namespace_id}
