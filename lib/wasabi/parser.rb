@@ -133,7 +133,7 @@ module Wasabi
     end
 
     def parse_operations
-      operations = document.xpath('wsdl:definitions/wsdl:binding/wsdl:operation', 'wsdl' => WSDL)
+      operations = document.xpath('wsdl:definitions//wsdl:operation', 'wsdl' => WSDL)
       operations.each do |operation|
         name = operation.attribute('name').to_s
         snakecase_name = Wasabi::CoreExt::String.snakecase(name).to_sym
