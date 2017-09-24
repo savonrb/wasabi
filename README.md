@@ -20,6 +20,7 @@ $ gem install wasabi
 ## Getting started
 
 ``` ruby
+require 'wasabi'
 document = Wasabi.document File.read("some.wsdl")
 ```
 
