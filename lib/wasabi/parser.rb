@@ -247,7 +247,6 @@ module Wasabi
       port_type_input_output = port_type_operation &&
         port_type_operation.element_children.find { |node| node.name == input_output }
 
-
       # TODO: Stupid fix for missing support for imports.
       # Sometimes portTypes are actually included in a separate WSDL.
       if port_type_input_output
