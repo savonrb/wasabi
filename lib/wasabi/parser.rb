@@ -247,6 +247,7 @@ module Wasabi
       port_type_input_output = port_type_operation &&
         port_type_operation.element_children.find { |node| node.name == input_output }
 
+
       # TODO: Stupid fix for missing support for imports.
       # Sometimes portTypes are actually included in a separate WSDL.
       if port_type_input_output
@@ -266,31 +267,33 @@ module Wasabi
           soap_body_parts = soap_body_element['parts'] if soap_body_element
         end
 
-        message = @messages[port_message_type]
-        port_message_part = message.element_children.find do |node|
-          soap_body_parts.nil? ? (node.name == 'part') : ( node.name == 'part' && node['name'] == soap_body_parts)
-        end
-
-        if port_message_part && port_element = port_message_part.attribute('element')
-          port_message_part = port_element.to_s
-          if port_message_part.include?(':')
-            message_ns_id, message_type = port_message_part.split(':')
-          else
-            message_type = port_message_part
+        if @messages.any?
+          message = @messages[port_message_type]
+          port_message_part = message.element_children.find do |node|
+            soap_body_parts.nil? ? (node.name == 'part') : ( node.name == 'part' && node['name'] == soap_body_parts)
           end
-        end
 
-        # if multi part message, return a hash representing
-        part_messages = message.element_children.select { |node| node.name == "part" && node.attribute('type') }.size
-        if part_messages > 0
-          part_messages_hash = {}
-          part_messages_hash[operation_name] = {}
-          message.element_children.select { |node| node.name == "part" }.each do |node|
-            part_message_name = node.attribute('name').value
-            part_message_type = node.attribute('type').value.split(':')
-            part_messages_hash[operation_name][part_message_name] = part_message_type
+          if port_message_part && port_element = port_message_part.attribute('element')
+            port_message_part = port_element.to_s
+            if port_message_part.include?(':')
+              message_ns_id, message_type = port_message_part.split(':')
+            else
+              message_type = port_message_part
+            end
           end
-          return [port_message_ns_id, part_messages_hash]
+
+          # if multi part message, return a hash representing
+          part_messages = message.element_children.select { |node| node.name == "part" && node.attribute('type') }.size
+          if part_messages > 0
+            part_messages_hash = {}
+            part_messages_hash[operation_name] = {}
+            message.element_children.select { |node| node.name == "part" }.each do |node|
+              part_message_name = node.attribute('name').value
+              part_message_type = node.attribute('type').value.split(':')
+              part_messages_hash[operation_name][part_message_name] = part_message_type
+            end
+            return [port_message_ns_id, part_messages_hash]
+          end
         end
 
         # Fall back to the name of the binding operation
