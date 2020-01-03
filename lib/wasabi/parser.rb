@@ -86,8 +86,8 @@ module Wasabi
     end
 
     def parse_url(url)
-      unescaped_url = URI.unescape(url.to_s)
-      escaped_url   = URI.escape(unescaped_url)
+      unescaped_url = CGI.unescape(url.to_s)
+      escaped_url   = CGI.escape(unescaped_url)
       URI.parse(escaped_url)
     rescue URI::InvalidURIError
     end
