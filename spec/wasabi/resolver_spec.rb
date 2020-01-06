@@ -38,7 +38,7 @@ describe Wasabi::Resolver do
       body = "<html><head><title>404 Not Found</title></head><body>Oops!</body></html>"
       failed_response = HTTPI::Response.new(code, headers, body)
 
-      HTTPI.stub(:get => failed_response)
+      expect(HTTPI).to receive(:get) { failed_response }
 
       url = "http://example.com?wsdl"
 
