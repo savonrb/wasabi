@@ -1,38 +1,65 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe Wasabi::Document do
-  context "with: geotrust.wsdl" do
-
-    subject { Wasabi::Document.new fixture(:geotrust).read }
+  context 'with: geotrust.wsdl' do
+    let(:document) { Wasabi::Document.new fixture(:geotrust).read }
 
     describe '#namespace' do
-      subject { super().namespace }
-      it { should == "http://api.geotrust.com/webtrust/query" }
+      subject(:namespace) { document.namespace }
+
+      it { is_expected.to eq('http://api.geotrust.com/webtrust/query') }
     end
 
     describe '#endpoint' do
-      subject { super().endpoint }
-      it { should == URI("https://test-api.geotrust.com:443/webtrust/query.jws") }
+      subject(:endpoint) { document.endpoint }
+
+      it { is_expected.to eq(URI('https%3A%2F%2Ftest-api.geotrust.com%3A443%2Fwebtrust%2Fquery.jws')) }
     end
 
     describe '#element_form_default' do
-      subject { super().element_form_default }
-      it { should == :qualified }
-    end
+      subject(:element_form_default) { document.element_form_default }
 
-    it 'has 2 operations' do
-      expect(subject.operations.size).to eq(2)
+      it { is_expected.to eq(:qualified) }
     end
 
     describe '#operations' do
-      subject { super().operations }
-      it do
-        should include(
-          { :get_quick_approver_list => { :input => "GetQuickApproverList", :action => "GetQuickApproverList", :parameters=>{:Request=>{:name=>"Request", :type=>"GetQuickApproverListInput"}}}},
-          { :hello => { :input => "hello", :action => "hello", :parameters=>{:Input=>{:name=>"Input", :type=>"string"}} } }
+      subject(:operations) { document.operations }
+
+      it 'has 2 operations' do
+        expect(operations.size).to eq(2)
+      end
+
+      it 'has both operations parameters description' do
+        expect(operations).to match(
+          a_hash_including(
+            :get_quick_approver_list => {
+              :input => 'GetQuickApproverList',
+              :action => 'GetQuickApproverList',
+              :parameters => {
+                :Request => {
+                  :name => 'Request',
+                  :type => 'GetQuickApproverListInput'
+                }
+              }
+            }
           )
+        )
+
+        expect(operations).to match(
+          a_hash_including(
+            :hello => {
+              :input => 'hello',
+              :action => 'hello',
+              :parameters => {
+                :Input => {
+                  :name => 'Input',
+                  :type => 'string'
+                }
+              }
+            }
+          )
+        )
       end
     end
-
   end
 end

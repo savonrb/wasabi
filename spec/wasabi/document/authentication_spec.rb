@@ -1,37 +1,47 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe Wasabi::Document do
-  context "with: authentication.wsdl" do
-
-    subject { Wasabi::Document.new fixture(:authentication).read }
+  context 'with: authentication.wsdl' do
+    let(:document) { Wasabi::Document.new fixture(:authentication).read }
 
     describe '#namespace' do
-      subject { super().namespace }
-      it { should == "http://v1_0.ws.auth.order.example.com/" }
+      subject(:namespace) { document.namespace }
+
+      it { is_expected.to eq('http://v1_0.ws.auth.order.example.com/') }
     end
 
     describe '#endpoint' do
-      subject { super().endpoint }
-      it { should == URI("http://example.com/validation/1.0/AuthenticationService") }
+      subject(:endpoint) { document.endpoint }
+
+      it { is_expected.to eq URI('http%3A%2F%2Fexample.com%2Fvalidation%2F1.0%2FAuthenticationService') }
     end
 
     describe '#element_form_default' do
-      subject { super().element_form_default }
-      it { should == :unqualified }
-    end
+      subject(:element_form_default) { document.element_form_default }
 
-    it 'has 1 operation' do
-      expect(subject.operations.size).to eq(1)
+      it { is_expected.to eq(:unqualified) }
     end
 
     describe '#operations' do
-      subject { super().operations }
-      it do
-      should == {
-        :authenticate => { :input => "authenticate", :output => "authenticateResponse", :action => "authenticate", :namespace_identifier => "tns" }
-      }
-    end
-    end
+      subject(:operations) { document.operations }
 
+      it 'has 1 operation' do
+        expect(operations.size).to eq(1)
+      end
+
+      it 'has authenticate data'do
+        puts operations.inspect
+        expect(operations).to match(
+          a_hash_including(
+            :authenticate => {
+              :input => 'authenticate',
+              :output => 'authenticateResponse',
+              :action => 'authenticate',
+              :namespace_identifier => 'tns'
+            }
+          )
+        )
+      end
+    end
   end
 end
