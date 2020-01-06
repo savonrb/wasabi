@@ -30,7 +30,6 @@ describe Wasabi::Document do
       end
 
       it 'has authenticate data'do
-        puts operations.inspect
         expect(operations).to match(
           a_hash_including(
             :authenticate => {
