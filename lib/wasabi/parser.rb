@@ -160,29 +160,37 @@ module Wasabi
 
     def parse_types
       schemas.each do |schema|
-        schema_namespace = schema['targetNamespace']
-
         schema.element_children.each do |node|
-          namespace = schema_namespace || @namespace
 
           case node.name
           when 'element'
             complex_type = node.at_xpath('./xs:complexType', 'xs' => XSD)
-            process_type namespace, complex_type, node['name'].to_s if complex_type
+            process_type schema, complex_type, node['name'].to_s if complex_type
           when 'complexType'
-            process_type namespace, node, node['name'].to_s
+            process_type schema, node, node['name'].to_s
           end
         end
       end
     end
 
-    def process_type(namespace, type, name)
+    def process_type(schema, type, name)
+      schema_namespace = schema['targetNamespace']
+      namespace = schema_namespace || @namespace
+
       @types[name] ||= { :namespace => namespace }
       @types[name][:order!] = []
 
       type.xpath('./xs:sequence/xs:element', 'xs' => XSD).each do |inner|
         element_name = inner.attribute('name').to_s
-        @types[name][element_name] = { :type => inner.attribute('type').to_s }
+        element_name = inner.attribute('ref').to_s.split(':').last if element_name.empty? && inner.attribute('ref')
+        element_type = inner.attribute('type').to_s
+        element_type = inner.attribute('ref').to_s if element_type.empty? && inner.attribute('ref')
+        element_namespace = inner.attribute('ref').to_s.split(':').first if inner.attribute('ref')
+
+        @types[name][element_name] = {
+          :type => element_type,
+          :namespace => schema.namespaces["xmlns:#{element_namespace}"]
+        }
 
         [ :nillable, :minOccurs, :maxOccurs ].each do |attr|
           if v = inner.attribute(attr.to_s)
