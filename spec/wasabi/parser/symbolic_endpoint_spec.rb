@@ -9,7 +9,7 @@ describe Wasabi::Parser do
     before { parser.parse }
 
     it 'allows symbolic endpoints' do
-      expect(parser.endpoint).to eq(URI('http%3A%2F%2Fserver%3Aport%2FCICS%2FCWBA%2FDFHWSDSH%2FDQ5006'))
+      expect(parser.endpoint).to be_nil
     end
 
     it 'should position base class attributes before subclass attributes in :order! array' do

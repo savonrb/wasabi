@@ -13,7 +13,7 @@ describe Wasabi::Document do
     describe '#endpoint' do
       subject(:endpoint) { document.endpoint }
 
-      it { is_expected.to eq URI('http%3A%2F%2Fexample.com%2Fvalidation%2F1.0%2FAuthenticationService') }
+      it { is_expected.to eq URI('http://example.com/validation/1.0/AuthenticationService') }
     end
 
     describe '#element_form_default' do

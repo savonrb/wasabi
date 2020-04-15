@@ -7,7 +7,7 @@ describe Wasabi::Document do
     describe '#endpoint' do
       subject(:endpoint) { document.endpoint }
 
-      it { is_expected.to eq(URI('http%3A%2F%2Fblogsite.example.com%2Fendpoint12')) }
+      it { is_expected.to eq(URI('http://blogsite.example.com/endpoint12')) }
     end
   end
 end

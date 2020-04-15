@@ -13,7 +13,7 @@ describe Wasabi::Document do
     describe '#endpoint' do
       subject(:endpoint) { document.endpoint }
 
-      it { is_expected.to eq(URI('https%3A%2F%2Ftest-api.geotrust.com%3A443%2Fwebtrust%2Fquery.jws')) }
+      it { is_expected.to eq(URI('https://test-api.geotrust.com/webtrust/query.jws')) }
     end
 
     describe '#element_form_default' do
