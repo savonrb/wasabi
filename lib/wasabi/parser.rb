@@ -117,7 +117,7 @@ module Wasabi
     end
 
     def parse_operations_parameters
-       document.xpath("wsdl:definitions/wsdl:types/*[local-name()='schema']/*[local-name()='element']", 'wsdl' => WSDL).each do |element|
+      document.xpath("wsdl:definitions/wsdl:types/*[local-name()='schema']/*[local-name()='element']", 'wsdl' => WSDL).each do |element|
         name = Wasabi::CoreExt::String.snakecase(element.attribute('name').to_s).to_sym
 
         if operation = @operations[name]
