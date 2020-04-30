@@ -17,8 +17,8 @@ Gem::Specification.new do |s|
   s.add_dependency "httpi",    "~> 2.0"
   s.add_dependency "nokogiri", ">= 1.4.2"
 
-  s.add_development_dependency "rake",  "~> 13.0.1"
-  s.add_development_dependency "rspec", "~> 3.7.0"
+  s.add_development_dependency "rake",  "~> 13.0"
+  s.add_development_dependency "rspec", "~> 3.7"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
