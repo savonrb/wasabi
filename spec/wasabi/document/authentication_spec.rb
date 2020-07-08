@@ -29,7 +29,7 @@ describe Wasabi::Document do
         expect(operations.size).to eq(1)
       end
 
-      it 'has authenticate data'do
+      it 'has authenticate data' do
         expect(operations).to match(
           a_hash_including(
             :authenticate => {
