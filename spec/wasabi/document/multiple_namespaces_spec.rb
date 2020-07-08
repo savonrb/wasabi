@@ -25,9 +25,9 @@ describe Wasabi::Document do
     describe '#operations' do
       subject(:operations) { document.operations }
 
-    it 'has 1 operation' do
-      expect(operations.size).to eq(1)
-    end
+      it 'has 1 operation' do
+        expect(operations.size).to eq(1)
+      end
 
       it 'has the  operation data' do
         expect(operations).to match(
