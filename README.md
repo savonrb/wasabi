@@ -2,7 +2,7 @@
 
 A simple WSDL parser.
 
-[![Build Status](https://secure.travis-ci.org/savonrb/wasabi.svg)](http://travis-ci.org/savonrb/wasabi)
+[![Build Status](https://secure.travis-ci.org/savonrb/wasabi.svg?branch=master)](http://travis-ci.org/savonrb/wasabi)
 [![Gem Version](https://badge.fury.io/rb/wasabi.svg)](http://badge.fury.io/rb/wasabi)
 [![Code Climate](https://codeclimate.com/github/savonrb/wasabi.svg)](https://codeclimate.com/github/savonrb/wasabi)
 [![Coverage Status](https://coveralls.io/repos/savonrb/wasabi/badge.svg?branch=master)](https://coveralls.io/r/savonrb/wasabi)
