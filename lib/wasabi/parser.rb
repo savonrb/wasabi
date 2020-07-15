@@ -1,4 +1,5 @@
 require 'uri'
+require 'addressable/uri'
 require 'wasabi/core_ext/string'
 
 module Wasabi
@@ -86,9 +87,8 @@ module Wasabi
     end
 
     def parse_url(url)
-      unescaped_url = URI.unescape(url.to_s)
-      escaped_url   = URI.escape(unescaped_url)
-      URI.parse(escaped_url)
+      unescaped_url = Addressable::URI.unescape(url.to_s)
+      URI(unescaped_url)
     rescue URI::InvalidURIError
     end
 
