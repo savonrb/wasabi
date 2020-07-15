@@ -7,7 +7,7 @@ describe Wasabi::Document do
 
     describe '#endpoint' do
       subject { super().endpoint }
-      it { should == URI("http://localhost/soapservice/execute?path=/base/includes/Test+Soap/Return+Rows") }
+      it { is_expected.to eq URI("http://localhost/soapservice/execute?path=/base/includes/Test+Soap/Return+Rows") }
     end
 
   end
