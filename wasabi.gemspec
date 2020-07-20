@@ -20,7 +20,6 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "rake",  "~> 13.0"
   s.add_development_dependency "rspec", "~> 3.7.0"
-  s.add_development_dependency "rubocop-packaging", "~> 0.1.1"
 
   s.files         = Dir["lib/**/*", "CHANGELOG.md", "LICENSE", "README.md"]
   s.test_files    = Dir["spec/**/*"]
