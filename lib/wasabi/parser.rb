@@ -319,13 +319,7 @@ module Wasabi
     end
 
     def sections
-      @sections ||= begin
-                      sections = {}
-                      document.root.element_children.each do |node|
-                        (sections[node.name] ||= []) << node
-                      end
-                      sections
-                    end
+      @sections ||= document.root.element_children.group_by { |node| node.name }
     end
   end
 end
