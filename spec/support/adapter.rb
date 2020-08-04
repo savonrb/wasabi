@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FakeAdapterForTest < HTTPI::Adapter::Base
 
   register :fake_adapter_for_test

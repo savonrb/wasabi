@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "wasabi/version"
 require "wasabi/document"
 require "wasabi/resolver"

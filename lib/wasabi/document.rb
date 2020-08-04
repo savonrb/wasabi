@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "nokogiri"
 require "wasabi/resolver"
 require "wasabi/parser"

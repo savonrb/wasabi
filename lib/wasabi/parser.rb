@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'uri'
 require 'addressable/uri'
 require 'wasabi/core_ext/string'
