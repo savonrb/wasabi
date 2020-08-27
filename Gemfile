@@ -5,7 +5,7 @@ gemspec
 
 gem 'simplecov',       :require => false
 gem 'method_profiler', :require => false
-gem 'coveralls',       :require => false
+gem 'coveralls', '~> 0.8', :require => false
 
 if RUBY_VERSION >= '2.4'
   gem 'rubocop-packaging', :require => false
