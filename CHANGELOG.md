@@ -1,9 +1,9 @@
 # 3.6.0 (2020-08-27)
 
-- Add: Support RPC-encoded WSDL (#63, @fernandes)
-- Fix: Depend on [addressable](https://github.com/sporkmonger/addressable), for unescape to avoid a Ruby warning (#81, @chaymaeBZ, @bvicenzo)
-- Change: Turn `String` monkeypatches into `Wasabi` class methods (@tjarratt) (released this version)
-- Change: Reduced size of gem by focusing the files list (#89, @utkarsh2102)
+- Add: Support RPC-encoded WSDL ([#63](https://github.com/savonrb/wasabi/pull/63), [@fernandes][])
+- Fix: Depend on [addressable](https://github.com/sporkmonger/addressable), for unescape to avoid a Ruby warning ([#81](https://github.com/savonrb/wasabi/pull/81) , [@chaymaeBZ][], [@bvicenzo][])
+- Fix: [#59](https://github.com/savonrb/wasabi/issue/59) Turn `String` monkeypatches into `Wasabi` class methods ([@tjarratt][]) (released this version)
+- Change: Reduced size of gem by focusing the files list ([#89](https://github.com/savonrb/wasabi/pull/89), [@utkarsh2102][])
 - Remove: No longer tested on Rubinius
 
 # 3.5.1 (2015-05-18)
@@ -128,3 +128,9 @@ NB: This version was never released to RubyGems.org.
 
 * Initial version extracted from the [Savon](http://rubygems.org/gems/savon) library.
   Use it to build your own SOAP client and help to improve it!
+
+[@fernandes]: https://github.com/fernandes
+[@utkarsh2102]: https://github.com/utkarsh2102
+[@tjarratt]: https://github.com/tjarratt
+[@chaymaeBZ]: https://github.com/chaymaeBZ
+[@bvicenzo]: https://github.com/bvicenzo
