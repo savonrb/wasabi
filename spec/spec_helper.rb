@@ -6,7 +6,11 @@ Bundler.require :default, :development
 unless RUBY_PLATFORM =~ /java/
   require "simplecov"
   require "coveralls"
-  Coveralls.wear!
+
+  SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+  SimpleCov.start do
+    add_filter "spec"
+  end
 end
 
 support_files = File.expand_path("spec/support/**/*.rb")
