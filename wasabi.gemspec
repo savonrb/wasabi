@@ -24,4 +24,10 @@ Gem::Specification.new do |s|
   s.files         = Dir["lib/**/*", "CHANGELOG.md", "LICENSE", "README.md"]
   s.test_files    = Dir["spec/**/*"]
   s.require_paths = ["lib"]
+  s.metadata = {
+    "changelog_uri" =>
+      "https://github.com/savonrb/wasabi/blob/master/CHANGELOG.md",
+    "source_code_uri" => "https://github.com/savonrb/wasabi",
+    "bug_tracker_uri" => "https://github.com/savonrb/wasabi/issues",
+  }
 end
