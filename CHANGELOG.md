@@ -1,3 +1,9 @@
+# 3.6.1 (2020-08-27)
+
+- Fix: Repair unlinked Markdown in the CHANGELOG
+- Add: Link to the CHANGELOG in the RubyGems.org metadata
+- Add: Link to the Rubydocs.info documentation in the RubyGems.org metadata
+
 # 3.6.0 (2020-08-27)
 
 - Add: Support RPC-encoded WSDL ([#63](https://github.com/savonrb/wasabi/pull/63), [@fernandes][])
