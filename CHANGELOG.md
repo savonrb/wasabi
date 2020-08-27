@@ -1,4 +1,14 @@
+# 3.6.0 (2020-08-27)
+
+- Add: Support RPC-encoded WSDL (#63, @fernandes)
+- Fix: Depend on [addressable](https://github.com/sporkmonger/addressable), for unescape to avoid a Ruby warning (#81, @chaymaeBZ, @bvicenzo)
+- Change: Turn `String` monkeypatches into `Wasabi` class methods (@tjarratt) (released this version)
+- Change: Reduced size of gem by focusing the files list (#89, @utkarsh2102)
+- Remove: No longer tested on Rubinius
+
 # 3.5.1 (2015-05-18)
+
+NB: This version was never released to RubyGems.org.
 
 * Fix: [#59](https://github.com/savonrb/wasabi/issue/59) Stop monkey patching the String class to provide #snakecase
 
