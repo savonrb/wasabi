@@ -1,6 +1,7 @@
 # Unreleased
 
 - _Your new line here. Mind the style of prefix used in the rest of the document._
+- Fix: Support escaped endpoint urls ([#100](https://github.com/savonrb/wasabi/pull/100))
 
 # 3.6.1 (2020-08-27)
 

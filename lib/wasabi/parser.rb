@@ -90,8 +90,9 @@ module Wasabi
 
     def parse_url(url)
       unescaped_url = Addressable::URI.unescape(url.to_s)
-      URI(unescaped_url)
-    rescue URI::InvalidURIError
+      escaped_url = Addressable::URI.escape(unescaped_url)
+      URI(escaped_url)
+    rescue URI::InvalidURIError, Addressable::URI::InvalidURIError
     end
 
     def parse_service_name
