@@ -1,3 +1,7 @@
+# Unreleased
+
+- _Your new line here. Mind the style of prefix used in the rest of the document._
+
 # 3.6.1 (2020-08-27)
 
 - Fix: Repair unlinked Markdown in the CHANGELOG
