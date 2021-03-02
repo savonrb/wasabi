@@ -283,19 +283,6 @@ module Wasabi
           end
         end
 
-        # if multi part message, return a hash representing
-        part_messages = message.element_children.select { |node| node.name == "part" && node.attribute('type') }.size
-        if part_messages > 0
-          part_messages_hash = {}
-          part_messages_hash[operation_name] = {}
-          message.element_children.select { |node| node.name == "part" }.each do |node|
-            part_message_name = node.attribute('name').value
-            part_message_type = node.attribute('type').value.split(':')
-            part_messages_hash[operation_name][part_message_name] = part_message_type
-          end
-          return [port_message_ns_id, part_messages_hash]
-        end
-
         # Fall back to the name of the binding operation
         if message_type
           [message_ns_id, message_type]
