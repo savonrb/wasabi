@@ -1,6 +1,5 @@
 language: ruby
-before_install: bundle config set --local path 'vendor/bundle'
-cache: bundler
+dist: trusty
 rvm:
   - 3.0.0
   - 2.7.1
@@ -10,3 +9,4 @@ rvm:
   - 2.3.8
   - 2.2.10
   - jruby
+  - rbx-3
