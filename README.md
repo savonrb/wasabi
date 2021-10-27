@@ -2,11 +2,10 @@
 
 A simple WSDL parser.
 
-[![Build Status](https://secure.travis-ci.org/savonrb/wasabi.svg?branch=master)](http://travis-ci.org/savonrb/wasabi)
+[![Test](https://github.com/savonrb/wasabi/actions/workflows/test.yml/badge.svg)](https://github.com/savonrb/wasabi/actions/workflows/test.yml)
 [![Gem Version](https://badge.fury.io/rb/wasabi.svg)](http://badge.fury.io/rb/wasabi)
 [![Code Climate](https://codeclimate.com/github/savonrb/wasabi.svg)](https://codeclimate.com/github/savonrb/wasabi)
 [![Coverage Status](https://coveralls.io/repos/savonrb/wasabi/badge.svg?branch=master)](https://coveralls.io/r/savonrb/wasabi)
-
 
 ## Installation
 
@@ -19,41 +18,41 @@ $ gem install wasabi
 
 ## Getting started
 
-``` ruby
+```ruby
 document = Wasabi.document File.read("some.wsdl")
 ```
 
 Get the SOAP endpoint:
 
-``` ruby
+```ruby
 document.endpoint
 # => "http://soap.example.com"
 ```
 
 Get the target namespace:
 
-``` ruby
+```ruby
 document.namespace
 # => "http://v1.example.com"
 ```
 
 Check whether elementFormDefault is set to `:qualified` or `:unqualified`:
 
-``` ruby
+```ruby
 document.element_form_default
 # => :qualified
 ```
 
 Get a list of available SOAP actions (snakecase for convenience):
 
-``` ruby
+```ruby
 document.soap_actions
 # => [:create_user, :find_user]
 ```
 
 Get a map of SOAP action Symbols, their input tag and original SOAP action name:
 
-``` ruby
+```ruby
 document.operations
 # => { :create_user => { :input => "createUser", :action => "createUser" },
 # =>   :find_user => { :input => "findUser", :action => "findUser" } }
