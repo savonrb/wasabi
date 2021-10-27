@@ -6,7 +6,7 @@ on:
 
 jobs:
   test:
-    name: Ruby v${{ matrix.ruby }}
+    name: "Ruby v${{ matrix.ruby }}"
     runs-on: ubuntu-latest
 
     strategy:
