@@ -3,17 +3,8 @@
 source 'https://rubygems.org'
 gemspec
 
-gem 'simplecov',       :require => false
-gem 'method_profiler', :require => false
-gem 'coveralls', '~> 0.8', :require => false
+gem 'simplecov', require: false
+gem 'method_profiler', require: false
+gem 'coveralls', '~> 0.8', require: false
 
-if RUBY_VERSION >= '2.4'
-  gem 'rubocop-packaging', :require => false
-end
-
-platform :rbx do
-  gem 'json'
-  gem 'racc'
-  gem 'rubysl'
-  gem 'rubinius-coverage'
-end
+gem 'rubocop-packaging', require: false
