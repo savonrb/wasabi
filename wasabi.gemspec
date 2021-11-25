@@ -18,9 +18,6 @@ Gem::Specification.new do |s|
   s.add_dependency "nokogiri", ">= 1.4.2"
   s.add_dependency "addressable"
 
-  s.add_development_dependency "rake",  "~> 13.0"
-  s.add_development_dependency "rspec", "~> 3.7.0"
-
   s.files         = Dir["lib/**/*", "CHANGELOG.md", "LICENSE", "README.md"]
   s.require_paths = ["lib"]
   s.metadata = {
