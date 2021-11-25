@@ -22,7 +22,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec", "~> 3.7.0"
 
   s.files         = Dir["lib/**/*", "CHANGELOG.md", "LICENSE", "README.md"]
-  s.test_files    = Dir["spec/**/*"]
   s.require_paths = ["lib"]
   s.metadata = {
     "changelog_uri" =>
