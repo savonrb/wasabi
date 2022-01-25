@@ -1,19 +1,21 @@
-# Unreleased
+# CHANGELOG for Wasabi
+
+## Unreleased
 
 - _Your new line here. Mind the style of prefix used in the rest of the document._
 
-# 3.7.0 (2022-01-25)
+## 3.7.0 (2022-01-25)
 
 - Breaking: BC BREAKING: Revert "Add support for rpc encoded wsdl" ([#103](https://github.com/savonrb/wasabi/pull/103))
 - Fix: Support escaped endpoint URLs ([#100](https://github.com/savonrb/wasabi/pull/100))
 
-# 3.6.1 (2020-08-27)
+## 3.6.1 (2020-08-27)
 
 - Fix: Repair unlinked Markdown in the CHANGELOG
 - Add: Link to the CHANGELOG in the RubyGems.org metadata
 - Add: Link to the Rubydocs.info documentation in the RubyGems.org metadata
 
-# 3.6.0 (2020-08-27)
+## 3.6.0 (2020-08-27)
 
 - Add: Support RPC-encoded WSDL ([#63](https://github.com/savonrb/wasabi/pull/63), [@fernandes][])
 - Fix: Depend on [addressable](https://github.com/sporkmonger/addressable), for unescape to avoid a Ruby warning ([#81](https://github.com/savonrb/wasabi/pull/81) , [@chaymaeBZ][], [@bvicenzo][])
@@ -21,35 +23,35 @@
 - Change: Reduced size of gem by focusing the files list ([#89](https://github.com/savonrb/wasabi/pull/89), [@utkarsh2102][])
 - Remove: No longer tested on Rubinius
 
-# 3.5.1 (2015-05-18)
+## 3.5.1 (2015-05-18)
 
 NB: This version was never released to RubyGems.org.
 
 * Fix: [#59](https://github.com/savonrb/wasabi/issue/59) Stop monkey patching the String class to provide #snakecase
 
-# 3.5.0 (2015-03-31)
+## 3.5.0 (2015-03-31)
 
 * Formally drop support for ruby 1.8.7
 
-# 3.4.0 (2015-03-02)
+## 3.4.0 (2015-03-02)
 
 * Fix: [#634](https://github.com/savonrb/savon/issues/634) Reverts PR #46, generates *most* operation names correctly.
 
-# 3.3.1 (2014-09-25)
+## 3.3.1 (2014-09-25)
 
 * Fix: [#48](https://github.com/savonrb/wasabi/issues/48) Remove dependency on mime-type gem
 
-# 3.3.0 (2014-05-03)
+## 3.3.0 (2014-05-03)
 * Feature: [#44](https://github.com/savonrb/wasabi/pull/44) adds a feature to specify the HTTPI adapter you'd like to use.
 
-# 3.2.3 (2013-12-16)
+## 3.2.3 (2013-12-16)
 * Fix [#39](https://github.com/savonrb/wasabi/pull/39) fixes new regression in operation names. Huge thank you to #leoping for investigating this and issuing a pull request.
 
-# 3.2.2 (2013-12-09)
+## 3.2.2 (2013-12-09)
 
 * Fix: [#32](https://github.com/savonrb/wasabi/issues/32) fixes a regression in operation names that was adversely affecting Savon: https://github.com/savonrb/savon/issues/520
 
-# 3.2.1 (2013-12-05)
+## 3.2.1 (2013-12-05)
 
 * Feature: Drops requirement for Nokogiri <= 1.6 for modern rubies. This was in place for ruby 1.8 but since support for that is going away, we shouldn't prevent users from using newer versions of Nokogiri.
 
