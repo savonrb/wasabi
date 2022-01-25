@@ -9,10 +9,16 @@ A simple WSDL parser.
 
 ## Installation
 
-Wasabi is available through [Rubygems](http://rubygems.org/gems/wasabi) and can be installed via:
+Wasabi is available through [RubyGems](http://rubygems.org/gems/wasabi) and can be installed via:
 
 ```
 $ gem install wasabi
+```
+
+Probably, you are using this gem as a dependency of some other gem. But, if you want to control which version of Wasabi to pick, you can add a `gem` line to your `Gemfile`:
+
+```
+gem "wasabi"
 ```
 
 
