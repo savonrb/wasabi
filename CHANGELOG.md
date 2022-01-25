@@ -1,8 +1,11 @@
 # Unreleased
 
 - _Your new line here. Mind the style of prefix used in the rest of the document._
+
+# 3.7.0 (2022-01-25)
+
 - Breaking: BC BREAKING: Revert "Add support for rpc encoded wsdl" ([#103](https://github.com/savonrb/wasabi/pull/103))
-- Fix: Support escaped endpoint urls ([#100](https://github.com/savonrb/wasabi/pull/100))
+- Fix: Support escaped endpoint URLs ([#100](https://github.com/savonrb/wasabi/pull/100))
 
 # 3.6.1 (2020-08-27)
 
