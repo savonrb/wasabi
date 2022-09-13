@@ -6,7 +6,7 @@
 
 ## 3.8.0 (2022-09-13)
 
-- Updated to HTTPI 3.0 to remove the socksify dependency.
+- Change: Update to HTTPI 3.0 to remove the socksify dependency.
 
 ## 3.7.0 (2022-01-25)
 
