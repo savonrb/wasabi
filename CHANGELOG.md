@@ -6,7 +6,7 @@
 
 ## 3.8.0 (2022-09-13)
 
-- Change: Update to HTTPI 3.0 to remove the socksify dependency.
+- Change: Update HTTPI to 3.0 to remove the socksify dependency. ([savonrb/httpi#225](https://github.com/savonrb/httpi/pull/225))
 
 ## 3.7.0 (2022-01-25)
 
