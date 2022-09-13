@@ -4,6 +4,10 @@
 
 - _Your new line here. Mind the style of prefix used in the rest of the document._
 
+## 3.8.0 (2022-09-13)
+
+- Updated to HTTPI 3.0 to remove the socksify dependency.
+
 ## 3.7.0 (2022-01-25)
 
 - Breaking: BC BREAKING: Revert "Add support for rpc encoded wsdl" ([#103](https://github.com/savonrb/wasabi/pull/103))
