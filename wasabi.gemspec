@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.license = 'MIT'
 
   s.add_dependency "httpi",    "~> 3.0"
-  s.add_dependency "nokogiri", ">= 1.4.2"
+  s.add_dependency "nokogiri", ">= 1.13.9"
   s.add_dependency "addressable"
 
   s.files         = Dir["lib/**/*", "CHANGELOG.md", "LICENSE", "README.md"]
