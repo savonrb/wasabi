@@ -11,7 +11,14 @@ describe Wasabi::Document do
       subject { super().operations }
       it do
       should include(
-        { :sendsms => { :input => "sendsms", :output => "sendsms", :action => "sendsms", :namespace_identifier => "tns" } }
+          {
+            sendsms: {
+              input: "sendsmsRequest",
+              output: "sendsmsResponse",
+              action: "sendsms",
+              namespace_identifier: "tns"
+            }
+          }
       )
     end
     end

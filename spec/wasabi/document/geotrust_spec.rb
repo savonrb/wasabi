@@ -30,9 +30,35 @@ describe Wasabi::Document do
       subject { super().operations }
       it do
         should include(
-          { :get_quick_approver_list => { :input => "GetQuickApproverList", :action => "GetQuickApproverList", :parameters=>{:Request=>{:name=>"Request", :type=>"GetQuickApproverListInput"}}}},
-          { :hello => { :input => "hello", :action => "hello", :parameters=>{:Input=>{:name=>"Input", :type=>"string"}} } }
-          )
+          {
+            get_quick_approver_list: {
+              input: "GetQuickApproverList",
+              output: "GetQuickApproverListResponse",
+              action: "GetQuickApproverList",
+              namespace_identifier: "s1",
+              parameters: {
+                Request: {
+                  name: "Request",
+                  type: "GetQuickApproverListInput"
+                }
+              }
+            }
+          },
+          {
+            hello: {
+              input: "hello",
+              output: "helloResponse",
+              action: "hello",
+              namespace_identifier: "s1",
+              parameters: {
+                Input: {
+                  name: "Input",
+                  type: "string"
+                }
+              }
+            }
+          }
+        )
       end
     end
 
