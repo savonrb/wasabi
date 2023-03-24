@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- _Your new line here. Mind the style of prefix used in the rest of the document._
+- Formally drop support for unsupported rubies (2.6 and below)
 
 ## 3.8.0 (2022-10-01)
 
