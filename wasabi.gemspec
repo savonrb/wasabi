@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/savonrb/#{s.name}"
   s.summary     = "A simple WSDL parser"
   s.description = s.summary
-  s.required_ruby_version = '>= 1.9.2'
+  s.required_ruby_version = '>= 2.7'
 
   s.license = 'MIT'
 
@@ -26,5 +26,6 @@ Gem::Specification.new do |s|
     "documentation_uri" => "https://www.rubydoc.info/gems/wasabi/#{s.version}",
     "source_code_uri" => "https://github.com/savonrb/wasabi",
     "bug_tracker_uri" => "https://github.com/savonrb/wasabi/issues",
+    "rubygems_mfa_required" => "true",
   }
 end
