@@ -13,7 +13,7 @@ describe Wasabi::Parser do
     let(:xml) { fixture(:tradetracker).read }
 
     it 'parses the operations' do
-      expect(subject.operations[:get_feeds][:input]).to eq('getFeeds')
+      expect(subject.operations[:get_feeds][:input]).to eq("GetFeedsMessage")
     end
   end
 end

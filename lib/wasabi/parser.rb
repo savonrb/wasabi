@@ -144,8 +144,9 @@ module Wasabi
         # TODO: check for soap namespace?
         soap_operation = operation.element_children.find { |node| node.name == 'operation' }
         soap_action = soap_operation['soapAction'] if soap_operation
+        soap_document = soap_operation["style"] if soap_operation
 
-        if soap_action
+        if soap_action || soap_document
           soap_action = soap_action.to_s
           action = soap_action && !soap_action.empty? ? soap_action : name
 
@@ -247,8 +248,7 @@ module Wasabi
         port_type_operation = @port_type_operations[binding_type][operation_name]
       end
 
-      port_type_input_output = port_type_operation &&
-        port_type_operation.element_children.find { |node| node.name == input_output }
+      port_type_input_output = port_type_operation&.element_children&.find { |node| node.name == input_output }
 
       # TODO: Stupid fix for missing support for imports.
       # Sometimes portTypes are actually included in a separate WSDL.
@@ -260,6 +260,8 @@ module Wasabi
         end
 
         message_ns_id, message_type = nil
+        message_ns_id = port_message_ns_id
+        message_type = port_message_type
 
         # When there is a parts attribute in soap:body element, we should use that value
         # to look up the message part from messages array.
@@ -270,8 +272,8 @@ module Wasabi
         end
 
         message = @messages[port_message_type]
-        port_message_part = message.element_children.find do |node|
-          soap_body_parts.nil? ? (node.name == 'part') : ( node.name == 'part' && node['name'] == soap_body_parts)
+        port_message_part = message&.element_children&.find do |node|
+          soap_body_parts.nil? ? (node.name == "part") : (node.name == "part" && node["name"] == soap_body_parts)
         end
 
         if port_message_part && port_element = port_message_part.attribute('element')
