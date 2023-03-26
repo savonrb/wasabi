@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Formally drop support for unsupported rubies (2.6 and below)
+- Parse Input/Output When Operation Style is Document ([#114](https://github.com/savonrb/wasabi/pull/114))
 
 ## 3.8.0 (2022-10-01)
 
