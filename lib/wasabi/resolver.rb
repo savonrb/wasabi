@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "httpi"
+require "faraday"
 
 module Wasabi
 
@@ -22,7 +22,7 @@ module Wasabi
 
     def initialize(document, request = nil, adapter = nil)
       @document = document
-      @request  = request || HTTPI::Request.new
+      @request  = request || Faraday.new
       @adapter  = adapter
     end
 
@@ -41,10 +41,10 @@ module Wasabi
     private
 
     def load_from_remote
-      request.url = document
-      response = HTTPI.get(request, adapter)
+      request.adapter *adapter if adapter
+      response = request.get(document)
 
-      raise HTTPError.new("Error: #{response.code} for url #{request.url}", response) if response.error?
+      raise HTTPError.new("Error: #{response.status} for url #{document}", response) unless response.success?
 
       response.body
     end
