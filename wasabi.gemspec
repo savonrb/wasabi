@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/savonrb/#{s.name}"
   s.summary     = "A simple WSDL parser"
   s.description = s.summary
-  s.required_ruby_version = '>= 2.7'
+  s.required_ruby_version = '>= 3.0'
 
   s.license = 'MIT'
 
