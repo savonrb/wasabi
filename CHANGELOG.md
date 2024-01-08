@@ -4,6 +4,11 @@
 
 - _Your new line here. Mind the style of prefix used in the rest of the document._
 
+## 5.0.0 (2024-01-08)
+
+- Drop support for unsupported rubies (2.7 and below)
+- Update to be compatible with Faraday ([#116](https://github.com/savonrb/wasabi/pull/116))
+
 ## 4.0.0 (2023-03-27)
 
 - Formally drop support for unsupported rubies (2.6 and below)
