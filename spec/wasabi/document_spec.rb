@@ -7,9 +7,13 @@ describe Wasabi::Document do
   subject { Wasabi::Document.new fixture(:authentication).read }
 
   it "accepts a URL" do
-    expect(HTTPI).to receive(:get) { HTTPI::Response.new(200, {}, "wsdl") }
+    path = 'http://example.com?wsdl'
+    stubs = Faraday::Adapter::Test::Stubs.new
+    stubs.get(path) do
+      [200, {'Content-Type': 'application/xml'}, 'wsdl']
+    end
 
-    document = Wasabi::Document.new("http://example.com?wsdl")
+    document = Wasabi::Document.new(path, [:test, stubs])
     expect(document.xml).to eq("wsdl")
   end
 
