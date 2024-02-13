@@ -5,6 +5,15 @@ require "spec_helper"
 describe Wasabi::Resolver do
 
   describe "#resolve" do
+    # TODO: remove_after_httpi
+    context "HTTPI" do
+      it "resolves remote documents" do
+        expect(HTTPI).to receive(:get) { HTTPI::Response.new(200, {}, "wsdl") }
+        xml = Wasabi::Resolver.new("http://example.com?wsdl", HTTPI::Request.new).resolve
+        expect(xml).to eq("wsdl")
+      end
+    end
+
     it "resolves remote documents" do
       expect(Faraday::Connection).to receive(:new).and_return(
         connection = instance_double(Faraday::Connection, get: Responses.mock_faraday(200, {}, "wsdl"))
