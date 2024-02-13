@@ -4,6 +4,10 @@
 
 - _Your new line here. Mind the style of prefix used in the rest of the document._
 
+## 5.0.1 (2024-02-13)
+
+- Restore support for HTTPI ([#117](https://github.com/savonrb/wasabi/issues/117)). 
+
 ## 5.0.0 (2024-01-08)
 
 - Drop support for unsupported rubies (2.7 and below)
