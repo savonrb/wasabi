@@ -4,6 +4,10 @@
 
 - _Your new line here. Mind the style of prefix used in the rest of the document._
 
+## 5.0.2 (2024-02-27)
+
+- Fix input/output for style="rpc" operations ([#119](https://github.com/savonrb/wasabi/pull/119)). 
+
 ## 5.0.1 (2024-02-13)
 
 - Restore support for HTTPI ([#117](https://github.com/savonrb/wasabi/issues/117)). 
