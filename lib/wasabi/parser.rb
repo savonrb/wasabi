@@ -144,7 +144,7 @@ module Wasabi
         # TODO: check for soap namespace?
         soap_operation = operation.element_children.find { |node| node.name == 'operation' }
         soap_action = soap_operation['soapAction'] if soap_operation
-        soap_document = soap_operation["style"] if soap_operation
+        soap_document = soap_operation['style'] == 'document'  if soap_operation
 
         if soap_action || soap_document
           soap_action = soap_action.to_s
@@ -260,8 +260,13 @@ module Wasabi
         end
 
         message_ns_id, message_type = nil
-        message_ns_id = port_message_ns_id
-        message_type = port_message_type
+
+        soap_operation = operation.element_children.find { |node| node.name == 'operation' }
+
+        if soap_operation.nil? || soap_operation['style'] != 'rpc'
+          message_ns_id = port_message_ns_id
+          message_type = port_message_type
+        end
 
         # When there is a parts attribute in soap:body element, we should use that value
         # to look up the message part from messages array.
