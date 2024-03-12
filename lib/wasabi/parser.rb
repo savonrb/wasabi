@@ -157,6 +157,7 @@ module Wasabi
 
           # Store namespace identifier so this operation can be mapped to the proper namespace.
           @operations[snakecase_name] = {
+            name: name,
             action: action,
             input: input,
             output: output,
