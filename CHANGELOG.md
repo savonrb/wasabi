@@ -4,6 +4,10 @@
 
 - _Your new line here. Mind the style of prefix used in the rest of the document._
 
+## 5.0.3 (2024-07-20)
+
+- Relax faraday version restriction by @ChristopherBert in https://github.com/savonrb/wasabi/pull/120
+
 ## 5.0.2 (2024-02-27)
 
 - Fix input/output for style="rpc" operations ([#119](https://github.com/savonrb/wasabi/pull/119)). 
