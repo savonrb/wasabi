@@ -188,12 +188,7 @@ module Wasabi
         element_name = inner.attribute('name').to_s
         @types[name][element_name] = { :type => inner.attribute('type').to_s }
 
-        [ :nillable, :minOccurs, :maxOccurs ].each do |attr|
-          if v = inner.attribute(attr.to_s)
-            @types[name][element_name][attr] = v.to_s
-          end
-        end
-
+        parse_indicators(namespace,element_name,inner)
         @types[name][:order!] << element_name
       end
 
@@ -201,6 +196,7 @@ module Wasabi
         element_name = inner_element.attribute('name').to_s
         @types[name][element_name] = { :type => inner_element.attribute('type').to_s }
 
+        parse_indicators(namespace,element_name,inner_element)
         @types[name][:order!] << element_name
       end
 
@@ -317,6 +313,18 @@ module Wasabi
 
     def sections
       @sections ||= document.root.element_children.group_by { |node| node.name }
+    end
+
+    private
+
+    # parse XSD indicators
+    def parse_indicators(name,element_name,inner_xml)
+
+        [ :nillable, :minOccurs, :maxOccurs ].each do |attr|
+          if v = inner_xml.attribute(attr.to_s)
+            @types[name][element_name][attr] = v.to_s
+          end
+        end
     end
   end
 end
