@@ -63,3 +63,8 @@ document.operations
 # => { :create_user => { :input => "createUser", :action => "createUser" },
 # =>   :find_user => { :input => "findUser", :action => "findUser" } }
 ```
+
+## Upgrading to Wasabi 5.x
+
+Wasabi 5.x adds support for (and defaults to) [Faraday](https://lostisland.github.io/faraday/#/) for its HTTP transport. For compatibility, it will continue to prefer 
+[HTTPI](https://github.com/savonrb/httpi) if it is present. Newer versions of Savon require Wasabi 5.x as part of the transition to Faraday.
