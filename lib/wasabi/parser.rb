@@ -239,6 +239,7 @@ module Wasabi
       input_output_for(operation, 'output')
     end
 
+    # @return [namespace_id, message_type]
     def input_output_for(operation, input_output)
       operation_name = operation['name']
 
@@ -251,9 +252,13 @@ module Wasabi
 
       port_type_input_output = port_type_operation&.element_children&.find { |node| node.name == input_output }
 
+      # find the message for the portType operation
+      # if there is no message, we will use the operation name as the message name
+
       # TODO: Stupid fix for missing support for imports.
       # Sometimes portTypes are actually included in a separate WSDL.
       if port_type_input_output
+        # If the message attribute contains a colon, it means the message is namespaced.
         if port_type_input_output.attribute('message').to_s.include? ':'
           port_message_ns_id, port_message_type = port_type_input_output.attribute('message').to_s.split(':')
         else
@@ -261,13 +266,6 @@ module Wasabi
         end
 
         message_ns_id, message_type = nil
-
-        soap_operation = operation.element_children.find { |node| node.name == 'operation' }
-
-        if soap_operation.nil? || soap_operation['style'] != 'rpc'
-          message_ns_id = port_message_ns_id
-          message_type = port_message_type
-        end
 
         # When there is a parts attribute in soap:body element, we should use that value
         # to look up the message part from messages array.
@@ -277,6 +275,7 @@ module Wasabi
           soap_body_parts = soap_body_element['parts'] if soap_body_element
         end
 
+        # look for any message part that matches the soap body parts
         message = @messages[port_message_type]
         port_message_part = message&.element_children&.find do |node|
           soap_body_parts.nil? ? (node.name == "part") : (node.name == "part" && node["name"] == soap_body_parts)
@@ -288,6 +287,22 @@ module Wasabi
             message_ns_id, message_type = port_message_part.split(':')
           else
             message_type = port_message_part
+          end
+        end
+
+        # If the message is not found, we should use the operation name as the message name for document style operations
+        # applies only to output
+        if input_output == 'output'
+          # if the operation is document style and theres no port_message_part, we should use the operation_name
+          soap_operation = operation.element_children.find { |node| node.name == 'operation' }
+          if message_type.nil? && (soap_operation.nil? || soap_operation['style'] != 'rpc')
+            if port_message_part.nil?
+              message_ns_id = port_message_ns_id
+              message_type = operation_name
+            else
+              message_ns_id = port_message_ns_id
+              message_type = port_message_type
+            end
           end
         end
 
