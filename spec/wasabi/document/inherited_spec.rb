@@ -19,20 +19,20 @@ describe Wasabi::Document do
     end
 
     it "should position base class attributes before subclass attributes in :order! array" do
-      account = subject.parser.types["Account"]
+      account = subject.parser.types['http://object.api.example.com/']["Account"]
       expect(account[:order!]).to eq(["fieldsToNull", "Id", "Description", "ProcessId", "CreatedDate"])
     end
 
     it "should have each type's hash remember it's base type in :base_type element" do
-      account = subject.parser.types["Account"]
+      account = subject.parser.types['http://object.api.example.com/']["Account"]
       expect(account[:base_type]).to eq("baseObject")
 
-      base_object = subject.parser.types["baseObject"]
+      base_object = subject.parser.types['http://object.api.example.com/']["baseObject"]
       expect(base_object).not_to have_key(:base_type)
     end
 
     it "should have element's hash contain all these attributes (:nillable, :minOccurs, :maxOccurs) in addition to :type" do
-      base_object = subject.parser.types["baseObject"]
+      base_object = subject.parser.types['http://object.api.example.com/']["baseObject"]
       fields_to_null = base_object["fieldsToNull"]
       expect(fields_to_null[:nillable]).to eq("true")
       expect(fields_to_null[:minOccurs]).to eq("0")

@@ -4,6 +4,23 @@
 
 - _Your new line here. Mind the style of prefix used in the rest of the document._
 
+## 5.0.3 (2024-07-20)
+
+- Relax faraday version restriction by @ChristopherBert in https://github.com/savonrb/wasabi/pull/120
+
+## 5.0.2 (2024-02-27)
+
+- Fix input/output for style="rpc" operations ([#119](https://github.com/savonrb/wasabi/pull/119)). 
+
+## 5.0.1 (2024-02-13)
+
+- Restore support for HTTPI ([#117](https://github.com/savonrb/wasabi/issues/117)). 
+
+## 5.0.0 (2024-01-08)
+
+- Drop support for unsupported rubies (2.7 and below)
+- Update to be compatible with Faraday ([#116](https://github.com/savonrb/wasabi/pull/116))
+
 ## 4.0.0 (2023-03-27)
 
 - Formally drop support for unsupported rubies (2.6 and below)

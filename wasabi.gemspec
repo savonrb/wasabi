@@ -10,11 +10,11 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/savonrb/#{s.name}"
   s.summary     = "A simple WSDL parser"
   s.description = s.summary
-  s.required_ruby_version = '>= 2.7'
+  s.required_ruby_version = '>= 3.0'
 
   s.license = 'MIT'
 
-  s.add_dependency "httpi",    "~> 3.0"
+  s.add_dependency "faraday", ">=1.9", "<3"
   s.add_dependency "nokogiri", ">= 1.13.9"
   s.add_dependency "addressable"
 

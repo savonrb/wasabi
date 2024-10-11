@@ -103,11 +103,13 @@ module Wasabi
       @type_namespaces ||= begin
         namespaces = []
 
-        parser.types.each do |type, info|
-          namespaces << [[type], info[:namespace]]
+        parser.types.each do |ns, types|
+          types.each do |type, info|
+            namespaces << [[type], info[:namespace]]
 
-          element_keys(info).each do |field|
-            namespaces << [[type, field], info[:namespace]]
+            element_keys(info).each do |field|
+              namespaces << [[type, field], info[:namespace]]
+            end
           end
         end if document
 
@@ -119,12 +121,14 @@ module Wasabi
       @type_definitions ||= begin
         result = []
 
-        parser.types.each do |type, info|
-          element_keys(info).each do |field|
-            field_type = info[field][:type]
-            tag, namespace = field_type.split(":").reverse
+        parser.types.each do |ns, types|
+          types.each do |type, info|
+            element_keys(info).each do |field|
+              field_type = info[field][:type]
+              tag, namespace = field_type.split(":").reverse
 
-            result << [[type, field], tag] if user_defined(namespace)
+              result << [[type, field], tag] if user_defined(namespace)
+            end
           end
         end if document
 

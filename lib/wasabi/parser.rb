@@ -144,7 +144,7 @@ module Wasabi
         # TODO: check for soap namespace?
         soap_operation = operation.element_children.find { |node| node.name == 'operation' }
         soap_action = soap_operation['soapAction'] if soap_operation
-        soap_document = soap_operation["style"] if soap_operation
+        soap_document = soap_operation['style'] == 'document'  if soap_operation
 
         if soap_action || soap_document
           soap_action = soap_action.to_s
@@ -190,44 +190,45 @@ module Wasabi
     end
 
     def process_type(namespace, type, name)
-      @types[name] ||= { :namespace => namespace }
-      @types[name][:order!] = []
+      @types[namespace] ||= {}
+      @types[namespace][name] ||= { :namespace => namespace }
+      @types[namespace][name][:order!] = []
 
       type.xpath('./xs:sequence/xs:element', 'xs' => XSD).each do |inner|
         element_name = inner.attribute('name').to_s
-        @types[name][element_name] = { :type => inner.attribute('type').to_s }
+        @types[namespace][name][element_name] = { :type => inner.attribute('type').to_s }
 
         [ :nillable, :minOccurs, :maxOccurs ].each do |attr|
           if v = inner.attribute(attr.to_s)
-            @types[name][element_name][attr] = v.to_s
+            @types[namespace][name][element_name][attr] = v.to_s
           end
         end
 
-        @types[name][:order!] << element_name
+        @types[namespace][name][:order!] << element_name
       end
 
       type.xpath('./xs:complexContent/xs:extension/xs:sequence/xs:element', 'xs' => XSD).each do |inner_element|
         element_name = inner_element.attribute('name').to_s
-        @types[name][element_name] = { :type => inner_element.attribute('type').to_s }
+        @types[namespace][name][element_name] = { :type => inner_element.attribute('type').to_s }
 
-        @types[name][:order!] << element_name
+        @types[namespace][name][:order!] << element_name
       end
 
       type.xpath('./xs:complexContent/xs:extension[@base]', 'xs' => XSD).each do |inherits|
         base = inherits.attribute('base').value.match(/\w+$/).to_s
 
-        if @types[base]
+        if @types[namespace][base]
           # Reverse merge because we don't want subclass attributes to be overriden by base class
-          @types[name] = types[base].merge(types[name])
-          @types[name][:order!] = @types[base][:order!] | @types[name][:order!]
-          @types[name][:base_type] = base
+          @types[namespace][name] = types[namespace][base].merge(types[namespace][name])
+          @types[namespace][name][:order!] = @types[namespace][base][:order!] | @types[namespace][name][:order!]
+          @types[namespace][name][:base_type] = base
         else
           p = Proc.new do
-            if @types[base]
+            if @types[namespace][base]
               # Reverse merge because we don't want subclass attributes to be overriden by base class
-              @types[name] = @types[base].merge(@types[name])
-              @types[name][:order!] = @types[base][:order!] | @types[name][:order!]
-              @types[name][:base_type] = base
+              @types[namespace][name] = @types[namespace][base].merge(@types[namespace][name])
+              @types[namespace][name][:order!] = @types[namespace][base][:order!] | @types[namespace][name][:order!]
+              @types[namespace][name][:base_type] = base
             end
           end
           deferred_types << p
@@ -270,8 +271,14 @@ module Wasabi
           parts = port_type_input_output.attribute('message').to_s.split(':', 2)
           port_message_ns_id, port_message_type = (parts.size == 2 ? parts : [nil, *parts])
 
-          message_ns_id = port_message_ns_id
-          message_type = port_message_type
+          message_ns_id, message_type = nil
+
+          soap_operation = operation.element_children.find { |node| node.name == 'operation' }
+
+          if soap_operation.nil? || soap_operation['style'] != 'rpc'
+            message_ns_id = port_message_ns_id
+            message_type = port_message_type
+          end
 
           # When there is a parts attribute in soap:body element, we should use that value
           # to look up the message part from messages array.
