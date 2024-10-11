@@ -29,7 +29,7 @@ describe Wasabi::Document do
     describe '#operations' do
       subject { super().operations }
       it do
-        is_expected.to match({ :save => { :input => "Save", :output=>"SaveResponse", :action => "http://example.com/actions.Save", :namespace_identifier => "actions", :parameters => { :article => { :name => "article", :type => "Article" } } } })
+        is_expected.to match({:save => { :name => "Save", :input => "Save", :output=>"SaveResponse", :action => "http://example.com/actions.Save", :namespace_identifier => "actions", :parameters => { :article => { :name => "article", :type => "Article" } } } })
       end
     end
 

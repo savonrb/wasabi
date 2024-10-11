@@ -32,6 +32,7 @@ describe Wasabi::Document do
         should include(
           {
             delete_client: {
+              name: "DeleteClient",
               input: "Client.Delete",
               output: "Client.DeleteResponse",
               action: "http://api.example.com/api/Client.Delete",
@@ -40,6 +41,7 @@ describe Wasabi::Document do
           },
           {
             get_clients: {
+              name: "GetClients",
               input: "User.GetClients",
               output: "User.GetClientsResponse",
               action: "http://api.example.com/api/User.GetClients",
@@ -48,6 +50,7 @@ describe Wasabi::Document do
           },
           {
             get_api_key: {
+              name: "GetApiKey",
               input: "User.GetApiKey",
               output: "User.GetApiKeyResponse",
               action: "http://api.example.com/api/User.GetApiKey",

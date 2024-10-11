@@ -32,6 +32,7 @@ describe Wasabi::Document do
         should include(
           {
             get_user_login_by_id: {
+              name: "GetUserLoginById",
               input: "GetUserLoginById",
               output: "GetUserLoginByIdResponse",
               action: "/api/api/GetUserLoginById",
@@ -40,6 +41,7 @@ describe Wasabi::Document do
           },
           {
             get_all_contacts: {
+              name: "GetAllContacts",
               input: "GetAllContacts",
               output: "GetAllContactsResponse",
               action: "/api/api/GetAllContacts",
@@ -48,6 +50,7 @@ describe Wasabi::Document do
           },
           {
             search_user: {
+              name: "SearchUser",
               input: "SearchUser",
               output: "SearchUserResponse",
               action: "/api/api/SearchUser",

@@ -30,7 +30,7 @@ describe Wasabi::Document do
       subject { super().operations }
       it do
       should == {
-        :authenticate => { :input => "authenticate", :output => "authenticateResponse", :action => "authenticate", :namespace_identifier => "tns" }
+        :authenticate => { :name=>"authenticate", :input => "authenticate", :output => "authenticateResponse", :action => "authenticate", :namespace_identifier => "tns" }
       }
     end
     end
