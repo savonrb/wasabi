@@ -4,6 +4,11 @@
 
 - _Your new line here. Mind the style of prefix used in the rest of the document._
 
+## 5.1.0 (2024-10-27)
+
+- Segment declared types by namespace to distinguish distinct types by @RickSnyder in https://github.com/savonrb/wasabi/pull/57
+- Adjust input parsing by @pcai in https://github.com/savonrb/wasabi/pull/122
+
 ## 5.0.3 (2024-07-20)
 
 - Relax faraday version restriction by @ChristopherBert in https://github.com/savonrb/wasabi/pull/120
