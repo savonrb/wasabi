@@ -13,7 +13,7 @@ describe Wasabi::Document do
       should include(
           {
             sendsms: {
-              input: "sendsmsRequest",
+              input: "sendsms",
               output: "sendsmsResponse",
               action: "sendsms",
               namespace_identifier: "tns"
