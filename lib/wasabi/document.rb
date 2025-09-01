@@ -99,6 +99,61 @@ module Wasabi
       parser.operations[key][:parameters] if operations[key]
     end
 
+    # Returns type information for a given type name.
+    def type_definition(type_name)
+      return nil unless type_name
+
+      @type_definitions ||= {}
+      return @type_definitions[type_name] if @type_definitions[type_name]
+
+      type_info = find_type_info(type_name)
+      return nil unless type_info
+
+      definition = {
+        name: type_name,
+        namespace: type_info[:namespace],
+        fields: {},
+        order: type_info[:order!] || []
+      }
+
+      type_info.each do |field_name, field_info|
+        next if [:namespace, :order!, :base_type].include?(field_name)
+        next if field_info.nil? || !field_info.is_a?(Hash)
+
+        definition[:fields][field_name] = {
+          type: field_info[:type],
+          required: field_info[:minOccurs] != "0",
+          array: field_info[:maxOccurs] == "unbounded" || (field_info[:maxOccurs].to_i > 1),
+          min_occurs: field_info[:minOccurs],
+          max_occurs: field_info[:maxOccurs],
+          nillable: field_info[:nillable] == "true"
+        }
+      end
+
+      @type_definitions[type_name] = definition
+      definition
+    end
+
+    # Input type for an operation
+    def operation_input_type(operation_name)
+      operation_key = operation_name.to_sym
+      operation = parser.operations[operation_key]
+      return nil unless operation
+
+      input_type = operation[:input]
+      type_definition(input_type) || type_definition("#{input_type}Type")
+    end
+
+    # Output type for an operation
+    def operation_output_type(operation_name)
+      operation_key = operation_name.to_sym
+      operation = parser.operations[operation_key]
+      return nil unless operation
+
+      output_type = operation[:output]
+      type_definition(output_type) || type_definition("#{output_type}Type")
+    end
+
     def type_namespaces
       @type_namespaces ||= begin
         namespaces = []
@@ -163,13 +218,95 @@ module Wasabi
 
     # Parses the WSDL document and returns <tt>Wasabi::Parser</tt>.
     def parse
-      parser = Parser.new Nokogiri::XML(xml)
+      base_path = determine_base_path
+      parser = Parser.new Nokogiri::XML(xml), base_path
       parser.parse
       parser
     end
 
+    # Base path for resolving relative schema locations
+    def determine_base_path
+      return nil unless document
+
+      if document.is_a?(String)
+        if document =~ /^http[s]?:/
+          document
+        elsif document =~ /^</
+          nil
+        else
+          File.expand_path(document)
+        end
+      else
+        nil
+      end
+    end
+
     def element_keys(info)
       info.keys - [:namespace, :order!, :base_type]
+    end
+
+        # Find type info with XSD resolution rules
+    def find_type_info(type_name, context_namespace = nil)
+      return nil unless type_name
+
+      @type_resolution_cache ||= {}
+      cache_key = "#{type_name}:#{context_namespace}"
+      return @type_resolution_cache[cache_key] if @type_resolution_cache.key?(cache_key)
+
+      result = resolve_type_systematically(type_name, context_namespace)
+      @type_resolution_cache[cache_key] = result
+      result
+    end
+
+    private
+
+    def resolve_type_systematically(type_name, context_namespace)
+      # Handle qualified names (prefix:localname)
+      if type_name.include?(':')
+        prefix, local_name = type_name.split(':', 2)
+        namespace_uri = parser.namespaces[prefix]
+        if namespace_uri && parser.types[namespace_uri]
+          return parser.types[namespace_uri][local_name]
+        end
+      end
+
+      # Build type index
+      @type_index ||= build_type_index
+
+      # Search with XSD precedence
+      candidates = []
+
+      # Exact match in context namespace
+      if context_namespace && @type_index[context_namespace]&.key?(type_name)
+        candidates << { type_info: @type_index[context_namespace][type_name], priority: 1 }
+      end
+
+      # Exact match in any namespace
+      @type_index.each do |namespace, types|
+        next if namespace == context_namespace
+        if types.key?(type_name)
+          candidates << { type_info: types[type_name], priority: 2 }
+        end
+      end
+
+      # Try with "Type" suffix
+      type_name_with_suffix = "#{type_name}Type"
+      @type_index.each do |namespace, types|
+        if types.key?(type_name_with_suffix)
+          candidates << { type_info: types[type_name_with_suffix], priority: 3 }
+        end
+      end
+
+      candidates.min_by { |c| c[:priority] }&.dig(:type_info)
+    end
+
+    def build_type_index
+      # Build lookup index
+      index = {}
+      parser.types.each do |namespace, types|
+        index[namespace] = types.dup
+      end
+      index
     end
   end
 end

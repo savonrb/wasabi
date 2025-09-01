@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://example.com/user"
+  xmlns:tns="http://example.com/user">
+  <xs:complexType name="UserType">
+    <xs:sequence>
+      <xs:element name="username" type="xs:string" />
+      <xs:element name="email" type="xs:string" />
+      <xs:element name="age" type="xs:int" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

@@ -16,8 +16,9 @@ module Wasabi
     SOAP_1_1 = 'http://schemas.xmlsoap.org/wsdl/soap/'
     SOAP_1_2 = 'http://schemas.xmlsoap.org/wsdl/soap12/'
 
-    def initialize(document)
+    def initialize(document, base_path = nil)
       self.document = document
+      self.base_path = base_path
       self.operations = {}
       self.namespaces = {}
       self.service_name = ''
@@ -28,6 +29,9 @@ module Wasabi
 
     # Returns the Nokogiri document.
     attr_accessor :document
+
+    # Base path for resolving relative schema locations
+    attr_accessor :base_path
 
     # Returns the target namespace.
     attr_accessor :namespace
@@ -175,6 +179,10 @@ module Wasabi
             process_type namespace, complex_type, node['name'].to_s if complex_type
           when 'complexType'
             process_type namespace, node, node['name'].to_s
+          when 'include'
+            handle_include(node, namespace)
+          when 'import'
+            handle_import(node)
           end
         end
       end
@@ -186,8 +194,27 @@ module Wasabi
       @types[namespace][name][:order!] = []
 
       type.xpath('./xs:sequence/xs:element', 'xs' => XSD).each do |inner|
-        element_name = inner.attribute('name').to_s
-        @types[namespace][name][element_name] = { :type => inner.attribute('type').to_s }
+        element_name = nil
+        element_type = nil
+
+        if inner.attribute('name')
+          element_name = inner.attribute('name').to_s
+          element_type = inner.attribute('type').to_s
+        elsif inner.attribute('ref')
+          ref_value = inner.attribute('ref').to_s
+          if ref_value.include?(':')
+            _namespace_prefix, local_name = ref_value.split(':', 2)
+            element_name = local_name
+            element_type = ref_value
+          else
+            element_name = ref_value
+            element_type = ref_value
+          end
+        end
+
+        next unless element_name && !element_name.empty?
+
+        @types[namespace][name][element_name] = { :type => element_type }
 
         [ :nillable, :minOccurs, :maxOccurs ].each do |attr|
           if v = inner.attribute(attr.to_s)
@@ -229,6 +256,78 @@ module Wasabi
 
     def parse_deferred_types
       deferred_types.each(&:call)
+    end
+
+    def handle_include(node, current_namespace)
+      schema_location = node['schemaLocation']
+      return unless schema_location
+
+      external_schema = load_external_schema(schema_location)
+      return unless external_schema
+
+      parse_external_schema(external_schema, current_namespace)
+    end
+
+    def handle_import(node)
+      schema_location = node['schemaLocation']
+      namespace = node['namespace']
+      return unless schema_location
+
+      external_schema = load_external_schema(schema_location)
+      return unless external_schema
+
+      target_namespace = namespace || external_schema.root['targetNamespace']
+      parse_external_schema(external_schema, target_namespace)
+    end
+
+    def load_external_schema(schema_location)
+      return nil unless base_path
+
+      schema_path = if schema_location.start_with?('http')
+                      schema_location
+                    else
+                      File.expand_path(schema_location, File.dirname(base_path))
+                    end
+
+      begin
+        if schema_location.start_with?('http')
+          require 'net/http'
+          uri = URI(schema_location)
+          response = Net::HTTP.get_response(uri)
+          return nil unless response.is_a?(Net::HTTPSuccess)
+          Nokogiri::XML(response.body)
+        else
+          return nil unless File.exist?(schema_path)
+          content = File.read(schema_path)
+          Nokogiri::XML(content)
+        end
+      rescue => e
+        nil
+      end
+    end
+
+    def parse_external_schema(external_doc, target_namespace)
+      return unless external_doc
+
+      schema_root = external_doc.root
+      schema_root = schema_root.name == 'schema' ? schema_root : external_doc.at_xpath('//xs:schema', 'xs' => XSD)
+      return unless schema_root
+
+      schema_root.element_children.each do |node|
+        namespace = target_namespace || schema_root['targetNamespace'] || @namespace
+
+        case node.name
+        when 'element'
+          complex_type = node.at_xpath('./xs:complexType', 'xs' => XSD)
+          process_type namespace, complex_type, node['name'].to_s if complex_type
+        when 'complexType'
+          process_type namespace, node, node['name'].to_s
+        when 'include'
+          handle_include(node, namespace)
+        when 'import'
+          handle_import(node)
+        end
+      end
     end
 
     def input_for(operation)
