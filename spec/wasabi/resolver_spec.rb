@@ -3,7 +3,6 @@
 require "spec_helper"
 
 describe Wasabi::Resolver do
-
   describe "#resolve" do
     # TODO: remove_after_httpi
     context "HTTPI" do
@@ -16,17 +15,17 @@ describe Wasabi::Resolver do
 
     it "resolves remote documents" do
       expect(Faraday::Connection).to receive(:new).and_return(
-        connection = instance_double(Faraday::Connection, get: Responses.mock_faraday(200, {}, "wsdl"))
+        instance_double(Faraday::Connection, get: Responses.mock_faraday(200, {}, "wsdl"))
       )
       xml = Wasabi::Resolver.new("http://example.com?wsdl").resolve
       expect(xml).to eq("wsdl")
     end
 
     it "resolves remote documents with custom adapter" do
-      path = 'http://example.com?wsdl'
+      path = "http://example.com?wsdl"
       stubs = Faraday::Adapter::Test::Stubs.new
       stubs.get(path) do
-        [200, {'Content-Type': 'application/xml'}, 'wsdl']
+        [200, {"Content-Type": "application/xml"}, "wsdl"]
       end
       xml = Wasabi::Resolver.new("http://example.com?wsdl", nil, [:test, stubs]).resolve
       expect(xml).to eq("wsdl")
@@ -50,18 +49,17 @@ describe Wasabi::Resolver do
       body = "<html><head><title>404 Not Found</title></head><body>Oops!</body></html>"
       failed_response = Responses.mock_faraday(code, headers, body)
       expect(Faraday::Connection).to receive(:new).and_return(
-        connection = instance_double(Faraday::Connection, get: failed_response)
+        instance_double(Faraday::Connection, get: failed_response)
       )
       url = "http://example.com?wsdl"
 
       expect do
         Wasabi::Resolver.new(url).resolve
-      end.to(raise_error{ |ex|
+      end.to(raise_error { |ex|
         expect(ex).to be_a(Wasabi::Resolver::HTTPError)
         expect(ex.message).to eq("Error: #{code} for url #{url}")
         expect(ex.response).to eq(failed_response)
       })
     end
   end
-
 end

@@ -4,29 +4,28 @@ require "spec_helper"
 
 describe Wasabi::Document do
   context "with: geotrust.wsdl" do
-
     let(:document) { Wasabi::Document.new(fixture(:geotrust).read) }
 
-    describe '#namespace' do
+    describe "#namespace" do
       subject { document.namespace }
       it { should eq "http://api.geotrust.com/webtrust/query" }
     end
 
-    describe '#endpoint' do
+    describe "#endpoint" do
       subject { document.endpoint }
       it { should eq URI("https://test-api.geotrust.com:443/webtrust/query.jws") }
     end
 
-    describe '#element_form_default' do
+    describe "#element_form_default" do
       subject { document.element_form_default }
       it { should be :qualified }
     end
 
-    it 'has 2 operations' do
+    it "has 2 operations" do
       expect(document.operations.size).to eq(2)
     end
 
-    describe '#operations' do
+    describe "#operations" do
       subject { document.operations }
       it do
         should include(
@@ -61,6 +60,5 @@ describe Wasabi::Document do
         )
       end
     end
-
   end
 end

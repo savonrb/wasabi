@@ -3,27 +3,25 @@
 require "faraday"
 
 module Wasabi
-
   # = Wasabi::Resolver
   #
   # Resolves local and remote WSDL documents.
   class Resolver
-
     class HTTPError < StandardError
-      def initialize(message, response=nil)
+      def initialize(message, response = nil)
         super(message)
         @response = response
       end
       attr_reader :response
     end
 
-    URL = /^http[s]?:/
+    URL = /^https?:/
     XML = /^</
 
     def initialize(document, request = nil, adapter = nil)
       @document = document
-      @request  = request || Faraday.new
-      @adapter  = adapter
+      @request = request || Faraday.new
+      @adapter = adapter
     end
 
     attr_reader :document, :request, :adapter
@@ -32,9 +30,9 @@ module Wasabi
       raise ArgumentError, "Unable to resolve: #{document.inspect}" unless document
 
       case document
-        when URL then load_from_remote
-        when XML then document
-        else          load_from_disc
+      when URL then load_from_remote
+      when XML then document
+      else load_from_disc
       end
     end
 
@@ -50,7 +48,7 @@ module Wasabi
 
         raise HTTPError.new("Error: #{response.code} for url #{request.url}", response) if response.error?
       else
-        request.adapter *adapter if adapter
+        request.adapter(*adapter) if adapter
         response = request.get(document)
 
         raise HTTPError.new("Error: #{response.status} for url #{document}", response) unless response.success?
@@ -62,6 +60,5 @@ module Wasabi
     def load_from_disc
       File.read(document)
     end
-
   end
 end

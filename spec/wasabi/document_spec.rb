@@ -3,14 +3,13 @@
 require "spec_helper"
 
 describe Wasabi::Document do
-
   subject { Wasabi::Document.new fixture(:authentication).read }
 
   it "accepts a URL" do
-    path = 'http://example.com?wsdl'
+    path = "http://example.com?wsdl"
     stubs = Faraday::Adapter::Test::Stubs.new
     stubs.get(path) do
-      [200, {'Content-Type': 'application/xml'}, 'wsdl']
+      [200, {"Content-Type": "application/xml"}, "wsdl"]
     end
 
     document = Wasabi::Document.new(path, [:test, stubs])
@@ -35,11 +34,11 @@ describe Wasabi::Document do
     end
 
     it "raises if given an invalid value" do
-      error_msg = "Invalid value for elementFormDefault: invalid\n" +
-                  "Must be one of: [:unqualified, :qualified]"
+      error_msg = "Invalid value for elementFormDefault: invalid\n" \
+        "Must be one of: [:unqualified, :qualified]"
 
-      expect { Wasabi::Document.validate_element_form_default!(:invalid) }.
-        to raise_error(ArgumentError, error_msg)
+      expect { Wasabi::Document.validate_element_form_default!(:invalid) }
+        .to raise_error(ArgumentError, error_msg)
     end
   end
 
@@ -56,9 +55,8 @@ describe Wasabi::Document do
     end
 
     it "raises if set to an invalid value" do
-      expect { subject.element_form_default = :invalid }.
-        to raise_error(ArgumentError, /Invalid value for elementFormDefault/)
+      expect { subject.element_form_default = :invalid }
+        .to raise_error(ArgumentError, /Invalid value for elementFormDefault/)
     end
   end
-
 end

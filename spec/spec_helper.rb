@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-unless RUBY_PLATFORM =~ /java/
+unless RUBY_PLATFORM.match?(/java/)
   require "simplecov"
   SimpleCov.start do
     add_filter "spec"
