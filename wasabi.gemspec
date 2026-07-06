@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.metadata = {
     "changelog_uri" =>
-      "https://github.com/savonrb/wasabi/blob/master/CHANGELOG.md",
+      "https://github.com/savonrb/wasabi/blob/main/CHANGELOG.md",
     "documentation_uri" => "https://www.rubydoc.info/gems/wasabi/#{s.version}",
     "source_code_uri" => "https://github.com/savonrb/wasabi",
     "bug_tracker_uri" => "https://github.com/savonrb/wasabi/issues",
