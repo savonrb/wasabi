@@ -3,7 +3,6 @@
 require "spec_helper"
 
 describe Wasabi::CoreExt::String do
-
   describe ".snakecase" do
     it "lowercases one word CamelCase" do
       expect(Wasabi::CoreExt::String.snakecase("Merb")).to eq("merb")
@@ -35,5 +34,4 @@ describe Wasabi::CoreExt::String do
       expect(Wasabi::CoreExt::String.snakecase("User.GetEmail")).to eq("user_get_email")
     end
   end
-
 end

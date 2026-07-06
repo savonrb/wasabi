@@ -5,12 +5,10 @@ require "wasabi/resolver"
 require "wasabi/parser"
 
 module Wasabi
-
   # = Wasabi::Document
   #
   # Represents a WSDL document.
   class Document
-
     ELEMENT_FORM_DEFAULTS = [:unqualified, :qualified]
 
     # Validates if a given +value+ is a valid elementFormDefault value.
@@ -18,14 +16,14 @@ module Wasabi
     def self.validate_element_form_default!(value)
       return if ELEMENT_FORM_DEFAULTS.include?(value)
 
-      raise ArgumentError, "Invalid value for elementFormDefault: #{value}\n" +
-                           "Must be one of: #{ELEMENT_FORM_DEFAULTS.inspect}"
+      raise ArgumentError, "Invalid value for elementFormDefault: #{value}\n" \
+        "Must be one of: #{ELEMENT_FORM_DEFAULTS.inspect}"
     end
 
     # Accepts a WSDL +document+ to parse.
     def initialize(document = nil, adapter = nil)
       self.document = document
-      self.adapter  = adapter
+      self.adapter = adapter
     end
 
     attr_accessor :document, :request, :adapter
@@ -91,7 +89,7 @@ module Wasabi
     # Returns a list of parameter names for a given +key+
     def soap_action_parameters(key)
       params = operation_input_parameters(key)
-      params.keys if params
+      params&.keys
     end
 
     # Returns a list of input parameters for a given +key+.
@@ -103,15 +101,17 @@ module Wasabi
       @type_namespaces ||= begin
         namespaces = []
 
-        parser.types.each do |ns, types|
-          types.each do |type, info|
-            namespaces << [[type], info[:namespace]]
+        if document
+          parser.types.each do |ns, types|
+            types.each do |type, info|
+              namespaces << [[type], info[:namespace]]
 
-            element_keys(info).each do |field|
-              namespaces << [[type, field], info[:namespace]]
+              element_keys(info).each do |field|
+                namespaces << [[type, field], info[:namespace]]
+              end
             end
           end
-        end if document
+        end
 
         namespaces
       end
@@ -121,16 +121,18 @@ module Wasabi
       @type_definitions ||= begin
         result = []
 
-        parser.types.each do |ns, types|
-          types.each do |type, info|
-            element_keys(info).each do |field|
-              field_type = info[field][:type]
-              tag, namespace = field_type.split(":").reverse
+        if document
+          parser.types.each do |ns, types|
+            types.each do |type, info|
+              element_keys(info).each do |field|
+                field_type = info[field][:type]
+                tag, namespace = field_type.split(":").reverse
 
-              result << [[type, field], tag] if user_defined(namespace)
+                result << [[type, field], tag] if user_defined(namespace)
+              end
             end
           end
-        end if document
+        end
 
         result
       end
@@ -153,7 +155,7 @@ module Wasabi
       @parser ||= guard_parse && parse
     end
 
-  private
+    private
 
     # Raises an error if the WSDL document is missing.
     def guard_parse

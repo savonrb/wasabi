@@ -18,6 +18,5 @@ describe Wasabi::Parser do
       type = subject.types["http://model.webservices.partner.example.de"]["ROPtsLiesListe"]
       expect(type[:order!]).to eq(["messages", "returncode", "listenteil"])
     end
-
   end
 end

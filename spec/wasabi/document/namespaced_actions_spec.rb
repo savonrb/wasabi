@@ -4,29 +4,28 @@ require "spec_helper"
 
 describe Wasabi::Document do
   context "with: namespaced_actions.wsdl" do
-
     subject { Wasabi::Document.new fixture(:namespaced_actions).read }
 
-    describe '#namespace' do
+    describe "#namespace" do
       subject { super().namespace }
       it { should == "http://api.example.com/api/" }
     end
 
-    describe '#endpoint' do
+    describe "#endpoint" do
       subject { super().endpoint }
       it { should == URI("https://api.example.com/api/api.asmx") }
     end
 
-    describe '#element_form_default' do
+    describe "#element_form_default" do
       subject { super().element_form_default }
       it { should == :qualified }
     end
 
-    it 'has 3 operations' do
+    it "has 3 operations" do
       expect(subject.operations.size).to eq(3)
     end
 
-    describe '#operations' do
+    describe "#operations" do
       subject { super().operations }
       it do
         should include(
@@ -57,6 +56,5 @@ describe Wasabi::Document do
         )
       end
     end
-
   end
 end

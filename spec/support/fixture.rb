@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module SpecSupport
-
   class Fixture
     def self.[](name)
       fixtures[name]
@@ -38,5 +37,4 @@ module SpecSupport
   def fixture(*args)
     Fixture.new(*args)
   end
-
 end

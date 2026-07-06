@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 describe Wasabi::Parser do
-  context 'with: tradetracker.wsdl' do
+  context "with: tradetracker.wsdl" do
     subject do
       parser = Wasabi::Parser.new Nokogiri::XML(xml)
       parser.parse
@@ -12,7 +12,7 @@ describe Wasabi::Parser do
 
     let(:xml) { fixture(:tradetracker).read }
 
-    it 'parses the operations' do
+    it "parses the operations" do
       expect(subject.operations[:get_feeds][:input]).to eq("getFeeds")
     end
   end

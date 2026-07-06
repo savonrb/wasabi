@@ -4,7 +4,6 @@ require "spec_helper"
 
 describe Wasabi::Parser do
   context "with a WSDL defining xs:schema without targetNamespace" do
-
     subject do
       parser = Wasabi::Parser.new Nokogiri::XML(xml)
       parser.parse
@@ -12,7 +11,7 @@ describe Wasabi::Parser do
     end
 
     let(:xml) do
-      %Q{
+      %(
         <definitions xmlns='http://schemas.xmlsoap.org/wsdl/'
           xmlns:xs='http://www.w3.org/2001/XMLSchema'
           targetNamespace='http://def.example.com'>
@@ -24,7 +23,7 @@ describe Wasabi::Parser do
             </xs:schema>
           </types>
         </definitions>
-      }
+      )
     end
 
     # Don't know if real WSDL files omit targetNamespace from xs:schema,
@@ -33,6 +32,5 @@ describe Wasabi::Parser do
     it "defaults to the target namespace from xs:definitions" do
       expect(subject.types["http://def.example.com"]["Save"][:namespace]).to eq("http://def.example.com")
     end
-
   end
 end
