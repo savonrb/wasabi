@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
-require "bundler"
-Bundler.require :default, :development
-
 unless RUBY_PLATFORM =~ /java/
   require "simplecov"
-  require "coveralls"
-  Coveralls.wear!
+  SimpleCov.start do
+    add_filter "spec"
+  end
 end
+
+require "bundler"
+Bundler.require :default, :development
 
 support_files = File.expand_path("spec/support/**/*.rb")
 Dir[support_files].each { |file| require file }

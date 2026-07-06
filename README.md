@@ -2,10 +2,8 @@
 
 A simple WSDL parser.
 
-[![Test](https://github.com/savonrb/wasabi/actions/workflows/test.yml/badge.svg)](https://github.com/savonrb/wasabi/actions/workflows/test.yml)
+[![CI](https://github.com/savonrb/wasabi/actions/workflows/ci.yml/badge.svg)](https://github.com/savonrb/wasabi/actions/workflows/ci.yml)
 [![Gem Version](https://badge.fury.io/rb/wasabi.svg)](http://badge.fury.io/rb/wasabi)
-[![Code Climate](https://codeclimate.com/github/savonrb/wasabi.svg)](https://codeclimate.com/github/savonrb/wasabi)
-[![Coverage Status](https://coveralls.io/repos/savonrb/wasabi/badge.svg?branch=master)](https://coveralls.io/r/savonrb/wasabi)
 
 ## Installation
 
