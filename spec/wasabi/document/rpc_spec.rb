@@ -13,6 +13,7 @@ describe Wasabi::Document do
         should include(
           {
             example_operation: {
+              name: "ExampleOperation",
               action: "urn:ExampleInterface-ExamplePortType#ExampleOperation",
               input: "ExampleOperation",
               output: "ExampleOperation",

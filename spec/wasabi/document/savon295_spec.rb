@@ -12,6 +12,7 @@ describe Wasabi::Document do
         should include(
             {
               sendsms: {
+                name: "sendsms",
                 input: "sendsms",
                 output: "sendsmsResponse",
                 action: "sendsms",
