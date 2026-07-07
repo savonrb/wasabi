@@ -31,6 +31,7 @@ describe Wasabi::Document do
         should include(
           {
             get_quick_approver_list: {
+              name: "GetQuickApproverList",
               input: "GetQuickApproverList",
               output: "GetQuickApproverList",
               action: "GetQuickApproverList",
@@ -45,6 +46,7 @@ describe Wasabi::Document do
           },
           {
             hello: {
+              name: "hello",
               input: "hello",
               output: "helloResponse",
               action: "hello",
