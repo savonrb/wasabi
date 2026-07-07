@@ -14,6 +14,10 @@ module Wasabi
     SOAP_1_1 = "http://schemas.xmlsoap.org/wsdl/soap/"
     SOAP_1_2 = "http://schemas.xmlsoap.org/wsdl/soap12/"
 
+    # A wsdl message an operation input, output, or fault resolves to.
+    # Contains the message type name and its namespace identifier.
+    MessageRef = Struct.new(:namespace_id, :type)
+
     def initialize(document)
       self.document = document
       self.operations = {}
@@ -148,20 +152,20 @@ module Wasabi
           action = (soap_action && !soap_action.empty?) ? soap_action : name
 
           # There should be a matching portType for each binding, so we will lookup the input from there.
-          _, output = output_for(operation)
-          namespace_id, input = input_for(operation)
+          input = input_for(operation)
+          output = output_for(operation)
           faults = faults_for(operation)
 
           # Store namespace identifier so this operation can be mapped to the proper namespace.
-          @operations[snakecase_name] = {
+          operation_entry = {
             name: name,
             action: action,
-            input: input,
-            output: output,
-            fault: faults.map(&:last),
-            namespace_identifier: namespace_id
+            input: input.type,
+            output: output.type,
+            namespace_identifier: input.namespace_id
           }
-          @operations[snakecase_name].delete(:fault) if @operations[snakecase_name][:fault].size == 0
+          operation_entry[:fault] = faults.map(&:type) if faults.any?
+          @operations[snakecase_name] = operation_entry
         elsif !@operations[snakecase_name]
           @operations[snakecase_name] = {action: name, input: name}
         end
@@ -237,92 +241,102 @@ module Wasabi
       deferred_types.each(&:call)
     end
 
+    # wasabi reports a single input and a single output per operation.
+    # When the portType or its message cannot be resolved or doesn't exist
+    # like with a one-way operation, it falls back to the operation name.
     def input_for(operation)
-      input_output_for(operation, "input").first
+      resolve_messages(operation, "input").first || MessageRef.new(nil, operation["name"])
     end
 
     def output_for(operation)
-      input_output_for(operation, "output").first
+      resolve_messages(operation, "output").first || MessageRef.new(nil, operation["name"])
     end
 
+    # An operation may declare any number of faults, or none at all.
     def faults_for(operation)
-      input_output_for(operation, "fault")
+      resolve_messages(operation, "fault")
     end
 
-    # @return [namespace_id, message_type]
-    def input_output_for(operation, input_output)
-      operation_name = operation["name"]
-      results = []
+    # Resolves the wsdl messages an operation's input, output, or fault elements
+    # point at, by walking up to the portType and down into the messages. Returns
+    # one MessageRef per matching element, so none when there are no matches.
+    #
+    # @return [Array<MessageRef>]
+    def resolve_messages(operation, element_name)
+      port_type_operation = port_type_operation_for(operation)
 
-      # Look up the input by walking up to portType, then up to the message.
+      # Sometimes portTypes are actually included in a separate WSDL,
+      # so the portType operation cannot be resolved here.
+      port_type_elements = port_type_operation&.element_children&.select { |node| node.name == element_name } || []
 
+      port_type_elements.each_with_index.map do |port_type_element, index|
+        message_ref_for(operation, port_type_element, element_name, index)
+      end
+    end
+
+    # Looks up the portType operation matching a binding operation,
+    # walking up to the portType via the binding's type attribute.
+    def port_type_operation_for(operation)
       binding_type = operation.parent["type"].to_s.split(":").last
-      if @port_type_operations[binding_type]
-        port_type_operation = @port_type_operations[binding_type][operation_name]
+      @port_type_operations.dig(binding_type, operation["name"])
+    end
+
+    # Resolves a single portType input/output/fault element to the message it
+    # points at, walking portType -> message -> part -> element. Falls back to
+    # the operation name when the message cannot be resolved.
+    #
+    # @return [MessageRef]
+    def message_ref_for(operation, port_type_element, element_name, index)
+      operation_name = operation["name"]
+
+      # If the message attribute contains a colon, the message is namespaced.
+      parts = port_type_element.attribute("message").to_s.split(":", 2)
+      port_message_ns_id, port_message_type = (parts.size == 2) ? parts : [nil, *parts]
+
+      message_ns_id = nil
+      message_type = nil
+
+      # When there is a parts attribute in the soap:body element, use that value
+      # to look up the message part from the messages array.
+      input_output_element = operation.element_children.select { |node| node.name == element_name }.at(index)
+      if input_output_element
+        soap_body_element = input_output_element.element_children.find { |node| node.name == "body" }
+        soap_body_parts = soap_body_element["parts"] if soap_body_element
       end
 
-      port_type_elements = port_type_operation&.element_children&.select { |node| node.name == input_output } || []
+      # look for any message part that matches the soap body parts
+      message = @messages[port_message_type]
+      port_message_part = message&.element_children&.find do |node|
+        soap_body_parts.nil? ? (node.name == "part") : (node.name == "part" && node["name"] == soap_body_parts)
+      end
 
-      # find the message for the portType operation
-      # if there is no message, we will use the operation name as the message name
-
-      # TODO: Stupid fix for missing support for imports.
-      # Sometimes portTypes are actually included in a separate WSDL.
-      if port_type_elements.any?
-        port_type_elements.each_with_index do |port_type_input_output, index|
-          parts = port_type_input_output.attribute("message").to_s.split(":", 2)
-          port_message_ns_id, port_message_type = ((parts.size == 2) ? parts : [nil, *parts])
-
-          message_ns_id, message_type = nil
-
-          # When there is a parts attribute in soap:body element, we should use that value
-          # to look up the message part from messages array.
-          input_output_element = operation.element_children.select { |node| node.name == input_output }.at(index)
-          if input_output_element
-            soap_body_element = input_output_element.element_children.find { |node| node.name == "body" }
-            soap_body_parts = soap_body_element["parts"] if soap_body_element
-          end
-
-          # look for any message part that matches the soap body parts
-          message = @messages[port_message_type]
-          port_message_part = message&.element_children&.find do |node|
-            soap_body_parts.nil? ? (node.name == "part") : (node.name == "part" && node["name"] == soap_body_parts)
-          end
-
-          if port_message_part && (port_element = port_message_part.attribute("element"))
-            port_message_part = port_element.to_s
-            if port_message_part.include?(":")
-              message_ns_id, message_type = port_message_part.split(":")
-            else
-              message_type = port_message_part
-            end
-          end
-
-          # If the message is not found, we should use the operation name as the message name for document style operations
-          # applies only to output
-          if input_output == "output"
-            # if the operation is document style and theres no port_message_part, we should use the operation_name
-            soap_operation = operation.element_children.find { |node| node.name == "operation" }
-            if message_type.nil? && (soap_operation.nil? || soap_operation["style"] != "rpc")
-              message_ns_id = port_message_ns_id
-              message_type = if port_message_part.nil?
-                operation_name
-              else
-                port_message_type
-              end
-            end
-          end
-
-          # Fall back to the name of the binding operation
-          results.push(message_type ? [message_ns_id, message_type] : [port_message_ns_id, operation_name])
+      if port_message_part && (port_element = port_message_part.attribute("element"))
+        port_message_part = port_element.to_s
+        if port_message_part.include?(":")
+          message_ns_id, message_type = port_message_part.split(":")
+        else
+          message_type = port_message_part
         end
-      elsif input_output != "fault"
-        # input and output always resolve to a message and fall back to the
-        # operation name. faults are optional, so they stay empty.
-        results.push([nil, operation_name])
       end
 
-      results
+      # If the message is not found, we should use the operation name as the message name
+      # for document style operations applies only to output
+      if element_name == "output"
+        # if the operation is document style and theres no port_message_part, we should
+        # use the operation_name
+        soap_operation = operation.element_children.find { |node| node.name == "operation" }
+        if message_type.nil? && (soap_operation.nil? || soap_operation["style"] != "rpc")
+          message_ns_id = port_message_ns_id
+          message_type = port_message_part.nil? ? operation_name : port_message_type
+        end
+      end
+
+      # Fall back to the name of the binding operation
+      if message_type
+        MessageRef.new(message_ns_id, message_type)
+      else
+        MessageRef.new(port_message_ns_id, operation_name)
+      end
     end
 
     def schemas
