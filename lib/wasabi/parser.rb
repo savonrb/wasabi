@@ -261,14 +261,14 @@ module Wasabi
         port_type_operation = @port_type_operations[binding_type][operation_name]
       end
 
-      port_type_elements = port_type_operation&.element_children&.select { |node| node.name == input_output }
+      port_type_elements = port_type_operation&.element_children&.select { |node| node.name == input_output } || []
 
       # find the message for the portType operation
       # if there is no message, we will use the operation name as the message name
 
       # TODO: Stupid fix for missing support for imports.
       # Sometimes portTypes are actually included in a separate WSDL.
-      if port_type_elements&.size
+      if port_type_elements.any?
         port_type_elements.each_with_index do |port_type_input_output, index|
           parts = port_type_input_output.attribute("message").to_s.split(":", 2)
           port_message_ns_id, port_message_type = ((parts.size == 2) ? parts : [nil, *parts])
@@ -316,7 +316,9 @@ module Wasabi
           # Fall back to the name of the binding operation
           results.push(message_type ? [message_ns_id, message_type] : [port_message_ns_id, operation_name])
         end
-      else
+      elsif input_output != "fault"
+        # input and output always resolve to a message and fall back to the
+        # operation name. faults are optional, so they stay empty.
         results.push([nil, operation_name])
       end
 
