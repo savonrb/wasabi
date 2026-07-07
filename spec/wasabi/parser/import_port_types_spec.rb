@@ -18,5 +18,11 @@ describe Wasabi::Parser do
       expect(get_customer[:input]).to eq("GetCustomer")
       expect(get_customer[:namespace_identifier]).to be_nil
     end
+
+    it "does not include faults for operations whose portType is imported" do
+      get_customer = subject.operations[:get_customer]
+
+      expect(get_customer).not_to have_key(:fault)
+    end
   end
 end

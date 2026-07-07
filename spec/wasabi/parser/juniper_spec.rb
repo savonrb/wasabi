@@ -19,5 +19,14 @@ describe Wasabi::Parser do
       expect(request[:action]).to eq("urn:#GetSystemInfoRequest")
       expect(request[:namespace_identifier]).to eq("impl")
     end
+
+    it "keeps the historical output fallback for a one-way operation" do
+      # LogoutRequest declares an input but no output in its portType. wasabi has
+      # always reported the operation name as the output here, so we preserve it
+      # rather than changing it to nil in a fault-parsing change.
+      logout = subject.operations[:logout_request]
+
+      expect(logout[:output]).to eq("LogoutRequest")
+    end
   end
 end
