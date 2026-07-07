@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- _Your new line here. Mind the style of prefix used in the rest of the document._
+- Parse operation faults and expose the raw operation name in the operation hash ([#121](https://github.com/savonrb/wasabi/pull/121)) by @ekzobrain.
 
 ## 5.1.0 (2024-10-27)
 
