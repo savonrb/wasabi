@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SOAP 1.2-only WSDL: getSystemInfo is served only over SOAP 1.2, and a
+     non-SOAP http:address port is listed first in document order so naive
+     first-port or non-SOAP fallback logic would pick it. httpPing is served
+     only over a non-SOAP HTTP binding. -->
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+             xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+             xmlns:tns="http://example.com/soap12only/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             targetNamespace="http://example.com/soap12only/">
+  <types>
+    <xsd:schema targetNamespace="http://example.com/soap12only/" elementFormDefault="qualified">
+      <xsd:element name="getSystemInfo" type="xsd:string"/>
+      <xsd:element name="httpPing" type="xsd:string"/>
+    </xsd:schema>
+  </types>
+
+  <message name="getSystemInfoRequest">
+    <part name="parameters" element="tns:getSystemInfo"/>
+  </message>
+  <message name="getSystemInfoResponse">
+    <part name="parameters" element="tns:getSystemInfo"/>
+  </message>
+  <message name="httpPingRequest">
+    <part name="parameters" element="tns:httpPing"/>
+  </message>
+  <message name="httpPingResponse">
+    <part name="parameters" element="tns:httpPing"/>
+  </message>
+
+  <portType name="SystemServicePortType">
+    <operation name="getSystemInfo">
+      <input message="tns:getSystemInfoRequest"/>
+      <output message="tns:getSystemInfoResponse"/>
+    </operation>
+  </portType>
+  <portType name="HttpOnlyPortType">
+    <operation name="httpPing">
+      <input message="tns:httpPingRequest"/>
+      <output message="tns:httpPingResponse"/>
+    </operation>
+  </portType>
+
+  <binding name="SystemServiceSoap12" type="tns:SystemServicePortType">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="getSystemInfo">
+      <soap12:operation soapAction="http://example.com/soap12only/getSystemInfo"/>
+      <input><soap12:body use="literal"/></input>
+      <output><soap12:body use="literal"/></output>
+    </operation>
+  </binding>
+  <binding name="SystemServiceHttp" type="tns:SystemServicePortType">
+    <http:binding verb="GET"/>
+    <operation name="getSystemInfo">
+      <http:operation location="getSystemInfo"/>
+      <input><http:urlEncoded/></input>
+    </operation>
+  </binding>
+  <binding name="HttpOnlyBinding" type="tns:HttpOnlyPortType">
+    <http:binding verb="GET"/>
+    <operation name="httpPing">
+      <http:operation location="httpPing"/>
+      <input><http:urlEncoded/></input>
+    </operation>
+  </binding>
+
+  <service name="Soap12OnlyService">
+    <port name="SystemServiceHttp" binding="tns:SystemServiceHttp">
+      <http:address location="http://example.com/system-http"/>
+    </port>
+    <port name="HttpOnlyPort" binding="tns:HttpOnlyBinding">
+      <http:address location="http://example.com/http-ping"/>
+    </port>
+    <port name="SystemService12" binding="tns:SystemServiceSoap12">
+      <soap12:address location="http://example.com/system12"/>
+    </port>
+  </service>
+</definitions>

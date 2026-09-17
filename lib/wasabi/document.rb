@@ -45,8 +45,10 @@ module Wasabi
     # Walks operation -> portType -> binding -> port, so WSDLs exposing
     # several ports resolve to the address of the port that actually serves
     # the operation instead of the first port's address. When +soap_version+
-    # is given, only ports for that SOAP version are considered. Returns
-    # +nil+ when no port matches, so callers can fall back to #endpoint.
+    # is given, a port for that SOAP version is preferred; otherwise the
+    # first SOAP port for the operation is returned. Non-SOAP ports are
+    # never returned. Returns +nil+ when the operation has no SOAP ports,
+    # so callers can fall back to #endpoint.
     def endpoint_for_operation(operation_name, soap_version: nil)
       service_ports.endpoint_for_operation(operation_name, soap_version: soap_version)
     end

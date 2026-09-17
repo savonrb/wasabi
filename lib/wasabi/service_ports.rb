@@ -33,27 +33,42 @@ module Wasabi
     # Walks operation -> portType -> binding -> port, so WSDLs exposing
     # several ports resolve to the address of the port that actually serves
     # the operation instead of the first port's address. When +soap_version+
-    # is given, only ports for that SOAP version are considered. Returns
-    # +nil+ when no port matches, so callers can fall back to the default
-    # endpoint.
+    # is given, a port for that SOAP version is preferred, but the first
+    # SOAP port for the operation is returned when no port matches the
+    # requested version — routing degrades to the operation's best
+    # available SOAP port instead of silently falling back to the WSDL's
+    # first port. Non-SOAP ports (e.g. +http:address+) are never returned.
+    # Returns +nil+ when the operation has no SOAP ports at all, so
+    # callers can fall back to the default endpoint.
     def endpoint_for_operation(operation_name, soap_version: nil)
-      port = ports_for_operation(operation_name, soap_version).first
+      port = preferred_port(operation_name, soap_version)
       port && port[:address]
     end
 
     private
 
-    # Returns the parsed ports serving the given SOAP operation, in
-    # document order, optionally filtered by SOAP version.
-    def ports_for_operation(operation_name, soap_version)
+    # Returns the preferred SOAP port serving the given SOAP operation.
+    # Ports for the requested SOAP version win; otherwise the first SOAP
+    # port in document order. Returns nil when the operation has no SOAP
+    # ports at all.
+    def preferred_port(operation_name, soap_version)
+      candidates = soap_ports_for_operation(operation_name)
+
+      candidates.find { |port| port[:soap_version] == soap_version } || candidates.first
+    end
+
+    # Returns the SOAP ports serving the given SOAP operation, in document
+    # order. Non-SOAP ports (e.g. +http:address+) and ports with
+    # unparsable addresses never qualify as routing candidates.
+    def soap_ports_for_operation(operation_name)
       port_type = port_type_for_operation(operation_name)
       return [] unless port_type
 
       bindings = parse_bindings
 
       ports.select { |port|
-        bindings[port[:binding]] == port_type &&
-          (soap_version.nil? || port[:soap_version] == soap_version)
+        !port[:soap_version].nil? && !port[:address].nil? &&
+          bindings[port[:binding]] == port_type
       }
     end
 
