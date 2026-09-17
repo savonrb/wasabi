@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Multi-port WSDL resembling the shape of the Juniper booking engine
+     WSDL from savonrb/savon#879: two portTypes, the system portType served
+     over both a SOAP 1.1 and a SOAP 1.2 binding, every port with its own
+     address. The admin portType is only served over SOAP 1.1. -->
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+             xmlns:tns="http://example.com/multiport/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             targetNamespace="http://example.com/multiport/">
+  <types>
+    <xsd:schema targetNamespace="http://example.com/multiport/" elementFormDefault="qualified">
+      <xsd:element name="getSystemInfo" type="xsd:string"/>
+      <xsd:element name="restartSystem" type="xsd:string"/>
+    </xsd:schema>
+  </types>
+
+  <message name="getSystemInfoRequest">
+    <part name="parameters" element="tns:getSystemInfo"/>
+  </message>
+  <message name="getSystemInfoResponse">
+    <part name="parameters" element="tns:getSystemInfo"/>
+  </message>
+  <message name="restartSystemRequest">
+    <part name="parameters" element="tns:restartSystem"/>
+  </message>
+  <message name="restartSystemResponse">
+    <part name="parameters" element="tns:restartSystem"/>
+  </message>
+
+  <portType name="SystemServicePortType">
+    <operation name="getSystemInfo">
+      <input message="tns:getSystemInfoRequest"/>
+      <output message="tns:getSystemInfoResponse"/>
+    </operation>
+  </portType>
+  <portType name="AdminServicePortType">
+    <operation name="restartSystem">
+      <input message="tns:restartSystemRequest"/>
+      <output message="tns:restartSystemResponse"/>
+    </operation>
+  </portType>
+
+  <binding name="SystemServiceSoap11" type="tns:SystemServicePortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="getSystemInfo">
+      <soap:operation soapAction="http://example.com/multiport/getSystemInfo"/>
+      <input><soap:body use="literal"/></input>
+      <output><soap:body use="literal"/></output>
+    </operation>
+  </binding>
+  <binding name="SystemServiceSoap12" type="tns:SystemServicePortType">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="getSystemInfo">
+      <soap12:operation soapAction="http://example.com/multiport/getSystemInfo"/>
+      <input><soap12:body use="literal"/></input>
+      <output><soap12:body use="literal"/></output>
+    </operation>
+  </binding>
+  <binding name="AdminServiceSoap11" type="tns:AdminServicePortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="restartSystem">
+      <soap:operation soapAction="http://example.com/multiport/restartSystem"/>
+      <input><soap:body use="literal"/></input>
+      <output><soap:body use="literal"/></output>
+    </operation>
+  </binding>
+
+  <service name="MultiPortService">
+    <port name="SystemService11" binding="tns:SystemServiceSoap11">
+      <soap:address location="http://example.com/system11"/>
+    </port>
+    <port name="SystemService12" binding="tns:SystemServiceSoap12">
+      <soap12:address location="http://example.com/system12"/>
+    </port>
+    <port name="AdminService11" binding="tns:AdminServiceSoap11">
+      <soap:address location="http://example.com/admin11"/>
+    </port>
+  </service>
+</definitions>

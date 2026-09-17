@@ -40,6 +40,17 @@ module Wasabi
     # Sets the SOAP endpoint.
     attr_writer :endpoint
 
+    # Returns the SOAP endpoint of the port serving the given SOAP operation.
+    #
+    # Walks operation -> portType -> binding -> port, so WSDLs exposing
+    # several ports resolve to the address of the port that actually serves
+    # the operation instead of the first port's address. When +soap_version+
+    # is given, only ports for that SOAP version are considered. Returns
+    # +nil+ when no port matches, so callers can fall back to #endpoint.
+    def endpoint_for_operation(operation_name, soap_version: nil)
+      service_ports.endpoint_for_operation(operation_name, soap_version: soap_version)
+    end
+
     # Returns the target namespace.
     def namespace
       @namespace ||= parser.namespace
@@ -156,6 +167,11 @@ module Wasabi
     end
 
     private
+
+    # Returns the service ports of the WSDL document.
+    def service_ports
+      @service_ports ||= ServicePorts.new(parser.document)
+    end
 
     # Raises an error if the WSDL document is missing.
     def guard_parse
