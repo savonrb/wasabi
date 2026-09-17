@@ -3,6 +3,7 @@
 require "wasabi/version"
 require "wasabi/document"
 require "wasabi/resolver"
+require "wasabi/service_ports"
 
 module Wasabi
   # Expects a WSDL document and returns a <tt>Wasabi::Document</tt>.
