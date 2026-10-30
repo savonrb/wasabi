@@ -1,5 +1,9 @@
 # CHANGELOG for Wasabi
 
+## Unreleased
+
+- Describe elements declared with an inline complexType inside the sequence of another type (directly or in an extension), so their children keep their schema namespace and sequence order (`Document#type_namespaces`, `#type_definitions`, `Parser#types`). Each such type is registered under its path, e.g. `CreateOrder/customer`.
+
 ## 5.2.0 (2026-09-18)
 
 - Resolve each operation to its WSDL port's SOAP endpoint via `Wasabi::ServicePorts` and `Document#endpoint_for_operation` ([#138](https://github.com/savonrb/wasabi/pull/138)). `Document#endpoint` keeps its legacy first-port behavior. Known limitation: the lookup walks operation -> portType -> binding -> port and takes the first matching portType, while Savon's operation map is built from bindings (last binding wins). If the same operation name appears in two portTypes, the SOAP action may come from a different binding than the endpoint's port; a future pass could walk operation -> binding -> port for consistency.
