@@ -205,6 +205,7 @@ module Wasabi
           end
         end
 
+        process_anonymous_type namespace, name, inner
         @types[namespace][name][:order!] << element_name
       end
 
@@ -212,6 +213,7 @@ module Wasabi
         element_name = inner_element.attribute("name").to_s
         @types[namespace][name][element_name] = {type: inner_element.attribute("type").to_s}
 
+        process_anonymous_type namespace, name, inner_element
         @types[namespace][name][:order!] << element_name
       end
 
@@ -235,6 +237,19 @@ module Wasabi
           deferred_types << p
         end
       end
+    end
+
+    # An element declared with an inline complexType has no type name to point at,
+    # so its type is registered under the element's path ("Parent/child"), which
+    # cannot collide with an XSD name.
+    def process_anonymous_type(namespace, parent_name, element)
+      complex_type = element.at_xpath("./xs:complexType", "xs" => XSD)
+      return unless complex_type
+
+      element_name = element.attribute("name").to_s
+      type_name = "#{parent_name}/#{element_name}"
+      @types[namespace][parent_name][element_name][:type] = type_name
+      process_type namespace, complex_type, type_name
     end
 
     def parse_deferred_types
