@@ -197,21 +197,13 @@ module Wasabi
 
       type.xpath("./xs:sequence/xs:element", "xs" => XSD).each do |inner|
         element_name = inner.attribute("name").to_s
-        @types[namespace][name][element_name] = {type: inner.attribute("type").to_s}
-
-        [:nillable, :minOccurs, :maxOccurs].each do |attr|
-          if (v = inner.attribute(attr.to_s))
-            @types[namespace][name][element_name][attr] = v.to_s
-          end
-        end
-
+        @types[namespace][name][element_name] = element_definition(inner)
         @types[namespace][name][:order!] << element_name
       end
 
       type.xpath("./xs:complexContent/xs:extension/xs:sequence/xs:element", "xs" => XSD).each do |inner_element|
         element_name = inner_element.attribute("name").to_s
-        @types[namespace][name][element_name] = {type: inner_element.attribute("type").to_s}
-
+        @types[namespace][name][element_name] = element_definition(inner_element)
         @types[namespace][name][:order!] << element_name
       end
 
@@ -235,6 +227,20 @@ module Wasabi
           deferred_types << p
         end
       end
+    end
+
+    # Returns the type and occurrence indicators (nillable, minOccurs, maxOccurs)
+    # declared on an xs:element.
+    def element_definition(element)
+      definition = {type: element.attribute("type").to_s}
+
+      [:nillable, :minOccurs, :maxOccurs].each do |attr|
+        if (v = element.attribute(attr.to_s))
+          definition[attr] = v.to_s
+        end
+      end
+
+      definition
     end
 
     def parse_deferred_types
