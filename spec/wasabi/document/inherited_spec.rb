@@ -37,5 +37,18 @@ describe Wasabi::Document do
       expect(fields_to_null[:minOccurs]).to eq("0")
       expect(fields_to_null[:maxOccurs]).to eq("unbounded")
     end
+
+    it "should parse (:nillable, :minOccurs, :maxOccurs) for elements declared in a complexContent extension" do
+      account = subject.parser.types["http://object.api.example.com/"]["Account"]
+      expect(account["Description"]).to eq(type: "string", nillable: "true", minOccurs: "0")
+      expect(account["ProcessId"]).to eq(type: "ens:ID", nillable: "true", minOccurs: "0")
+      expect(account["CreatedDate"]).to eq(type: "dateTime", nillable: "true", minOccurs: "0")
+    end
+
+    it "should keep (:nillable, :minOccurs, :maxOccurs) for elements inherited from the base type" do
+      account = subject.parser.types["http://object.api.example.com/"]["Account"]
+      expect(account["fieldsToNull"]).to eq(type: "string", nillable: "true", minOccurs: "0", maxOccurs: "unbounded")
+      expect(account["Id"]).to eq(type: "ens:ID", nillable: "true", minOccurs: "0", maxOccurs: "1")
+    end
   end
 end
