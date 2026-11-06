@@ -26,6 +26,24 @@ describe Wasabi::Document do
     expect(document.xml).to eq(fixture(:authentication).read)
   end
 
+  [
+    "<!DOCTYPE html><html><body>Example Domain</body></html>",
+    "<!doctype html><html><body>Example Domain</body></html>",
+    ""
+  ].each do |body|
+    it "raises a readable error when a URL returns #{body.inspect} instead of a WSDL" do
+      path = "http://example.com?wsdl"
+      stubs = Faraday::Adapter::Test::Stubs.new
+      stubs.get(path) do
+        [200, {"Content-Type": "text/html"}, body]
+      end
+
+      document = Wasabi::Document.new(path, [:test, stubs])
+      expect { document.soap_actions }
+        .to raise_error(Wasabi::InvalidDocumentError, "Wasabi needs a WSDL document, got: #{body[0, 100].inspect}")
+    end
+  end
+
   describe ".validate_element_form_default!" do
     [:unqualified, :qualified].each do |value|
       it "does not raise for :#{value}" do

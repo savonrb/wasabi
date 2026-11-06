@@ -5,6 +5,10 @@ require "wasabi/resolver"
 require "wasabi/parser"
 
 module Wasabi
+  # Raised when the document to parse is not a WSDL, like an HTML page or an empty body.
+  class InvalidDocumentError < StandardError
+  end
+
   # = Wasabi::Document
   #
   # Represents a WSDL document.
@@ -183,7 +187,12 @@ module Wasabi
 
     # Parses the WSDL document and returns <tt>Wasabi::Parser</tt>.
     def parse
-      parser = Parser.new Nokogiri::XML(xml)
+      xml_document = Nokogiri::XML(xml)
+      unless xml_document.root&.name == "definitions"
+        raise InvalidDocumentError, "Wasabi needs a WSDL document, got: #{xml.to_s[0, 100].inspect}"
+      end
+
+      parser = Parser.new xml_document
       parser.parse
       parser
     end
