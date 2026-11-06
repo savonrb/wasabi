@@ -40,7 +40,7 @@ describe Wasabi::Document do
 
       document = Wasabi::Document.new(path, [:test, stubs])
       expect { document.soap_actions }
-        .to raise_error(ArgumentError, "Wasabi needs a WSDL document, got: #{body[0, 100].inspect}")
+        .to raise_error(Wasabi::InvalidDocumentError, "Wasabi needs a WSDL document, got: #{body[0, 100].inspect}")
     end
   end
 
