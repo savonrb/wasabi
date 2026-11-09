@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Parse `nillable`, `minOccurs` and `maxOccurs` for elements declared in a `complexContent` extension, matching elements declared in a plain sequence. Based on [#43](https://github.com/savonrb/wasabi/pull/43) by @se6wagner.
+- Describe elements declared with an inline complexType inside another type's sequence (directly or in an extension), so their children keep their schema namespace and sequence order. `Parser#types` describes them inside the element's own definition (`types[ns]["CreateOrder"]["customer"]["lastName"]`), and `Document#type_namespaces` lists them under their full path (`["CreateOrder", "customer", "lastName"]`).
 
 ## 5.2.0 (2026-09-18)
 

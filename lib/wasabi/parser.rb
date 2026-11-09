@@ -193,45 +193,38 @@ module Wasabi
     def process_type(namespace, type, name)
       @types[namespace] ||= {}
       @types[namespace][name] ||= {namespace: namespace}
-      @types[namespace][name][:order!] = []
+      add_sequence_elements @types[namespace][name], type, namespace
+    end
 
-      type.xpath("./xs:sequence/xs:element", "xs" => XSD).each do |inner|
-        element_name = inner.attribute("name").to_s
-        @types[namespace][name][element_name] = element_definition(inner)
-        @types[namespace][name][:order!] << element_name
-      end
+    # Adds the elements of a type's sequence, or of its extension's, to +definition+
+    # under their names, in schema order, after those it inherits from its base type.
+    def add_sequence_elements(definition, type, namespace)
+      definition[:order!] = []
 
-      type.xpath("./xs:complexContent/xs:extension/xs:sequence/xs:element", "xs" => XSD).each do |inner_element|
-        element_name = inner_element.attribute("name").to_s
-        @types[namespace][name][element_name] = element_definition(inner_element)
-        @types[namespace][name][:order!] << element_name
+      type.xpath("./xs:sequence/xs:element | ./xs:complexContent/xs:extension/xs:sequence/xs:element", "xs" => XSD).each do |element|
+        element_name = element.attribute("name").to_s
+        definition[element_name] = element_definition(element, namespace)
+        definition[:order!] << element_name
       end
 
       type.xpath("./xs:complexContent/xs:extension[@base]", "xs" => XSD).each do |inherits|
         base = inherits.attribute("base").value.match(/\w+$/).to_s
-
-        if @types[namespace][base]
-          # Reverse merge because we don't want subclass attributes to be overriden by base class
-          @types[namespace][name] = types[namespace][base].merge(types[namespace][name])
-          @types[namespace][name][:order!] = @types[namespace][base][:order!] | @types[namespace][name][:order!]
-          @types[namespace][name][:base_type] = base
-        else
-          p = proc do
-            if @types[namespace][base]
-              # Reverse merge because we don't want subclass attributes to be overriden by base class
-              @types[namespace][name] = @types[namespace][base].merge(@types[namespace][name])
-              @types[namespace][name][:order!] = @types[namespace][base][:order!] | @types[namespace][name][:order!]
-              @types[namespace][name][:base_type] = base
-            end
-          end
-          deferred_types << p
-        end
+        inherit = proc { inherit_base definition, @types[namespace][base], base if @types[namespace][base] }
+        @types[namespace][base] ? inherit.call : deferred_types << inherit
       end
     end
 
+    def inherit_base(definition, base_definition, base)
+      # Reverse merge because we don't want subclass attributes to be overriden by base class
+      definition.replace base_definition.except(:namespace).merge(definition)
+      definition[:order!] = base_definition[:order!] | definition[:order!]
+      definition[:base_type] = base
+    end
+
     # Returns the type and occurrence indicators (nillable, minOccurs, maxOccurs)
-    # declared on an xs:element.
-    def element_definition(element)
+    # declared on an xs:element. An inline complexType has no name to point at,
+    # so its elements are described inside the element's own definition.
+    def element_definition(element, namespace)
       definition = {type: element.attribute("type").to_s}
 
       [:nillable, :minOccurs, :maxOccurs].each do |attr|
@@ -239,6 +232,9 @@ module Wasabi
           definition[attr] = v.to_s
         end
       end
+
+      complex_type = element.at_xpath("./xs:complexType", "xs" => XSD)
+      add_sequence_elements definition, complex_type, namespace if complex_type
 
       definition
     end

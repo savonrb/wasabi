@@ -123,8 +123,8 @@ module Wasabi
             types.each do |type, info|
               namespaces << [[type], info[:namespace]]
 
-              element_keys(info).each do |field|
-                namespaces << [[type, field], info[:namespace]]
+              each_element([type], info) do |path, _definition|
+                namespaces << [path, info[:namespace]]
               end
             end
           end
@@ -141,11 +141,10 @@ module Wasabi
         if document
           parser.types.each do |ns, types|
             types.each do |type, info|
-              element_keys(info).each do |field|
-                field_type = info[field][:type]
-                tag, namespace = field_type.split(":").reverse
+              each_element([type], info) do |path, definition|
+                tag, namespace = definition[:type].split(":").reverse
 
-                result << [[type, field], tag] if user_defined(namespace)
+                result << [path, tag] if user_defined(namespace)
               end
             end
           end
@@ -197,8 +196,20 @@ module Wasabi
       parser
     end
 
-    def element_keys(info)
-      info.keys - [:namespace, :order!, :base_type]
+    # Yields the path and definition of each element of a type, then of the
+    # elements of each inline complexType below it. Inline complexTypes that
+    # extend each other's types share definitions, so the walk stops at the
+    # first definition already on its path.
+    def each_element(path, info, ancestors = [info], &block)
+      info.each do |key, definition|
+        next unless key.is_a?(String)
+
+        element_path = path + [key]
+        yield element_path, definition
+        next if ancestors.any? { |ancestor| ancestor.equal?(definition) }
+
+        each_element(element_path, definition, ancestors + [definition], &block)
+      end
     end
   end
 end
